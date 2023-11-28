@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PetDetails from "./pages/PetDetails";
 import Home from "./pages/Home";
 import "./App.css";
+import ShelterDetails from "./pages/ShelterDetails";
+
 
 function App() {
   return (
@@ -13,6 +15,7 @@ function App() {
         {/* </Route> */}
       </Routes>
     </BrowserRouter>
+
   );
 }
 
