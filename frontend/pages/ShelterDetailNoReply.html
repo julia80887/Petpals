@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<!--
+  CSC309 Project
+  
+  University of Toronto
+  Fall 2023
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSC309 Project - Shelter Detail</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com/" />
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200;0,6..12,300;0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;0,6..12,1000;1,6..12,200;1,6..12,300;1,6..12,400;1,6..12,500;1,6..12,600;1,6..12,700;1,6..12,800;1,6..12,900;1,6..12,1000&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/ShelterDetail.css" />
+    <style>
+      h4 {
+        margin-bottom: 0px;
+      }
+      p {
+        margin-bottom: 0px;
+      }
+      .btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #77a0ca;
+        color: #fff;
+        border-color: #77a0ca;
+        border-radius: 20px;
+        text-decoration: none;
+        font-size: 20px;
+        width: fit-content;
+        height: fit-content;
+        margin: 10px;
+      }
+
+      .btn:hover {
+        background-color: #573f35;
+        color: #fff;
+        border-color: #fff;
+        border-radius: 20px;
+        width: fit-content;
+        height: fit-content;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="allContent">
+        <div class="pageContent">
+          <div class="mainInfo">
+            <h1 class="mainInfoHeading">Oakville &amp Milton Humane Society</h1>
+
+            <img src="../assets/pictures/oliver.png" id="oliver" />
+
+            <div class="specs">
+              <div class="ratingContainer">
+                <p><span class="specLabels">Rating:</span> 4.12</p>
+                <img class="imastar" src="../assets/svgs/Star.svg" />
+              </div>
+              <p>
+                <span class="specLabels">Location:</span>
+                445 Cornwall Rd, Oakville, ON L6J 758
+              </p>
+              <p>
+                <span class="specLabels">Phone Number:</span> (905)-845-1551
+              </p>
+              <p>
+                <span class="specLabels">Email Address:</span> shelter@omhs.ca
+              </p>
+              <p class="mission">
+                <span class="specLabels">Our Mission Statement:</span> We are
+                dedicated to protecting and making life better for animals and
+                connecting the communities that care about them in Oakville and
+                Milton.
+              </p>
+            </div>
+          </div>
+          <div class="petListings">
+            <h2 class="petListingsHeadings">Our Pets</h2>
+            <div class="petListingGrid">
+              <div class="profileCard">
+                <div class="profilePic">
+                  <img
+                    src="../assets/pictures/rufus.jpg"
+                    style="width: 100%; height: 100%; object-fit: cover"
+                  />
+                </div>
+                <div class="profileCardText">
+                  <h3 class="cardTextHeading">Rufus</h3>
+                  <p class="cardTextSubHeading">Golden Retreiver</p>
+                  <p class="cardTextSubHeading">1 kilometre away</p>
+                </div>
+                <a class="btn" href="PetDetails.html" role="button"
+                  >View Full Profile</a
+                >
+              </div>
+
+              <div class="profileCard">
+                <div class="profilePic">
+                  <img
+                    src="../assets/pictures/rufus.jpg"
+                    style="width: 100%; height: 100%; object-fit: cover"
+                  />
+                </div>
+                <div class="profileCardText">
+                  <h3 class="cardTextHeading">Rufus</h3>
+                  <p class="cardTextSubHeading">Golden Retreiver</p>
+                  <p class="cardTextSubHeading">1 kilometre away</p>
+                </div>
+                <a class="btn" href="PetDetails.html" role="button"
+                  >View Full Profile</a
+                >
+              </div>
+
+              <div class="profileCard">
+                <div class="profilePic">
+                  <img
+                    src="../assets/pictures/rufus.jpg"
+                    style="width: 100%; height: 100%; object-fit: cover"
+                  />
+                </div>
+                <div class="profileCardText">
+                  <h3 class="cardTextHeading">Rufus</h3>
+                  <p class="cardTextSubHeading">Golden Retreiver</p>
+                  <p class="cardTextSubHeading">1 kilometre away</p>
+                </div>
+                <a class="btn" href="PetDetails.html" role="button"
+                  >View Full Profile</a
+                >
+              </div>
+
+              <div class="profileCard">
+                <div class="profilePic">
+                  <img
+                    src="../assets/pictures/rufus.jpg"
+                    style="width: 100%; height: 100%; object-fit: cover"
+                  />
+                </div>
+                <div class="profileCardText">
+                  <h3 class="cardTextHeading">Rufus</h3>
+                  <p class="cardTextSubHeading">Golden Retreiver</p>
+                  <p class="cardTextSubHeading">1 kilometre away</p>
+                </div>
+                <a class="btn" href="PetDetails.html" role="button"
+                  >View Full Profile</a
+                >
+              </div>
+
+              <div class="profileCard">
+                <div class="profilePic">
+                  <img
+                    src="../assets/pictures/rufus.jpg"
+                    style="width: 100%; height: 100%; object-fit: cover"
+                  />
+                </div>
+                <div class="profileCardText">
+                  <h3 class="cardTextHeading">Rufus</h3>
+                  <p class="cardTextSubHeading">Golden Retreiver</p>
+                  <p class="cardTextSubHeading">1 kilometre away</p>
+                </div>
+                <a class="btn" href="PetDetails.html" role="button"
+                  >View Full Profile</a
+                >
+              </div>
+
+              <div class="profileCard">
+                <div class="profilePic">
+                  <img
+                    src="../assets/pictures/rufus.jpg"
+                    style="width: 100%; height: 100%; object-fit: cover"
+                  />
+                </div>
+                <div class="profileCardText">
+                  <h3 class="cardTextHeading">Rufus</h3>
+                  <p class="cardTextSubHeading">Golden Retreiver</p>
+                  <p class="cardTextSubHeading">1 kilometre away</p>
+                </div>
+                <a class="btn" href="PetDetails.html" role="button"
+                  >View Full Profile</a
+                >
+              </div>
+
+              <div class="profileCard">
+                <div class="profilePic">
+                  <img
+                    src="../assets/pictures/rufus.jpg"
+                    style="width: 100%; height: 100%; object-fit: cover"
+                  />
+                </div>
+                <div class="profileCardText">
+                  <h3 class="cardTextHeading">Rufus</h3>
+                  <p class="cardTextSubHeading">Golden Retreiver</p>
+                  <p class="cardTextSubHeading">1 kilometre away</p>
+                </div>
+                <a class="btn" href="PetDetails.html" role="button"
+                  >View Full Profile</a
+                >
+              </div>
+
+              <div class="profileCard">
+                <div class="profilePic">
+                  <img
+                    src="../assets/pictures/rufus.jpg"
+                    style="width: 100%; height: 100%; object-fit: cover"
+                  />
+                </div>
+                <div class="profileCardText">
+                  <h3 class="cardTextHeading">Rufus</h3>
+                  <p class="cardTextSubHeading">Golden Retreiver</p>
+                  <p class="cardTextSubHeading">1 kilometre away</p>
+                </div>
+                <a class="btn" href="PetDetails.html" role="button"
+                  >View Full Profile</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="reviewHeading">
+          <img
+            src="../assets/svgs/Star.svg"
+            style="width: 40px; height: 40px"
+          />
+          <h2 class="reviewHeader">4.12 - 14 Reviews</h2>
+
+          <button
+            class="btn"
+            role="button"
+            style="height: fit-content; margin-left: 10px"
+            id="openModalButton"
+          >
+            Leave a review
+          </button>
+        </div>
+
+        <div class="reviewContainer">
+          <div class="review" style="justify-content: flex-start">
+            <img
+              class="userProfilePic"
+              src="../assets/pictures/minha-pic.png"
+              style="object-fit: cover"
+            />
+            <div class="reviewContent">
+              <div
+                style="
+                  display: flex;
+                  flex-direction: column;
+                  white-space: nowrap;
+                "
+              >
+                <h4 class="reviewerName">Minha Faheem</h4>
+                <h4 class="reviewDate">September 2023</h4>
+              </div>
+
+              <p>
+                Amazing workers who clearly care about their pets! I adopted my
+                first dog last June, and the process was seemless!
+              </p>
+            </div>
+            <div class="bGroup" style="display: flex; align-items: center">
+              <button
+                class="btn"
+                role="button"
+                style="height: fit-content; width: 100%"
+                id="openModalButton1"
+              >
+                Reply
+              </button>
+            </div>
+          </div>
+
+          <div class="review" style="justify-content: flex-start">
+            <img
+              class="userProfilePic"
+              src="../assets/pictures/minha-pic.png"
+              style="object-fit: cover"
+            />
+            <div class="reviewContent">
+              <div
+                style="
+                  display: flex;
+                  flex-direction: column;
+                  white-space: nowrap;
+                "
+              >
+                <h4 class="reviewerName">Minha Faheem</h4>
+                <h4 class="reviewDate">September 2023</h4>
+              </div>
+
+              <p>
+                Amazing workers who clearly care about their pets! I adopted my
+                first dog last June, and the process was seemless!
+              </p>
+            </div>
+            <div class="bGroup" style="display: flex; align-items: center">
+              <button
+                class="btn"
+                role="button"
+                style="height: fit-content; width: 100%"
+                id="openModalButton2"
+              >
+                Reply
+              </button>
+            </div>
+          </div>
+
+          <div class="review" style="justify-content: flex-start">
+            <img
+              class="userProfilePic"
+              src="../assets/pictures/minha-pic.png"
+              style="object-fit: cover"
+            />
+            <div class="reviewContent">
+              <div
+                style="
+                  display: flex;
+                  flex-direction: column;
+                  white-space: nowrap;
+                "
+              >
+                <h4 class="reviewerName">Minha Faheem</h4>
+                <h4 class="reviewDate">September 2023</h4>
+              </div>
+
+              <p>
+                Amazing workers who clearly care about their pets! I adopted my
+                first dog last June, and the process was seemless!
+              </p>
+            </div>
+            <div class="bGroup" style="display: flex; align-items: center">
+              <button
+                class="btn"
+                role="button"
+                style="height: fit-content; width: 100%"
+                id="openModalButton3"
+              >
+                Reply
+              </button>
+            </div>
+          </div>
+
+          <div class="review" style="justify-content: flex-start">
+            <img
+              class="userProfilePic"
+              src="../assets/pictures/minha-pic.png"
+              style="object-fit: cover"
+            />
+            <div class="reviewContent">
+              <div
+                style="
+                  display: flex;
+                  flex-direction: column;
+                  white-space: nowrap;
+                "
+              >
+                <h4 class="reviewerName">Minha Faheem</h4>
+                <h4 class="reviewDate">September 2023</h4>
+              </div>
+
+              <p>
+                Amazing workers who clearly care about their pets! I adopted my
+                first dog last June, and the process was seemless!
+              </p>
+            </div>
+            <div class="bGroup" style="display: flex; align-items: center">
+              <button
+                class="btn"
+                role="button"
+                style="height: fit-content; width: 100%"
+                id="openModalButton4"
+              >
+                Reply
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true"
+      >
+        <div
+          class="modal-dialog modal-lg modal-dialog-centered"
+          role="document"
+        >
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1>Leave a Review!</h1>
+
+              <button
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div class="textBody">
+                <div class="rating1">
+                  <label for="rating" class="inputRating">Rating: </label>
+
+                  <select id="rating" class="form-control" required>
+                    <option style="font-size: 16px">0</option>
+                    <option style="font-size: 16px">1</option>
+                    <option style="font-size: 16px">2</option>
+                    <option style="font-size: 16px">3</option>
+                    <option style="font-size: 16px">4</option>
+                    <option style="font-size: 16px">5</option>
+                  </select>
+                </div>
+                <div class="inputText">
+                  <label for="area" id="textRating"></label>
+                  <input
+                    id="area"
+                    type="textarea"
+                    style="width: 100%; height: 100px; font-size: 20px"
+                    class="form-control"
+                  />
+                  <a class="btn" id="sendButton" href="ShelterDetail.html"
+                    >Send</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        document
+          .getElementById("openModalButton")
+          .addEventListener("click", function () {
+            $("#exampleModal").modal("show");
+          });
+        document
+          .getElementById("openModalButton1")
+          .addEventListener("click", function () {
+            $("#exampleModal").modal("show");
+          });
+        document
+          .getElementById("openModalButton2")
+          .addEventListener("click", function () {
+            $("#exampleModal").modal("show");
+          });
+        document
+          .getElementById("openModalButton3")
+          .addEventListener("click", function () {
+            $("#exampleModal").modal("show");
+          });
+        document
+          .getElementById("openModalButton4")
+          .addEventListener("click", function () {
+            $("#exampleModal").modal("show");
+          });
+        document
+          .getElementById("openModalButton5")
+          .addEventListener("click", function () {
+            $("#exampleModal").modal("show");
+          });
+      </script>
+    </main>
+
+    <footer></footer>
+  </body>
+</html>

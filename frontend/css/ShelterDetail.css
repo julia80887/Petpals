@@ -1,0 +1,375 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
+
+html {
+  width: 100vw;
+}
+
+body {
+  width: 100vw;
+  height: fit-content;
+  background-color: #ecebea;
+}
+
+main {
+  background-color: #ecebea;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: row;
+  border-width: 20px;
+  border-color: #000;
+  margin: 30px;
+}
+
+.allContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.pageContent {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.mainInfo {
+  height: 100%;
+  /* width: 60vw; */
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.mainInfoHeading {
+  font-family: "Nunito Sans";
+  color: #77a0ca;
+  font-size: 40px;
+  font-weight: 600;
+  word-wrap: break-word;
+  margin-top: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+#oliver {
+  /* float: right;
+  box-sizing: border-box;
+  overflow: hidden;
+  margin-bottom: 25px; */
+
+  width: 100%; /* Make the image scale down relative to its container */
+  max-width: 865px;
+  /* width: auto; */
+  height: auto; /* Maintain the aspect ratio */
+  display: block; /* Remove any extra space below the image */
+  float: right;
+  box-sizing: border-box;
+  overflow: hidden;
+  margin-bottom: 25px;
+}
+
+.specs {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  gap: 4px;
+}
+
+.specLabels {
+  font-weight: 700;
+  font-family: Nunito Sans;
+  font-size: larger;
+}
+
+.ratingContainer {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.imastar {
+  width: 20px;
+  height: 20px;
+}
+
+.petListings {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.petListingsHeadings {
+  font-family: "Nunito Sans";
+  width: 100%;
+  color: #0854a0;
+  font-size: 40px;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.reviewHeader {
+  font-family: "Nunito Sans";
+  color: #0854a0;
+  font-size: 40px;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+}
+
+.petListingGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  height: 100%;
+  /* width: 35vw; */
+  overflow-y: scroll;
+  overflow-x: hidden;
+  padding: 30px;
+  padding-top: 0px;
+  justify-content: center;
+  border-radius: 10px;
+  gap: 1vw;
+}
+
+.profileCard {
+  display: flex;
+  flex-direction: column;
+  width: 240px;
+  height: 420px;
+  align-items: center;
+  gap: 20px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.profilePic {
+  border-radius: 10px;
+  width: 210px;
+  height: 210px;
+  overflow: hidden;
+}
+
+.profileCardText {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+  width: 100%;
+}
+
+.cardTextHeading {
+  margin: 0px;
+  font-family: Nunito Sans;
+  color: #000;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.cardTextSubHeading {
+  margin: 0px;
+  font-family: Open Sans;
+  color: #000;
+  font-family: Open Sans;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 20px;
+}
+
+.viewProfile {
+  padding: 8px 16px;
+  background: #77a0ca;
+}
+
+.userProfilePic {
+  border-radius: 100px;
+  width: 50px;
+  height: 50px;
+}
+
+.reviewTitleAndStar {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+}
+
+.reviewHeading {
+  display: flex;
+  flex-direction: row;
+  margin-top: 30px;
+  margin-bottom: 25px;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  justify-content: space-between;
+  align-self: flex-start;
+  padding: 12px;
+}
+
+.reviewHeading h2 {
+  margin: 0px;
+}
+
+.reviewText {
+  display: flex;
+  white-space: wrap;
+  margin: 10px;
+}
+
+.reviewContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  width: fit-content;
+  height: 50%;
+  max-width: 1182px;
+  align-self: center;
+  margin-top: 50px;
+}
+
+.reviewerName {
+  font-family: Open Sans;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.reviewDate {
+  font-family: Open Sans;
+  font-weight: 400;
+  font-size: 16px;
+  color: #a3a19b;
+}
+.reviewerNameDate {
+  display: flex;
+  flex-direction: row;
+  white-space: nowrap;
+  gap: 8px;
+}
+
+.review {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  margin-bottom: 40px;
+  border-style: solid;
+  border-radius: 10px;
+  margin: 10px;
+  border-color: #ecebea;
+  width: fit-content;
+  padding: 20px;
+}
+
+.reviewContent {
+  display: flex;
+  gap: 12px;
+  flex-direction: column;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  align-items: flex-start;
+}
+
+@media (max-width: 1415px) {
+  .pageContent {
+    height: 100vh;
+  }
+
+  .mainInfo {
+    margin-left: 0px;
+  }
+
+  .petListingGrid {
+    width: fit-content;
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+@media (max-width: 1300px) {
+  .pageContent {
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    width: fit-content;
+    height: fit-content;
+  }
+
+  .mainInfo {
+    width: 95vw;
+    margin-left: 0px;
+    height: fit-content;
+  }
+
+  .petListings {
+    width: 95vw;
+    justify-content: center;
+    align-items: center;
+    height: fit-content;
+  }
+
+  .petListingGrid {
+    width: fit-content;
+    height: 445px;
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 1140px) {
+  .petListingGrid {
+    width: fit-content;
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 890px) {
+  .petListingGrid {
+    width: fit-content;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .reviewContainer {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .reviewContent {
+    width: 100%;
+  }
+}
+
+@media (max-width: 878px) {
+  .reviewContent {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 729px) {
+  .review {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  .petListingGrid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .reviewerNameDate {
+    flex-direction: column;
+    gap: 4px;
+  }
+}

@@ -1,0 +1,198 @@
+html {
+  width: 100vw;
+  height: 100vh;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  background-color: #ecebea;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+main {
+  background-color: #ecebea;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 20px;
+  border-width: 20px;
+  border-color: #000;
+  margin: 30px;
+  overflow-x: hidden;
+
+  min-height: 680px;
+  /* margin-top: 20vh; */
+  margin-top: 75px;
+  width: fit-content;
+  height: fit-content;
+  overflow-y: hidden;
+}
+
+.headerBar {
+  width: 100vw;
+}
+
+.titles {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.mainTitle {
+  font-size: 50px;
+  margin-bottom: 20px;
+  font-family: Nunito Sans;
+  color: #0854a0;
+}
+
+.subTitle {
+  margin: 0px;
+  margin-top: 20px;
+  font-family: Open Sans;
+}
+
+.container {
+  background-color: #fff;
+  width: fit-content;
+  height: fit-content;
+  border-radius: 10px;
+  border-top-right-radius: 0px;
+  border-top-left-radius: 0px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-bottom: 30px;
+
+  max-height: 700px;
+  min-width: 200px;
+  overflow-x: hidden;
+}
+
+.linkHome {
+  display: flex;
+  justify-content: flex-start;
+  text-align: left;
+
+  align-items: flex-start;
+  text-decoration: none;
+
+  font-family: Open Sans;
+  color: #0854a0;
+  width: fit-content;
+
+  white-space: nowrap;
+}
+
+.form {
+  width: fit-content;
+  height: fit-content;
+  min-width: 26vw;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 30px;
+  padding: 20px;
+}
+
+.form-label {
+  white-space: wrap;
+  margin-top: 20px 0px;
+}
+
+.form-control {
+  border-radius: 40px;
+}
+
+.input {
+  width: 100%;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+}
+
+.switchLink {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+  font-family: Open Sans;
+  color: #0854a0;
+}
+
+.text {
+  margin-bottom: 1px;
+  font-family: Open Sans;
+  color: #000;
+}
+
+@media (max-width: 290px) {
+  body {
+    align-items: center;
+  }
+  .container {
+    overflow-y: scroll;
+    overflow-x: scroll;
+    align-items: center;
+  }
+  .input {
+    text-align: center;
+  }
+  .topnav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+  }
+  .buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  .text {
+    text-align: center;
+  }
+}
+
+.topnav {
+  background-color: #fafafa;
+  /* overflow: hidden; */
+  width: 100%;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+  float: left;
+  color: #fff;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  width: 50%;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+  background-color: #77a0ca;
+  color: white;
+}

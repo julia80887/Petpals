@@ -1,0 +1,234 @@
+
+/*
+ * style.css
+ *
+ * CSC309 PetPals Pet Creation Page
+ * 
+ * University of Toronto
+ * Fall 2023
+ *
+ */
+ 
+ html {
+    background-color: #ECEBEA;
+    font-family: 'Nunito Sans';
+}
+
+main {
+    background-color: #ECEBEA;
+}
+
+body {
+    background-color: #ECEBEA;
+}
+
+ .question {
+    color: #0854A0;
+    font-family: 'Chewy';
+    text-align: center;
+    margin-top: 75px;
+    font-style: normal;
+    margin-bottom: 90px;
+}
+
+ h2 {
+    color: #0854A0;
+    text-align: center;
+    font-style: normal;
+    font-weight: 800;
+    line-height: 20px; /* 41.667% */
+    margin-top: 50px;
+    margin-bottom: 80px;
+ }
+
+ .container {
+    background-color: #fff;
+    height: fit-content;
+    width: 80vw;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    margin-bottom: 10vh;
+ }
+
+ .createPetForm {
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     text-align: center;
+     align-items: left;
+     width: 100%;
+     height: 100%;
+     padding: 36px;
+ }
+
+.form-control {
+    border-radius: 100px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    font-family: 'Open Sans';
+    background-color: #fafafa;
+    font-size: 14px;
+    padding: 12px;
+}
+
+
+.labelLeft {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    color: #0854A0;
+    font-family: 'Nunito Sans';
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px; /* 62.5% */
+    margin-bottom: 10px;
+    margin-top: 10px;
+    text-align: left;
+}
+
+
+.rejectButton {
+    background-color: #E93F3F;
+    width: 100px;
+    height: 40px;
+    color: #FFF;
+    font-family: Nunito Sans;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 20px; /* 62.5% */
+    border-radius: 100px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+
+}
+
+.rejectButton:hover {
+    background-color: #FFF;
+    width: 100px;
+    height: 40px;
+    color: #E93F3F;
+    border-width: 5px;
+    border-color: #ff0000;
+    font-family: Nunito Sans;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 20px; /* 62.5% */
+    border-radius: 100px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.nextButton {
+    background-color: #0854A0;
+    width: 100px;
+    height: 40px;
+    color: #FFF;
+    font-family: Nunito Sans;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 20px; /* 62.5% */
+    border-radius: 100px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.nextButton:hover {
+    background-color: #FFF;
+    width: 100px;
+    height: 40px;
+    color: #0854A0;
+    border-width: 5px;
+    border-color: #0854A0;
+    font-family: Nunito Sans;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 20px; /* 62.5% */
+    border-radius: 100px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.backButton {
+    background-color: #6D6969;
+    width: 100px;
+    height: 40px;
+    color: #FFF;
+    font-family: Nunito Sans;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 20px; /* 62.5% */
+    border-radius: 100px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+.backButton:hover {
+    background-color: #fff;
+    width: 100px;
+    height: 40px;
+    color: #6D6969;
+    border-color: #6D6969;
+    border-width: 5px;
+    font-family: Nunito Sans;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 20px; /* 62.5% */
+    border-radius: 100px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+
+.buttonCenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+
+.twoButtonPositions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+
+.descriptionInput {
+    border-radius: 10px;
+    resize: none;
+    font-family: 'Open Sans';
+}
+
+.emptyLabel {
+    margin: 0px;
+    padding: 0px;
+}

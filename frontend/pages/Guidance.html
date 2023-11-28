@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<!--
+  CSC309 PetPal Project - Pet Creation Page
+  
+  University of Toronto
+  Fall 2023
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Application Page For User Signed In</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200;0,6..12,300;0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;0,6..12,1000;1,6..12,200;1,6..12,300;1,6..12,400;1,6..12,500;1,6..12,600;1,6..12,700;1,6..12,800;1,6..12,900;1,6..12,1000&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/Guidance.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
+      integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT"
+      crossorigin="anonymous"
+    ></script>
+
+    <style>
+      .profileOptionsDropdown .show {
+        transform: translate3d(-70px, 50px, 0px) !important;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="headerBar">
+        <a href="IndexUserSignedIn.html" style="text-decoration: none">
+          <div class="logo">
+            <img src="../assets/svgs/logo.svg" alt="Pet Pals Logo" />
+            <h1 id="logoHeading">PetPals</h1>
+          </div>
+        </a>
+
+        <div class="dropdown profileOptionsDropdown">
+          <a data-bs-toggle="dropdown" aria-expanded="false">
+            <img
+              src="../assets/svgs/profileButtonUser.svg"
+              alt="Profile Options"
+              id="profileOptions"
+            />
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item" href="UserAccountNotModify.html"
+                >View Profile</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" href="AccountUpdate.html"
+                >Edit Profile</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" href="MyApplications.html"
+                >My Applications</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" href="UserNotifications.html"
+                >Notifications</a
+              >
+            </li>
+            <li><a class="dropdown-item" href="Index.html">Log out</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+    <main>
+      <h1 class="question">Are you ready to bring Rufus home?</h1>
+      <div class="container">
+        <img
+          src="../assets/pictures/rufus2.jpg"
+          style="
+            width: 20vw;
+            height: 20vw;
+            min-width: 175px;
+            min-height: 175px;
+            margin-top: 20px;
+            border-radius: 10px;
+          "
+        />
+        <div class="adoptionProcess">
+          <h2>The Adoption Process</h2>
+
+          <div class="paragraph">
+            <p>
+              Once your application to adopt a pet has been approved,
+              congratulations! Our team is here to provide you with guidance
+              every step of the way. We'll help you schedule a visit to our
+              adoption center or arrange a meeting with the pet's current foster
+              family. During this time, you'll have the opportunity to spend
+              quality time with your potential new furry friend, ensuring that
+              you both are a perfect match. We encourage you to prepare any
+              questions you might have about the pet's history, behavior, or
+              medical needs. Our experienced staff will be happy to provide all
+              the information you need to make an informed decision.
+            </p>
+          </div>
+        </div>
+
+        <div class="fees">
+          <h2>Fees</h2>
+          <div class="paragraph">
+            <p>
+              Understanding the financial aspect of adopting a pet is crucial.
+              After your application is approved, you'll receive detailed
+              information about the adoption fees and associated costs. These
+              fees typically cover essential veterinary care, spaying or
+              neutering, vaccinations, and microchipping, ensuring your pet's
+              health and safety. Our team is committed to transparency, and
+              we'll provide a breakdown of all expenses.
+            </p>
+          </div>
+        </div>
+
+        <div class="requirements">
+          <h2>Post Adoption Requirements</h2>
+          <div class="paragraph">
+            <p>
+              Once you've welcomed your new furry family member home, there are
+              some important post-adoption requirements to keep in mind. Regular
+              veterinary check-ups are crucial to monitor your pet's health and
+              ensure they receive any necessary vaccinations or treatments.
+              Additionally, providing a loving and safe environment, proper
+              nutrition, exercise, and socialization are essential to your pet's
+              well-being. We encourage adopters to consider enrolling in
+              obedience training or behavior classes to strengthen the bond with
+              their pet and address any behavioral issues. Remember that
+              adopting a pet is a lifelong commitment, and our team is always
+              available to offer guidance and support as you embark on this
+              wonderful journey together.
+            </p>
+          </div>
+        </div>
+        <a href="IndexUserSignedIn.html" class="nextButton form-control"
+          >Home</a
+        >
+      </div>
+    </main>
+
+    <footer></footer>
+  </body>
+</html>

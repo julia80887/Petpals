@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<!--
+  CSC309 PetPal Project - Pet Creation Page
+  
+  University of Toronto
+  Fall 2023
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Adoption Page 3</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200;0,6..12,300;0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;0,6..12,1000;1,6..12,200;1,6..12,300;1,6..12,400;1,6..12,500;1,6..12,600;1,6..12,700;1,6..12,800;1,6..12,900;1,6..12,1000&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/AdoptionPage.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
+      integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT"
+      crossorigin="anonymous"
+    ></script>
+
+    <style>
+      .profileOptionsDropdown .show {
+        transform: translate3d(-70px, 50px, 0px) !important;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <div class="headerBar">
+        <a href="IndexUserSignedIn.html" style="text-decoration: none">
+          <div class="logo">
+            <img src="../assets/svgs/logo.svg" alt="Pet Pals Logo" />
+            <h1 id="logoHeading">PetPals</h1>
+          </div>
+        </a>
+
+        <div class="dropdown profileOptionsDropdown">
+          <a data-bs-toggle="dropdown" aria-expanded="false">
+            <img
+              src="../assets/svgs/profileButtonUser.svg"
+              alt="Profile Options"
+              id="profileOptions"
+            />
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item" href="UserAccountNotModify.html"
+                >View Profile</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" href="AccountUpdate.html"
+                >Edit Profile</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" href="MyApplications.html"
+                >My Applications</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" href="UserNotifications.html"
+                >Notifications</a
+              >
+            </li>
+            <li><a class="dropdown-item" href="Index.html">Log out</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <h1 class="question">Are you ready to adopt Rufus?</h1>
+      <h2>3. Lifestyle, Experience, and Preferences</h2>
+      <div class="container">
+        <form
+          class="createPetForm"
+          style="background-color: white"
+          action="AdoptionPage4.html"
+        >
+          <div class="form-group row">
+            <label
+              class="col-sm-4 col-form-label descriptionLabel"
+              for="descriptionInput"
+              >Daily Routine</label
+            >
+
+            <div class="col-sm-8">
+              <textarea
+                class="form-control descriptionInput"
+                id="descriptionInput"
+                rows="4"
+                placeholder="How much time can you dedicate to the pet's care and exercise? Specify work hours, exercise, etc."
+                required
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label
+              class="col-sm-4 col-form-label descriptionLabel"
+              for="descriptionInput1"
+              >Expenses</label
+            >
+
+            <div class="col-sm-8">
+              <textarea
+                class="form-control descriptionInput"
+                id="descriptionInput1"
+                rows="4"
+                placeholder="Are you prepared for potential pet-related expenses (veterinary care, food, grooming, etc.)?"
+                required
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label
+              class="col-sm-4 col-form-label descriptionLabel"
+              for="descriptionInput2"
+              >Previous Pets</label
+            >
+
+            <div class="col-sm-8">
+              <textarea
+                class="form-control descriptionInput"
+                id="descriptionInput2"
+                rows="4"
+                placeholder="Have you owned pets before? If so, what types and breeds?"
+                required
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label
+              class="col-sm-4 col-form-label descriptionLabel"
+              for="descriptionInput3"
+              >Preferences</label
+            >
+
+            <div class="col-sm-8">
+              <textarea
+                class="form-control descriptionInput"
+                id="descriptionInput3"
+                rows="4"
+                placeholder="Are you looking for a specific breed or type of pet? "
+                required
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label
+              class="col-sm-4 col-form-label descriptionLabel"
+              for="descriptionInput4"
+              >Reason</label
+            >
+
+            <div class="col-sm-8">
+              <textarea
+                class="form-control descriptionInput"
+                id="descriptionInput4"
+                required
+                rows="4"
+                placeholder="Why do you want to adopt this pet? "
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="twoButtonPositions">
+            <div class="form-group row">
+              <div class="col-sm-6" id="buttonCenter">
+                <a href="AdoptionPage2.html" class="backButton form-control"
+                  >Back</a
+                >
+              </div>
+              <div class="col-sm-6" id="buttonCenter">
+                <button type="submit" class="btn btn-primary nextButton">
+                  Next
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <footer></footer>
+  </body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<!--
+  CSC309 Phase 1
+  
+  University of Toronto
+  Fall 2023
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pet Details</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200;0,6..12,300;0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;0,6..12,1000;1,6..12,200;1,6..12,300;1,6..12,400;1,6..12,500;1,6..12,600;1,6..12,700;1,6..12,800;1,6..12,900;1,6..12,1000&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/PetDetails.css" />
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const petInfo = document.getElementById("petInfo");
+        const petImages = document.getElementById("petImages");
+        const petStatus = document.getElementById("petStatus");
+
+        const generalTab = document.getElementById("generalTab");
+        const imageTab = document.getElementById("imageTab");
+        const statusTab = document.getElementById("statusTab");
+
+        petInfo.style.display = "flex";
+        petImages.style.display = "none";
+        petStatus.style.display = "none";
+
+        generalTab.style.borderBottom = "3px solid #0854A0";
+        imageTab.style.borderBottom = "none";
+        statusTab.style.borderBottom = "none";
+
+        generalTab.addEventListener("click", function () {
+          petInfo.style.display = "flex";
+          petImages.style.display = "none";
+          petStatus.style.display = "none";
+
+          generalTab.style.borderBottom = "3px solid #0854A0";
+          imageTab.style.borderBottom = "none";
+          statusTab.style.borderBottom = "none";
+        });
+
+        imageTab.addEventListener("click", function () {
+          petInfo.style.display = "none";
+          petImages.style.display = "grid";
+          petImages.style.width = "fit-content";
+          petStatus.style.display = "none";
+
+          generalTab.style.borderBottom = "none";
+          imageTab.style.borderBottom = "3px solid #0854A0";
+          statusTab.style.borderBottom = "none";
+        });
+
+        statusTab.addEventListener("click", function () {
+          petInfo.style.display = "none";
+          petImages.style.display = "none";
+          petStatus.style.display = "flex";
+
+          generalTab.style.borderBottom = "none";
+          imageTab.style.borderBottom = "none";
+          statusTab.style.borderBottom = "3px solid #0854A0";
+        });
+      });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
+      integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT"
+      crossorigin="anonymous"
+    ></script>
+
+    <style>
+      .profileOptionsDropdown .show {
+        transform: translate3d(-70px, 50px, 0px) !important;
+        border-radius: 10px;
+      }
+
+      p {
+        margin: 0px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <div class="headerBar">
+        <a href="IndexUserSignedIn.html" style="text-decoration: none">
+          <div class="logo">
+            <img src="../assets/svgs/logo.svg" alt="Pet Pals Logo" />
+            <h1 id="logoHeading">PetPals</h1>
+          </div>
+        </a>
+
+        <div class="dropdown profileOptionsDropdown">
+          <a data-bs-toggle="dropdown" aria-expanded="false">
+            <img
+              src="../assets/svgs/profileButtonUser.svg"
+              alt="Profile Options"
+              id="profileOptions"
+            />
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item" href="UserAccountNotModify.html"
+                >View Profile</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" href="AccountUpdate.html"
+                >Edit Profile</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" href="MyApplications.html"
+                >My Applications</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" href="UserNotifications.html"
+                >Notifications</a
+              >
+            </li>
+            <li><a class="dropdown-item" href="Index.html">Log out</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+    <main>
+      <div class="detailsContainer">
+        <h1 class="textHeading">
+          Hi, I’m <span class="chewyHeading">Rufus</span>!
+        </h1>
+        <div class="imageContainer">
+          <div class="largeImage">
+            <img src="../assets/pictures/rufus.jpg" id="rufusPic" />
+          </div>
+        </div>
+        <div class="contentContianer">
+          <div class="internalContainer">
+            <div class="contentSelector">
+              <div class="tab" id="generalTab">
+                <h6>General Info</h6>
+              </div>
+              <div class="tab" id="statusTab">
+                <h6>Status</h6>
+              </div>
+              <div class="tab" id="imageTab">
+                <h6>Images</h6>
+              </div>
+            </div>
+            <div class="textContainer" id="petInfo">
+              <div class="specs">
+                <p class="specsLine">Golden Retriever · Oakville, On</p>
+                <p class="specsLine">Adult · Male · Medium</p>
+                <p class="specsLine">
+                  <span class="specLabels">Birthday: </span>January 1, 2023
+                </p>
+                <p class="specsLine">
+                  <span class="specLabels">Shelter: </span>Oakville Humane
+                  Society
+                </p>
+
+                <p class="specsLine">
+                  <span class="specLabels">About: </span>Rufus is a menace to
+                  society. Do not adopt this dog.
+                </p>
+              </div>
+            </div>
+
+            <div class="textContainer" id="petStatus">
+              <div class="specs">
+                <p class="specsLine">
+                  <span class="specLabels">Status: </span> Available
+                </p>
+                <p class="specsLine">
+                  <span class="specLabels">Publication Date: </span>July 27,
+                  2023
+                </p>
+                <p class="specsLine">
+                  <span class="specLabels">Application Deadline: </span>July 27,
+                  2024
+                </p>
+                <p class="specsLine">
+                  <span class="specLabels">Medical History:</span> Rufus has a
+                  perfect medical history with no illnesses.
+                </p>
+                <p class="specsLine">
+                  <span class="specLabels">Behaviour: </span>Behaviour: Rufus is
+                  a well manered dog.
+                </p>
+              </div>
+            </div>
+
+            <div class="textContainer" id="petImages">
+              <img src="../assets/pictures/rufus2.jpg" id="dogPic" />
+            </div>
+            <div class="formContainer">
+              <h4 class="applyHeading">Ready to give Rufus a forever home?</h4>
+              <a href="AdoptionPage1.html" role="button" class="applyButton">
+                Apply Today
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer"></footer>
+  </body>
+</html>

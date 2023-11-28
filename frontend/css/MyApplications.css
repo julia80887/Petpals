@@ -1,0 +1,135 @@
+main {
+  display: flex;
+  justify-content: center;
+}
+
+h1 {
+  text-align: center;
+}
+.notificationsContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 90vh;
+  width: 75vw;
+  margin-top: 75px;
+  margin-bottom: 25px;
+  /* background: white; */
+  border-radius: 10px;
+  align-items: center;
+}
+
+.pageHeading {
+  font-family: "Nunito Sans";
+  color: #0854a0;
+  font-size: 40px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.notificationGrid {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 60vw;
+  gap: 10px;
+  align-items: center;
+}
+
+.rowBox {
+  display: flex;
+  flex-direction: row;
+}
+
+.buttonPlacement {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.notification {
+  display: flex;
+  padding: 20px;
+  /* border-bottom: 1px solid #77a0ca; */
+  width: 100%;
+  gap: 20px;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: white;
+  border-radius: 10px;
+  transition: transform 0.3s;
+}
+
+.notification:hover {
+  transform: scale(1.02);
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.25));
+}
+
+.notification h5 {
+  color: #000;
+  font-family: Nunito Sans;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+}
+
+.notification p {
+  color: #000;
+  font-family: Open Sans;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 300;
+}
+
+.notificationPic {
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
+}
+
+.applyButton {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  background-color: white;
+  color: #0854a0;
+  border-radius: 10px;
+  border-width: 0px;
+  padding: 10px;
+  text-decoration: none;
+  width: fit-content;
+  white-space: nowrap;
+  margin-left: 20px;
+  height: 100%;
+  align-items: center;
+}
+
+.applyButton:hover {
+  background-color: #573f35;
+  color: white;
+  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.25));
+}
+
+.applyButton:active {
+  background-color: #573f35;
+  color: white;
+  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.25));
+}
+
+@media (max-width: 625px) {
+  .rowBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
+  .applyButton {
+    width: 100%;
+    margin-left: 0px;
+  }
+
+  .buttonPlacement {
+    width: 100%;
+  }
+}

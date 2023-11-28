@@ -1,0 +1,1648 @@
+<!DOCTYPE html>
+<!--
+  CSC309 Phase 1
+  
+  University of Toronto
+  Fall 2023
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PetPal Home</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/Index.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
+      integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+      integrity="sha384-oBqDVmMzIvcU5VAihMkzCBM2mrWv5qqu2jszJFuPqAcTiaUExPBqpDEWBfn0WTyR"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
+      integrity="sha384-iF9wF1oGwF3z1jJ0t3lL7xRkqFptUZrJg2vFQpm31WmkLbAqssVKF5pfe9Tq97hdo"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="../javascript/Index.js"></script>
+
+    <script>
+      function updateSelectedOption(option, grid) {
+        const AlphabeticalAnimalsGrid = document.getElementById(
+          "AlphabeticalAnimalsGrid"
+        );
+        const AgeAnimalsGrid = document.getElementById("AgeAnimalsGrid");
+        const DistanceAnimalsGrid = document.getElementById(
+          "DistanceAnimalsGrid"
+        );
+        const SizeAnimalsGrid = document.getElementById("SizeAnimalsGrid");
+        document.getElementById("selectedOption").innerText = option;
+
+        if (option === "Sort By: Name") {
+          AlphabeticalAnimalsGrid.style.display = "grid";
+          AgeAnimalsGrid.style.display = "none";
+          DistanceAnimalsGrid.style.display = "none";
+          SizeAnimalsGrid.style.display = "none";
+        } else if (option === "Sort By: Nearest") {
+          AlphabeticalAnimalsGrid.style.display = "none";
+          AgeAnimalsGrid.style.display = "none";
+          DistanceAnimalsGrid.style.display = "grid";
+          SizeAnimalsGrid.style.display = "none";
+        } else if (option === "Sort By: Age") {
+          AlphabeticalAnimalsGrid.style.display = "none";
+          AgeAnimalsGrid.style.display = "grid";
+          DistanceAnimalsGrid.style.display = "none";
+          SizeAnimalsGrid.style.display = "none";
+        } else if (option === "Sort By: Size") {
+          AlphabeticalAnimalsGrid.style.display = "none";
+          AgeAnimalsGrid.style.display = "none";
+          DistanceAnimalsGrid.style.display = "none";
+          SizeAnimalsGrid.style.display = "grid";
+        }
+
+        updateSelectedOptionGrid(`Sort By: ${selectedOption}`, gridType);
+      }
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const dogGrid = document.getElementById("dogGrid");
+        const catGrid = document.getElementById("catGrid");
+        const otherAnimalsGrid = document.getElementById("otherAnimalsGrid");
+        const shelterGrid = document.getElementById("shelterGrid");
+
+        const dogFilter = document.getElementById("dogFilter");
+        const catFilter = document.getElementById("catFilter");
+        const otherAnimalsFilter =
+          document.getElementById("otherAnimalsFilter");
+        const shelterFilter = document.getElementById("shelterFilter");
+
+        const FilterButton = document.getElementById("filters");
+        const openModalLink = document.getElementById("openModal");
+
+        function disableModalTrigger() {
+          openModalLink.removeAttribute("data-bs-toggle");
+        }
+
+        function enableModalTrigger() {
+          openModalLink.setAttribute("data-bs-toggle", "modal");
+        }
+
+        FilterButton.classList.add("disabled");
+        disableModalTrigger();
+
+        dogFilter.addEventListener("click", function () {
+          if (dogGrid.style.display === "grid") {
+            FilterButton.classList.remove("disabled");
+            enableModalTrigger();
+          } else {
+            FilterButton.classList.add("disabled");
+            disableModalTrigger();
+          }
+        });
+
+        catFilter.addEventListener("click", function () {
+          if (catGrid.style.display === "grid") {
+            FilterButton.classList.remove("disabled");
+            enableModalTrigger();
+          } else {
+            FilterButton.classList.add("disabled");
+            disableModalTrigger();
+          }
+        });
+
+        otherAnimalsFilter.addEventListener("click", function () {
+          if (otherAnimalsGrid.style.display === "grid") {
+            FilterButton.classList.remove("disabled");
+            enableModalTrigger();
+          } else {
+            FilterButton.classList.add("disabled");
+            disableModalTrigger();
+          }
+        });
+
+        shelterFilter.addEventListener("click", function () {
+          if (shelterGrid.style.display === "grid") {
+            FilterButton.classList.remove("disabled");
+            enableModalTrigger();
+          } else {
+            FilterButton.classList.add("disabled");
+            disableModalTrigger();
+          }
+        });
+      });
+    </script>
+
+    <script>
+      function updateBreedSelectedOption(option) {
+        document.getElementById("selectedBreedOption").innerText = option;
+      }
+    </script>
+
+    <script>
+      function updateNoPets() {
+        $("#filterModal").modal("hide");
+        dogGrid.style.display = "none";
+        noResultFound.style.display = "flex";
+      }
+
+      function clearFilters() {
+        $("#filterModal").modal("hide");
+        noResultFound.style.display = "none";
+        AlphabeticalAnimalsGrid.style.display = "grid";
+      }
+    </script>
+
+    <style>
+      .profileOptionsDropdown .show {
+        transform: translate3d(-70px, 50px, 0px) !important;
+        border-radius: 10px;
+      }
+
+      .searchButton {
+        background: white;
+        border-radius: 0px 100px 100px 0px;
+        height: 100%;
+        padding: 0px 10px;
+        border: var(--bs-border-width) solid var(--bs-border-color);
+        border-left: none;
+      }
+
+      .searchButton:active {
+        background: white !important;
+        border-radius: 0px 100px 100px 0px !important;
+        height: 100% !important;
+        padding: 0px 10px !important;
+        border: var(--bs-border-width) solid var(--bs-border-color) !important;
+        border-left: none !important;
+      }
+
+      .searchButton:hover {
+        background: white;
+        border-radius: 0px 100px 100px 0px;
+        height: 100%;
+        padding: 0px 10px;
+        border: var(--bs-border-width) solid var(--bs-border-color);
+        border-left: none;
+      }
+
+      .ShowPets {
+        display: flex;
+        justify-content: center;
+        background-color: #77a0ca;
+        color: white;
+        border-radius: 40px;
+        padding: 10px;
+        text-decoration: none;
+        width: fit-content;
+      }
+
+      .ShowPets:hover {
+        background-color: #573f35;
+        color: white;
+        filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.25));
+      }
+
+      .ShowPets:active {
+        background-color: #573f35;
+        color: white;
+        filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.25));
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="headerBar">
+        <a href="index.html" style="text-decoration: none">
+          <div class="logo">
+            <img src="../assets/svgs/logo.svg" alt="Pet Pals Logo" />
+            <h1 id="logoHeading">PetPals</h1>
+          </div>
+        </a>
+
+        <!-- Search form -->
+        <div class="input-group searchBar">
+          <input
+            type="text"
+            class="form-control"
+            id="headerSearchBar"
+            style="margin-top: 0"
+          />
+          <div class="input-group-append">
+            <button class="btn searchButton" type="button">
+              <img
+                class="searchIcon"
+                src="../assets/svgs/searchIcon.svg"
+                alt="Search Icon"
+              />
+            </button>
+          </div>
+        </div>
+        <div class="dropdown profileOptionsDropdown">
+          <a data-bs-toggle="dropdown" aria-expanded="false">
+            <img
+              src="../assets/svgs/profileButton.svg"
+              alt="Profile Options"
+              id="profileOptions"
+            />
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="SignupUser.html">Sign up</a></li>
+            <li><a class="dropdown-item" href="Login.html">Login</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+    <main>
+      <div class="filterContainer">
+        <div class="filter" id="dogFilter">
+          <img src="../assets/svgs/Dog.svg" />
+          <h4>Dog</h4>
+        </div>
+        <div class="filter" id="catFilter">
+          <img src="../assets/svgs/Cat.svg" />
+          <h4>Cats</h4>
+        </div>
+        <div class="filter" id="otherAnimalsFilter">
+          <img src="../assets/svgs/otherAnimals.svg" />
+          <h4>Other Animals</h4>
+        </div>
+        <div class="filter" id="shelterFilter">
+          <img src="../assets/svgs/Animal Shelter.svg" />
+          <h4>Shelters</h4>
+        </div>
+      </div>
+      <div class="sortButtonContainer">
+        <a
+          id="openModal"
+          data-bs-toggle="modal"
+          data-bs-target="#filterModal"
+          style="text-decoration: none"
+        >
+          <div
+            class="filterButton"
+            id="filters"
+            style="
+              flex-direction: row;
+              justify-content: center;
+              gap: 10px;
+              padding: 10px;
+              background: white;
+              border: 2px solid #573f35;
+              border-radius: 10px;
+              height: 60px;
+            "
+          >
+            <img src="../assets/svgs/Slider.svg" />
+            <h4>Filters</h4>
+          </div>
+        </a>
+
+        <!-- START OF SORT BUTTON -->
+
+        <div class="dropdown">
+          <button
+            class="btn sortButton"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <h4 id="selectedOption">Sort By: Name</h4>
+          </button>
+          <ul
+            class="dropdown-menu"
+            aria-labelledby="dropdownMenuButton1"
+            data-popper-placement="bottom-start"
+          >
+            <li>
+              <a
+                class="dropdown-item"
+                href="#"
+                onclick="updateSelectedOption('Sort By: Name', 'AlphabeticalAnimalsGrid')"
+                >Name</a
+              >
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                href="#"
+                onclick="updateSelectedOption('Sort By: Nearest', 'DistanceAnimalsGrid')"
+                >Nearest</a
+              >
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                href="#"
+                onclick="updateSelectedOption('Sort By: Age', 'AgeAnimalsGrid')"
+                >Age</a
+              >
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                href="#"
+                onclick="updateSelectedOption('Sort By: Size', 'SizeAnimalsGrid')"
+                >Size</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- END OF SORT BUTTON -->
+
+      <!-- START OF FILTER MODAL -->
+
+      <div
+        class="modal fade"
+        id="filterModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modalTitle">Filters</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+
+            <div class="modal-body" style="padding: 40px">
+              <div class="ModalFilter Age">
+                <h6 class="modalSubHeading">Age</h6>
+
+                <div class="ageButtonContainer">
+                  <div class="ageTabGroup" role="group">
+                    <div
+                      class="ageTab selectedTab"
+                      style="border-radius: 10px 0px 0px 10px"
+                      id="puppy"
+                    >
+                      Puppy
+                    </div>
+                    <div class="ageTab" id="young">Young</div>
+                    <div class="ageTab" id="adult">Adult</div>
+                    <div
+                      class="ageTab"
+                      style="border-radius: 0px 10px 10px 0px"
+                      id="senior"
+                    >
+                      Senior
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="ModalFilter Size">
+                <h6 class="modalSubHeading">Size</h6>
+                <div class="sizeButtonContainer">
+                  <div class="sizeButton" id="small">
+                    Small <span>(0-25 lbs)</span>
+                  </div>
+                  <div class="sizeButton" id="medium">
+                    Medium <span>(26-60 lbs)</span>
+                  </div>
+                  <div class="sizeButton" id="large">
+                    Large <span>(61-100 lbs)</span>
+                  </div>
+                  <div class="sizeButton" id="xlarge">
+                    Extra Large <span>(101 lbs or more)</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="ModalFilter Breed">
+                <h6 class="modalSubHeading">Breed</h6>
+                <div class="dropdown breedDropdown">
+                  <button
+                    class="btn breedButton"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <h4 id="selectedBreedOption">Select Breed</h4>
+                  </button>
+                  <ul
+                    class="dropdown-menu"
+                    aria-labelledby="dropdownMenuButton1"
+                    data-popper-placement="bottom-start"
+                  >
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="#"
+                        onclick="updateBreedSelectedOption('Bulldog')"
+                        >Bulldog</a
+                      >
+                    </li>
+
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="#"
+                        onclick="updateBreedSelectedOption('German Shepherd')"
+                        >German Shepherd</a
+                      >
+                    </li>
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="#"
+                        onclick="updateBreedSelectedOption('Golden Retriever')"
+                        >Golden Retriever
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="#"
+                        onclick="updateBreedSelectedOption('Labrador Retriever')"
+                        >Labrador Retriever</a
+                      >
+                    </li>
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="#"
+                        onclick="updateBreedSelectedOption('Poodle')"
+                        >Poodle</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="ModalFilter Colour">
+                <h6 class="modalSubHeading">Colour</h6>
+                <div class="checkBoxContainer">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value="red"
+                      id="checkbox1"
+                    />
+                    <label class="form-check-label" for="checkbox1">
+                      Brown
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value="blue"
+                      id="checkbox2"
+                    />
+                    <label class="form-check-label" for="checkbox2">
+                      Black
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value="green"
+                      id="checkbox3"
+                    />
+                    <label class="form-check-label" for="checkbox3">
+                      White
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value="yellow"
+                      id="checkbox4"
+                    />
+                    <label class="form-check-label" for="checkbox4">
+                      Golden/Yellow
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value="black"
+                      id="checkbox5"
+                    />
+                    <label class="form-check-label" for="checkbox5">
+                      Gray/Silver
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value="white"
+                      id="checkbox6"
+                    />
+                    <label class="form-check-label" for="checkbox6">
+                      Spotted
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="ModalFilter Gender">
+                <h6 class="modalSubHeading">Gender</h6>
+                <div class="genderRadioGroup">
+                  <div class="form-check form-check-inline">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="gender"
+                      id="male"
+                      value="male"
+                    />
+                    <label class="form-check-label" for="male"> Male </label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="gender"
+                      id="female"
+                      value="female"
+                    />
+                    <label class="form-check-label" for="female">
+                      Female
+                    </label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="gender"
+                      id="other"
+                      value="other"
+                    />
+                    <label class="form-check-label" for="other"> Other </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer" style="justify-content: space-between">
+              <a class="clearTextButton" onclick="clearFilters()">
+                Clear All
+              </a>
+              <button
+                type="button"
+                class="btn ShowPets"
+                onclick="updateNoPets()"
+              >
+                Show Pets
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- END OF FILTER MODAL -->
+
+      <!-- NO RESULT FOUND -->
+
+      <div class="noResultFound" id="noResultFound">
+        <h3 class="noResultHeading">No Results Found</h3>
+      </div>
+
+      <!-- NO RESULT FOUND END -->
+
+      <!-- START OF ALPHABETICAL ALL ANIMALS GRID -->
+
+      <div class="profileGrid" id="AlphabeticalAnimalsGrid">
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/babou.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Babou</h3>
+              <p class="cardTextSubHeading">Ocelot</p>
+              <p class="cardTextSubHeading">100 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/faheemi.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Faheemi</h3>
+              <p class="cardTextSubHeading">Duck</p>
+              <p class="cardTextSubHeading">14 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/pandora.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Pandora</h3>
+              <p class="cardTextSubHeading">Angora Rabbit</p>
+              <p class="cardTextSubHeading">7 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/polly.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Polly</h3>
+              <p class="cardTextSubHeading">Conure</p>
+              <p class="cardTextSubHeading">24 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/rufus.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Rufus</h3>
+              <p class="cardTextSubHeading">Golden Retreiver</p>
+              <p class="cardTextSubHeading">1 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/teddy.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Teddy</h3>
+              <p class="cardTextSubHeading">Alligator</p>
+              <p class="cardTextSubHeading">38 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/veronica.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Veronica</h3>
+              <p class="cardTextSubHeading">Domestic Short Hair</p>
+              <p class="cardTextSubHeading">2 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/winnie.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Winnie</h3>
+              <p class="cardTextSubHeading">Pooh Bear</p>
+              <p class="cardTextSubHeading">50 kilometre away</p>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- END OF ALPHABETICAL ANIMAL GRID -->
+
+      <!-- START OF AGE ANIMAL GRID -->
+      <div class="profileGrid" id="AgeAnimalsGrid">
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/teddy.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Teddy</h3>
+              <p class="cardTextSubHeading">Alligator</p>
+              <p class="cardTextSubHeading">38 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/rufus.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Rufus</h3>
+              <p class="cardTextSubHeading">Golden Retriever</p>
+              <p class="cardTextSubHeading">1 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/polly.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Polly</h3>
+              <p class="cardTextSubHeading">Conure</p>
+              <p class="cardTextSubHeading">24 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/faheemi.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Faheemi</h3>
+              <p class="cardTextSubHeading">Duck</p>
+              <p class="cardTextSubHeading">14 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/winnie.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Winnie</h3>
+              <p class="cardTextSubHeading">Pooh Bear</p>
+              <p class="cardTextSubHeading">50 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/pandora.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Pandora</h3>
+              <p class="cardTextSubHeading">Angora Rabbit</p>
+              <p class="cardTextSubHeading">7 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/babou.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Babou</h3>
+              <p class="cardTextSubHeading">Ocelot</p>
+              <p class="cardTextSubHeading">100 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/veronica.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Veronica</h3>
+              <p class="cardTextSubHeading">Domestic Short Hair</p>
+              <p class="cardTextSubHeading">2 kilometre away</p>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- END OF AGE ANIMAL GRID  -->
+
+      <!-- START OF DISTANCE ANIMAL GRID -->
+      <div class="profileGrid" id="DistanceAnimalsGrid">
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/rufus.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Rufus</h3>
+              <p class="cardTextSubHeading">Golden Retriever</p>
+              <p class="cardTextSubHeading">1 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/veronica.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Veronica</h3>
+              <p class="cardTextSubHeading">Domestic Short Hair</p>
+              <p class="cardTextSubHeading">2 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/pandora.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Pandora</h3>
+              <p class="cardTextSubHeading">Angora Rabbit</p>
+              <p class="cardTextSubHeading">7 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/polly.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Polly</h3>
+              <p class="cardTextSubHeading">Conure</p>
+              <p class="cardTextSubHeading">24 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/teddy.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Teddy</h3>
+              <p class="cardTextSubHeading">Alligator</p>
+              <p class="cardTextSubHeading">38 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/faheemi.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Faheemi</h3>
+              <p class="cardTextSubHeading">Duck</p>
+              <p class="cardTextSubHeading">14 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/winnie.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Winnie</h3>
+              <p class="cardTextSubHeading">Pooh Bear</p>
+              <p class="cardTextSubHeading">50 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/babou.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Babou</h3>
+              <p class="cardTextSubHeading">Ocelot</p>
+              <p class="cardTextSubHeading">100 kilometre away</p>
+            </div>
+          </a>
+        </div>
+      </div>
+      <!-- END OF DISTANCE ANIMAL GRID -->
+
+      <!-- START OF SIZE ANIMAL GRID -->
+      <div class="profileGrid" id="SizeAnimalsGrid">
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/faheemi.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Faheemi</h3>
+              <p class="cardTextSubHeading">Duck</p>
+              <p class="cardTextSubHeading">14 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/polly.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Polly</h3>
+              <p class="cardTextSubHeading">Conure</p>
+              <p class="cardTextSubHeading">24 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/pandora.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Pandora</h3>
+              <p class="cardTextSubHeading">Angora Rabbit</p>
+              <p class="cardTextSubHeading">7 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/veronica.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Veronica</h3>
+              <p class="cardTextSubHeading">Domestic Short Hair</p>
+              <p class="cardTextSubHeading">2 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/rufus.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Rufus</h3>
+              <p class="cardTextSubHeading">Golden Retriever</p>
+              <p class="cardTextSubHeading">1 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/teddy.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Teddy</h3>
+              <p class="cardTextSubHeading">Alligator</p>
+              <p class="cardTextSubHeading">38 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/babou.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Babou</h3>
+              <p class="cardTextSubHeading">Ocelot</p>
+              <p class="cardTextSubHeading">100 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/winnie.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Winnie</h3>
+              <p class="cardTextSubHeading">Pooh Bear</p>
+              <p class="cardTextSubHeading">50 kilometre away</p>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- END OF SIZE ANIMAL GRID -->
+
+      <div class="profileGrid" id="dogGrid">
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/rufus.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Rufus</h3>
+              <p class="cardTextSubHeading">Golden Retreiver</p>
+              <p class="cardTextSubHeading">1 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/rufus.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Rufus</h3>
+              <p class="cardTextSubHeading">Golden Retreiver</p>
+              <p class="cardTextSubHeading">1 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/rufus.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Rufus</h3>
+              <p class="cardTextSubHeading">Golden Retreiver</p>
+              <p class="cardTextSubHeading">1 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/rufus.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Rufus</h3>
+              <p class="cardTextSubHeading">Golden Retreiver</p>
+              <p class="cardTextSubHeading">1 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/rufus.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Rufus</h3>
+              <p class="cardTextSubHeading">Golden Retreiver</p>
+              <p class="cardTextSubHeading">1 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/rufus.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Rufus</h3>
+              <p class="cardTextSubHeading">Golden Retreiver</p>
+              <p class="cardTextSubHeading">1 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/rufus.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Rufus</h3>
+              <p class="cardTextSubHeading">Golden Retreiver</p>
+              <p class="cardTextSubHeading">1 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/rufus.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Rufus</h3>
+              <p class="cardTextSubHeading">Golden Retreiver</p>
+              <p class="cardTextSubHeading">1 kilometre away</p>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="profileGrid" id="catGrid">
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/veronica.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Veronica</h3>
+              <p class="cardTextSubHeading">Domestic Short Hair</p>
+              <p class="cardTextSubHeading">2 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/veronica.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Veronica</h3>
+              <p class="cardTextSubHeading">Domestic Short Hair</p>
+              <p class="cardTextSubHeading">2 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/veronica.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Veronica</h3>
+              <p class="cardTextSubHeading">Domestic Short Hair</p>
+              <p class="cardTextSubHeading">2 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/veronica.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Veronica</h3>
+              <p class="cardTextSubHeading">Domestic Short Hair</p>
+              <p class="cardTextSubHeading">2 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/veronica.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Veronica</h3>
+              <p class="cardTextSubHeading">Domestic Short Hair</p>
+              <p class="cardTextSubHeading">2 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/veronica.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Veronica</h3>
+              <p class="cardTextSubHeading">Domestic Short Hair</p>
+              <p class="cardTextSubHeading">2 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/veronica.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Veronica</h3>
+              <p class="cardTextSubHeading">Domestic Short Hair</p>
+              <p class="cardTextSubHeading">2 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/veronica.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Veronica</h3>
+              <p class="cardTextSubHeading">Domestic Short Hair</p>
+              <p class="cardTextSubHeading">2 kilometre away</p>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="profileGrid" id="otherAnimalsGrid">
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/babou.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Babou</h3>
+              <p class="cardTextSubHeading">Ocelot</p>
+              <p class="cardTextSubHeading">100 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/faheemi.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Faheemi</h3>
+              <p class="cardTextSubHeading">Duck</p>
+              <p class="cardTextSubHeading">14 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/pandora.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Pandora</h3>
+              <p class="cardTextSubHeading">Angora Rabbit</p>
+              <p class="cardTextSubHeading">7 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/polly.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Polly</h3>
+              <p class="cardTextSubHeading">Conure</p>
+              <p class="cardTextSubHeading">24 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/teddy.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Teddy</h3>
+              <p class="cardTextSubHeading">Alligator</p>
+              <p class="cardTextSubHeading">38 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="PetDetails.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/winnie.jpg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Winnie</h3>
+              <p class="cardTextSubHeading">Pooh Bear</p>
+              <p class="cardTextSubHeading">50 kilometre away</p>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="profileGrid" id="shelterGrid">
+        <div class="profileCard">
+          <a href="ShelterDetail.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/humaneSociety.jpeg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Oakville Humane Society</h3>
+              <p class="cardTextSubHeading">1 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="ShelterDetail.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/humaneSociety.jpeg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Oakville Humane Society</h3>
+              <p class="cardTextSubHeading">1 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="ShelterDetail.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/humaneSociety.jpeg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Oakville Humane Society</h3>
+              <p class="cardTextSubHeading">1 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="ShelterDetail.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/humaneSociety.jpeg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Oakville Humane Society</h3>
+              <p class="cardTextSubHeading">1 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="ShelterDetail.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/humaneSociety.jpeg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Oakville Humane Society</h3>
+              <p class="cardTextSubHeading">1 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="ShelterDetail.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/humaneSociety.jpeg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Oakville Humane Society</h3>
+              <p class="cardTextSubHeading">1 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="ShelterDetail.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/humaneSociety.jpeg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Oakville Humane Society</h3>
+              <p class="cardTextSubHeading">1 kilometre away</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="profileCard">
+          <a href="ShelterDetail.html" style="text-decoration: none">
+            <div class="profilePic">
+              <img
+                src="../assets/pictures/humaneSociety.jpeg"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="profileCardText">
+              <h3 class="cardTextHeading">Oakville Humane Society</h3>
+              <p class="cardTextSubHeading">1 kilometre away</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer"></footer>
+  </body>
+</html>

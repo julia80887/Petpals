@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<!--
+  CSC309 Phase 1
+  
+  University of Toronto
+  Fall 2023
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PetPal Home</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/Notifications.css" />
+
+    <style></style>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
+      integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT"
+      crossorigin="anonymous"
+    ></script>
+
+    <style>
+      .profileOptionsDropdown .show {
+        transform: translate3d(-70px, 50px, 0px) !important;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <div class="headerBar">
+        <a href="IndexUserSignedIn.html" style="text-decoration: none">
+          <div class="logo">
+            <img src="../assets/svgs/logo.svg" alt="Pet Pals Logo" />
+            <h1 id="logoHeading">PetPals</h1>
+          </div>
+        </a>
+
+        <div class="dropdown profileOptionsDropdown">
+          <a data-bs-toggle="dropdown" aria-expanded="false">
+            <img
+              src="../assets/svgs/profileButtonUser.svg"
+              alt="Profile Options"
+              id="profileOptions"
+            />
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item" href="UserAccountNotModify.html"
+                >View Profile</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" href="AccountUpdate.html"
+                >Edit Profile</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" href="MyApplications.html"
+                >My Applications</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" href="UserNotifications.html"
+                >Notifications</a
+              >
+            </li>
+            <li><a class="dropdown-item" href="Index.html">Log out</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+    <main>
+      <div class="notificationsContainer">
+        <h1 class="pageHeading">Notifications</h1>
+
+        <div class="notificationGrid">
+          <a href="Guidance.html" style="text-decoration: none">
+            <div class="notification">
+              <div class="notificationPic">
+                <img
+                  id="imgProfile"
+                  src="../assets/pictures/humaneSociety.jpeg"
+                  style="object-fit: cover"
+                />
+              </div>
+
+              <div class="notificationText">
+                <h5>Are you ready to give Rufus his forever home?</h5>
+                <p>October 4, 2023</p>
+              </div>
+            </div>
+          </a>
+
+          <a href="ApplicationPageSignedIn.html" style="text-decoration: none">
+            <div class="notification">
+              <div class="notificationPic">
+                <img
+                  id="imgProfile"
+                  src="../assets/svgs/notification.svg"
+                  style="object-fit: cover"
+                />
+              </div>
+
+              <div class="notificationText">
+                <h5>Your application has been accepted</h5>
+                <p>October 3, 2023</p>
+              </div>
+            </div>
+          </a>
+
+          <a href="MyApplications.html" style="text-decoration: none">
+            <div class="notification">
+              <div class="notificationPic">
+                <img
+                  id="imgProfile"
+                  src="../assets/pictures/humaneSociety.jpeg"
+                  style="object-fit: cover"
+                />
+              </div>
+
+              <div class="notificationText">
+                <h5>Oakville Humane Society replied to your chat</h5>
+                <p>October 2, 2023</p>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer"></footer>
+  </body>
+</html>

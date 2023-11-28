@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<!--
+  CSC309 PetPal Project - Pet Creation Page
+  
+  University of Toronto
+  Fall 2023
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pet Creation Page</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200;0,6..12,300;0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;0,6..12,1000;1,6..12,200;1,6..12,300;1,6..12,400;1,6..12,500;1,6..12,600;1,6..12,700;1,6..12,800;1,6..12,900;1,6..12,1000&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/PetCreation.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
+      integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT"
+      crossorigin="anonymous"
+    ></script>
+    <style>
+      .profileOptionsDropdown .show {
+        transform: translate3d(-70px, 50px, 0px) !important;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <div class="headerBar">
+        <a href="IndexShelterSignedIn.html" style="text-decoration: none">
+          <div class="logo">
+            <img src="../assets/svgs/logo.svg" alt="Pet Pals Logo" />
+            <h1 id="logoHeading">PetPals</h1>
+          </div>
+        </a>
+
+        <div class="dropdown profileOptionsDropdown">
+          <a data-bs-toggle="dropdown" aria-expanded="false">
+            <img
+              src="../assets/svgs/profileButtonShelter.svg"
+              alt="Profile Options"
+              id="profileOptions"
+            />
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item" href="ShelterProfileView.html"
+                >View Profile</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" href="ShelterUpdate.html"
+                >Edit Profile</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" href="ShelterManage.html">My Pets</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="ShelterNotifications.html"
+                >Notifications</a
+              >
+            </li>
+            <li><a class="dropdown-item" href="Index.html">Log out</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <h1>Create Your Pet</h1>
+      <div class="container">
+        <form
+          class="createPetForm"
+          style="background-color: white"
+          action="ShelterManage.html"
+        >
+          <div class="form-group row">
+            <label for="nameInput" class="col-sm-4 col-form-label labelLeft"
+              >Name</label
+            >
+
+            <div class="col-sm-8">
+              <input type="text" class="form-control" id="nameInput" required />
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="weightInput" class="col-sm-4 col-form-label labelLeft"
+              >Weight</label
+            >
+            <div class="col-sm-5">
+              <input
+                type="text"
+                class="form-control"
+                id="weightInput"
+                required
+              />
+            </div>
+            <div class="col-sm-3">
+              <select class="form-control" id="weightInput1" required>
+                <option>kg</option>
+                <option>lb</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="genderInput" class="col-sm-4 col-form-label labelLeft"
+              >Gender</label
+            >
+            <div class="col-sm-8">
+              <select class="form-control" id="genderInput" required>
+                <option>Not Specified</option>
+                <option>Female</option>
+                <option>Male</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="breedInput" class="col-sm-4 col-form-label labelLeft"
+              >Breed</label
+            >
+            <div class="col-sm-8">
+              <input
+                type="text"
+                class="form-control"
+                id="breedInput"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="fileInput" class="col-sm-4 col-form-label labelLeft"
+              >Profile Photo</label
+            >
+            <div class="col-sm-8">
+              <input type="file" class="form-control" id="fileInput" required />
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="fileInput1" class="col-sm-4 col-form-label labelLeft"
+              >Additional Photos</label
+            >
+            <div class="col-sm-8">
+              <input type="file" class="form-control" id="fileInput1" />
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label
+              for="descriptionInput"
+              class="col-sm-4 col-form-label descriptionLabel"
+              >About</label
+            >
+            <div class="col-sm-8">
+              <textarea
+                class="form-control descriptionInput"
+                id="descriptionInput"
+                rows="4"
+                placeholder="Tell everyone about your pet"
+                required
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="bday" class="col-sm-4 col-form-label labelLeft"
+              >Birthday</label
+            >
+            <div class="col-sm-8">
+              <input
+                type="text"
+                class="form-control"
+                id="bday"
+                placeholder="dd/mm/yyyy"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="app" class="col-sm-4 col-form-label labelLeft"
+              >Application Deadline</label
+            >
+            <div class="col-sm-8">
+              <input
+                type="text"
+                class="form-control"
+                id="app"
+                placeholder="dd/mm/yyyy"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label
+              for="descriptionInput1"
+              class="col-sm-4 col-form-label descriptionLabel"
+              >Medical History</label
+            >
+            <div class="col-sm-8">
+              <textarea
+                class="form-control descriptionInput"
+                id="descriptionInput1"
+                rows="4"
+                placeholder="Describe the pet's medical history."
+                required
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label
+              for="descriptionInput2"
+              class="col-sm-4 col-form-label descriptionLabel"
+              >Behaviour</label
+            >
+            <div class="col-sm-8">
+              <textarea
+                class="form-control descriptionInput"
+                id="descriptionInput2"
+                rows="4"
+                placeholder="Describe the pet's behaviour."
+                required
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label
+              for="descriptionInput3"
+              class="col-sm-4 col-form-label descriptionLabel"
+              >Requirements</label
+            >
+            <div class="col-sm-8">
+              <textarea
+                class="form-control descriptionInput"
+                id="descriptionInput3"
+                rows="4"
+                placeholder="Describe the pet's special needs and requirements."
+                required
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="twoButtonPositions">
+            <div class="form-group row">
+              <div class="col-sm-6" id="buttonCenter">
+                <a href="ShelterManage.html" class="backButton form-control"
+                  >Back</a
+                >
+              </div>
+              <div class="col-sm-6" id="buttonCenter">
+                <button type="submit" class="btn btn-primary submitButton">
+                  Submit
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <footer></footer>
+  </body>
+</html>

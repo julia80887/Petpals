@@ -1,0 +1,406 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200;0,6..12,300;0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;0,6..12,1000;1,6..12,200;1,6..12,300;1,6..12,400;1,6..12,500;1,6..12,600;1,6..12,700;1,6..12,800;1,6..12,900;1,6..12,1000&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
+
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.filterContainer {
+  width: 100vw;
+  height: 100px;
+  background-color: white;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  gap: 10vw;
+}
+
+.filter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.2s;
+  padding-bottom: 10px;
+}
+
+.filter:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+.filter h4 {
+  color: #573f35;
+  text-align: center;
+  font-family: Nunito Sans;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  margin: 0px;
+}
+
+.filterButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.2s;
+  padding-bottom: 10px;
+}
+
+.filterButton h4 {
+  color: #573f35;
+  text-align: center;
+  font-family: Nunito Sans;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  margin: 0px;
+}
+
+.filterButton:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+.disabled {
+  flex-direction: row;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px;
+  background: #f7f7f7;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  height: 60px;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.sortButtonContainer {
+  align-self: flex-start;
+  margin-top: 20px;
+  margin-left: 8.75vw;
+  width: fit-content;
+  flex-direction: row;
+  display: flex;
+  gap: 10px;
+}
+
+.modalTitle {
+  color: #573f35;
+  text-align: center;
+  font-family: Nunito Sans;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.modalSubHeading {
+  color: #573f35;
+  text-align: flex-start;
+  font-family: Open Sans;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+}
+
+.sortButton {
+  background: white;
+  height: 60px;
+  border: 2px solid #573f35;
+  width: 100%;
+  transition: transform 0.2s;
+  border-radius: 10px;
+}
+
+.sortButton:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+  background: white;
+  border: 2px solid #573f35;
+}
+
+.sortButton h4 {
+  color: #573f35;
+  text-align: center;
+  font-family: Nunito Sans;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  margin: 0px;
+}
+
+.ModalFilter {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  align-items: flex-start;
+}
+
+.ageButtonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 100%;
+  align-items: flex-start;
+}
+
+.ageTabGroup {
+  display: flex;
+  width: 100%;
+  border: 0.5px solid #573f35;
+  border-radius: 10px;
+}
+
+.ageTab {
+  color: #573f35;
+  font-family: Nunito Sans;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  padding: 20px 20px;
+  width: 100%;
+  border: 0.5px solid #573f35;
+  /* border-top: 1px solid #573f35; */
+  text-align: center;
+}
+
+.ageTab:hover {
+  border: 1.25px solid #573f35;
+}
+
+.selectedTab {
+  color: white;
+  background-color: #573f35;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.ModalFilter .Size {
+  display: flex;
+  flex-direction: column;
+}
+
+.sizeButtonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 100%;
+  align-items: flex-start;
+}
+
+.sizeButton {
+  font-family: Nunito Sans;
+  font-weight: 500;
+  border: 1px solid #d9d9d9;
+  border-radius: 10px;
+  padding: 10px;
+  width: 24%;
+  display: flex;
+  flex-direction: column;
+  white-space: nowrap;
+  text-align: center;
+  border: 1px solid #573f35;
+  transition: transform 0.1s;
+}
+
+.sizeButton:hover {
+  border: 1.5px solid #573f35;
+}
+
+.sizeButton:active {
+  transform: scale(0.95);
+}
+
+.selectedButton {
+  border: 1.5px solid #573f35;
+  background-color: #ecebea;
+}
+
+.breedDropdown {
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+}
+
+.breedButton {
+  background: white;
+  height: 60px;
+  border: 1px solid #573f35;
+  width: 99%;
+  transition: transform 0.2s;
+  border-radius: 10px;
+}
+
+.breedButton:hover {
+  cursor: pointer;
+  background: white;
+  border: 1.5px solid #573f35;
+}
+
+.breedButton h4 {
+  color: #573f35;
+  text-align: center;
+  font-family: Nunito Sans;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  margin: 0px;
+}
+
+.breedDropdown .show {
+  width: 99%;
+}
+
+.checkBoxContainer {
+  display: grid;
+  width: 100%;
+
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-gap: 8px;
+
+  font-family: Nunito Sans;
+  font-weight: 500;
+  color: #573f35;
+  margin-left: 5px;
+  font-size: large;
+}
+
+.genderRadioGroup {
+  display: flex;
+  flex-direction: row;
+
+  width: 80%;
+  margin-left: 5px;
+  justify-content: space-between;
+
+  font-family: Nunito Sans;
+  font-weight: 500;
+  font-size: large;
+  color: #573f35;
+}
+
+.clearTextButton {
+  cursor: pointer;
+  color: #573f35;
+  font-family: Open Sans;
+}
+
+.noResultHeading {
+  font-family: Nunito Sans;
+  font-size: 40px;
+  font-weight: 700;
+  color: #573f35;
+  margin-top: 75px;
+}
+
+.profileGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  width: fit-content;
+  margin: 30px;
+}
+
+.profileCard {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  height: 420px;
+  transition: transform 0.2s;
+}
+
+.profileCard:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.25));
+  cursor: pointer;
+}
+
+.profilePic {
+  border-radius: 10px;
+  width: 275px;
+  height: 275px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.profileCardText {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cardTextHeading {
+  margin: 0px;
+  font-family: Nunito Sans;
+  color: #000;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.cardTextSubHeading {
+  margin: 0px;
+  font-family: Open Sans;
+  color: #000;
+  font-family: Open Sans;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 20px;
+}
+
+@media (max-width: 1230px) {
+  .profileGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 1000px) {
+  .sizeButtonContainer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 4px;
+  }
+  .sizeButton {
+    width: 100%;
+  }
+  .ageButtonContainer {
+    width: fit-content;
+    align-self: center;
+  }
+}
+
+@media (max-width: 890px) {
+  .profileGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 590px) {
+  .sortButtonContainer {
+    align-self: center;
+    margin-left: 0px;
+  }
+  .profileGrid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+@media (max-width: 460px) {
+  .filterContainer {
+    gap: 30px;
+  }
+  .filter {
+    white-space: nowrap;
+    transform: scale(0.95);
+  }
+}
+
+@media (max-width: 380px) {
+  .filterContainer {
+    gap: 15px;
+  }
+}

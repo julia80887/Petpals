@@ -1,0 +1,71 @@
+main {
+  display: flex;
+  justify-content: center;
+}
+
+.notificationsContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 90vh;
+  width: 75vw;
+  margin-top: 75px;
+  margin-bottom: 25px;
+  /* background: white; */
+  border-radius: 10px;
+  align-items: center;
+}
+
+.pageHeading {
+  font-family: "Nunito Sans";
+  color: #0854a0;
+  font-size: 40px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.notificationGrid {
+  display: grid;
+  width: 60vw;
+  gap: 10px;
+}
+
+.notification {
+  display: flex;
+  padding: 20px;
+  /* border-bottom: 1px solid #77a0ca; */
+  width: 100%;
+  gap: 20px;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: white;
+  border-radius: 10px;
+  transition: transform 0.3s;
+}
+
+.notification:hover {
+  transform: scale(1.02);
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.25));
+}
+
+.notification h5 {
+  color: #000;
+  font-family: Nunito Sans;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+}
+
+.notification p {
+  color: #000;
+  font-family: Open Sans;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 300;
+}
+
+#imgProfile {
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+}

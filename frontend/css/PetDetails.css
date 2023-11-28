@@ -1,0 +1,220 @@
+body {
+  background-color: #ecebea;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+}
+#rufusPic {
+  width: 30vw;
+  height: 30vw;
+  border-radius: 10px;
+}
+
+.detailsContainer {
+  width: 80vw;
+
+  background-color: white;
+  border-radius: 10px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+#generalTab {
+  margin-bottom: 10px;
+  margin-right: 10px;
+}
+#statusTab {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+#imageTab {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+#dogPic {
+  width: 20vw;
+  min-width: 125px;
+  min-height: 125px;
+  height: 20vw;
+  margin-bottom: 16px;
+}
+
+.imageContainer {
+  display: flex;
+  gap: 10px;
+  width: fit-content;
+}
+
+.largeImage {
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+
+.smallImageContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-gap: 4px;
+  margin-bottom: 16px;
+}
+
+#petImages {
+  display: flex;
+  justify-content: left;
+}
+
+.smallImage {
+  width: 190px;
+  height: 190;
+  overflow: hidden;
+}
+
+.contentContianer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+
+  padding: 35px;
+}
+
+.contentSelector {
+  display: flex;
+  text-align: center;
+
+  gap: 10px;
+}
+
+h6 {
+  font-size: 18px;
+}
+
+.tab {
+  width: fit-content;
+}
+
+.specLabels {
+  font-weight: 600;
+  font-family: Open Sans;
+}
+.textContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.headerBar {
+  display: flex;
+  background: #77a0ca;
+  height: 75px;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.textHeading {
+  color: #0854a0;
+  font-family: "Nunito Sans";
+  font-size: 50px;
+  font-style: normal;
+  text-align: center;
+  font-weight: 700;
+}
+.chewyHeading {
+  font-family: Chewy;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.specs {
+  color: #000;
+  font-family: Open Sans;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  width: 100%;
+}
+
+.specsLine {
+  border-bottom: 1px solid rgba(8, 84, 160, 0.25);
+  padding: 10px 0px;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #77a0ca;
+  width: 100%;
+  /* border: 1px solid #0854a0; */
+  padding: 20px;
+  border-radius: 10px;
+}
+.buttonPlacement {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+.internalContainer {
+  width: 100%;
+}
+
+.applyHeading {
+  color: white;
+  /* color: #0854a0; */
+  /* white-space: nowrap; */
+  text-align: center;
+  font-family: Nunito Sans;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.applyButton {
+  display: flex;
+  justify-content: center;
+  background-color: white;
+  color: #77a0ca;
+  border-radius: 100px;
+  border-width: 0px;
+  padding: 10px;
+  text-decoration: none;
+  width: fit-content;
+  white-space: nowrap;
+}
+
+.applyButton:hover {
+  background-color: #573f35;
+  color: white;
+  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.25));
+}
+
+.applyButton:active {
+  background-color: #573f35;
+  color: white;
+  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.25));
+}
+
+@media (max-width: 480px) {
+  .contentSelector {
+    display: flex;
+    flex-direction: column;
+  }
+  .buttonPlacement {
+    display: flex;
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<!--
+  CSC309 Phase 1
+  
+  University of Toronto
+  Fall 2023
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PetPal Home</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/Notifications.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
+      integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT"
+      crossorigin="anonymous"
+    ></script>
+
+    <style>
+      .profileOptionsDropdown .show {
+        transform: translate3d(-70px, 50px, 0px) !important;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <div class="headerBar">
+        <a href="IndexShelterSignedIn.html" style="text-decoration: none">
+          <div class="logo">
+            <img src="../assets/svgs/logo.svg" alt="Pet Pals Logo" />
+            <h1 id="logoHeading">PetPals</h1>
+          </div>
+        </a>
+
+        <div class="dropdown profileOptionsDropdown">
+          <a data-bs-toggle="dropdown" aria-expanded="false">
+            <img
+              src="../assets/svgs/profileButtonShelter.svg"
+              alt="Profile Options"
+              id="profileOptions"
+            />
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item" href="ShelterProfileView.html"
+                >View Profile</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" href="ShelterUpdate.html"
+                >Edit Profile</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" href="ShelterManage.html">My Pets</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="ShelterNotifications.html"
+                >Notifications</a
+              >
+            </li>
+            <li><a class="dropdown-item" href="Index.html">Log out</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+    <main>
+      <div class="notificationsContainer">
+        <h1 class="pageHeading">Notifications</h1>
+
+        <div class="notificationGrid">
+          <a href="ShelterDetail.html" style="text-decoration: none">
+            <div class="notification">
+              <div class="notificationPic">
+                <img
+                  id="imgProfile"
+                  src="../assets/pictures/humaneSociety.jpeg"
+                  style="object-fit: cover"
+                />
+              </div>
+
+              <div class="notificationText">
+                <h5>You've got a new review</h5>
+                <p>October 4, 2023</p>
+              </div>
+            </div>
+          </a>
+
+          <a
+            href="ApplicationPageSignedInShelter.html"
+            style="text-decoration: none"
+          >
+            <div class="notification">
+              <div class="notificationPic">
+                <img
+                  id="imgProfile"
+                  src="../assets/svgs/notification.svg"
+                  style="object-fit: cover"
+                />
+              </div>
+
+              <div class="notificationText">
+                <h5>New Application For Rufus</h5>
+                <p>October 3, 2023</p>
+              </div>
+            </div>
+          </a>
+
+          <a href="ShelterManage.html" style="text-decoration: none">
+            <div class="notification">
+              <div class="notificationPic">
+                <img
+                  id="imgProfile"
+                  src="../assets/pictures/humaneSociety.jpeg"
+                  style="object-fit: cover"
+                />
+              </div>
+
+              <div class="notificationText">
+                <h5>John Doe replied to your chat</h5>
+                <p>October 2, 2023</p>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer"></footer>
+  </body>
+</html>

@@ -1,0 +1,208 @@
+/*
+ * style.css
+ *
+ * CSC309 PetPals Pet Creation Page
+ * 
+ * University of Toronto
+ * Fall 2023
+ *
+ */
+
+html {
+  background-color: #ecebea;
+  font-family: "Nunito Sans";
+}
+
+main {
+  background-color: #ecebea;
+}
+
+body {
+  background-color: #ecebea;
+}
+
+h1 {
+  color: #0854a0;
+  text-align: center;
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 800;
+  margin-top: 75px;
+  margin-bottom: 90px;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.container {
+  background-color: #fff;
+  height: fit-content;
+  width: 90vw;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  margin-bottom: 10vh;
+}
+
+.createPetForm {
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  width: 90%;
+  height: 100%;
+  padding: 36px;
+}
+
+.form-control {
+  border-radius: 100px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  font-family: "Open Sans";
+  background-color: #fafafa;
+  font-size: 14px;
+  padding: 12px 12px 12px 12px;
+}
+
+.labelLeft {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: left;
+  color: #0854a0;
+  font-family: "Nunito Sans";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.descriptionInput {
+  border-radius: 10px;
+  resize: none;
+  font-family: "Open Sans";
+}
+
+.backButton {
+  background-color: #6d6969;
+  width: 100px;
+  height: 40px;
+  color: #fff;
+  font-family: Nunito Sans;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  border-radius: 100px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.backButton:hover {
+  background-color: #fff;
+  width: 100px;
+  height: 40px;
+  color: #6d6969;
+  border-color: #6d6969;
+  border-width: 5px;
+  font-family: Nunito Sans;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  border-radius: 100px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.descriptionLabel {
+  display: flex;
+  align-items: top;
+  color: #0854a0;
+  font-family: "Nunito Sans";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  text-align: left;
+}
+
+.submitButton {
+  background-color: #0854a0;
+  width: 100px;
+  height: 40px;
+  color: #fff;
+  font-family: Nunito Sans;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  border-radius: 100px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+#submit {
+  padding: 12px 12px 12px 12px;
+}
+
+.submitButton:hover {
+  background-color: #fff;
+  width: 100px;
+  height: 40px;
+  color: #0854a0;
+  border-color: #0854a0;
+  border-width: 5px;
+  font-family: Nunito Sans;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  border-radius: 100px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.buttonPosition {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+}
+#buttonCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.twoButtonPositions {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 20px;
+}
+#fileInput {
+  display: flex;
+  justify-content: center;
+  align-items: left;
+  min-width: 5px;
+}
+
+input[type="file"]::-webkit-file-upload-button:hover {
+  /* Add your desired styles here */
+  background-color: #ecebea; /* Change the background color on hover to blue */
+  /* Change text color on hover to white */
+  cursor: pointer; /* Change cursor to a pointer on hover */
+  border-radius: 100px;
+}

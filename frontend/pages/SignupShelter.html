@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<!--
+  CSC309 Project
+  
+  University of Toronto
+  Fall 2023
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSC309 Project - Sign Up Shelter</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200;0,6..12,300;0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;0,6..12,1000;1,6..12,200;1,6..12,300;1,6..12,400;1,6..12,500;1,6..12,600;1,6..12,700;1,6..12,800;1,6..12,900;1,6..12,1000&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/Signup.css" />
+    <script>
+      function formValidation() {
+        var nameInput = document.getElementById("nameInput");
+
+        if (!userValidation(nameInput)) {
+          return false;
+        }
+        document.getElementById("form").submit();
+        return true;
+      }
+
+      function userValidation(nameInput) {
+        var inputValue = nameInput.value;
+        if (inputValue === "Oakville Humane Society") {
+          alert("An account for this shelter exists, please try again.");
+          return false;
+        }
+        return true;
+      }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
+      integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT"
+      crossorigin="anonymous"
+    ></script>
+
+    <style>
+      .profileOptionsDropdown .show {
+        transform: translate3d(-70px, 50px, 0px) !important;
+        border-radius: 10px;
+      }
+      .btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #77a0ca;
+        color: #fff;
+        border-color: #77a0ca;
+        border-radius: 20px;
+        text-decoration: none;
+        font-size: 20px;
+        width: fit-content;
+        height: fit-content;
+        margin: 10px;
+        margin-top: 20px;
+      }
+
+      .btn:hover {
+        background-color: #573f35;
+        color: #fff;
+        border-color: #fff;
+        border-radius: 20px;
+        width: fit-content;
+        height: fit-content;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="headerBar">
+        <a href="index.html" style="text-decoration: none">
+          <div class="logo">
+            <img src="../assets/svgs/logo.svg" alt="Pet Pals Logo" />
+            <h1 id="logoHeading">PetPals</h1>
+          </div>
+        </a>
+
+        <div class="dropdown profileOptionsDropdown">
+          <a data-bs-toggle="dropdown" aria-expanded="false">
+            <img
+              src="../assets/svgs/profileButton.svg"
+              alt="Profile Options"
+              id="profileOptions"
+            />
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="SignupUser.html">Sign up</a></li>
+            <li><a class="dropdown-item" href="Login.html">Login</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+    <main>
+      <div class="topnav">
+        <a href="SignupUser.html">Pet Seekers</a>
+        <a class="active" href="SignupShelter.html">Pet Shelters</a>
+      </div>
+
+      <div class="outerContainer">
+        <div class="container">
+          <div class="titles">
+            <p class="subTitle">Join the family today!</p>
+            <h1 class="mainTitle">Sign Up</h1>
+          </div>
+
+          <form
+            class="form"
+            action="IndexShelterSignedIn.html"
+            onsubmit="return formValidation()"
+          >
+            <div class="input">
+              <label for="nameInput" class="form-label">Shelter Name</label>
+              <input type="text" class="form-control" id="nameInput" required />
+            </div>
+
+            <div class="input">
+              <label for="emailInput" class="form-label">Shelter Address</label>
+              <input
+                type="text"
+                class="form-control"
+                id="emailInput"
+                required
+              />
+            </div>
+
+            <div class="input">
+              <label for="passwordInput" class="form-label">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="passwordInput"
+                required
+              />
+            </div>
+
+            <div class="input">
+              <label for="passwordInput" class="form-label">
+                Confirm Password</label
+              >
+              <input
+                type="password"
+                class="form-control"
+                id="passwordInput"
+                required
+              />
+            </div>
+
+            <div class="buttons">
+              <input type="submit" class="btn" value="Sign Up" role="button" />
+              <a href="Index.html" class="btn" role="button">Cancel</a>
+            </div>
+
+            <div class="switchLink">
+              <p class="text">Already have an account?</p>
+              <a style="color: #0854a0" class="linkSignUp" href="login.html"
+                >Log In!</a
+              >
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
