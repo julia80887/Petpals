@@ -1,13 +1,18 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import PetDetails from "./pages/PetDetails";
+import Home from "./pages/Home";
 import "./App.css";
-import "../src/pages/PetDetails";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>HELLO WORLD!</h1>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        {/* <Route path="/" element={<Layout />}> */}
+        <Route index element={<Home />} />
+        <Route path="pet/details/" element={<PetDetails />} />
+        {/* </Route> */}
+      </Routes>
+    </BrowserRouter>
   );
 }
 
