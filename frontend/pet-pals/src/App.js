@@ -1,12 +1,12 @@
 import "./App.css";
-import "../src/pages/PetDetails";
+import PetDetails from "./pages/PetDetails";
+import ShelterDetails from "./pages/ShelterDetails";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>HELLO WORLD!</h1>
-      </header>
+      <ShelterDetails />
+
     </div>
   );
 }
