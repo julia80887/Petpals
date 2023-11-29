@@ -1,116 +1,98 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './style.css';
+import DogSVG from '../../assets/svgs/Dog.svg';
+import CatSVG from '../../assets/svgs/Cat.svg';
+import OtherAnimalsSVG from '../../assets/svgs/otherAnimals.svg';
+import ShelterSVG from '../../assets/svgs/animalShelter.svg';
+import SliderIconSVG from '../../assets/svgs/Slider.svg';
+import FilterButton from './FilterButton';
+import SortButton from './SortButton';
+
+
 
 function PetDetails() {
+  const [petListings, setPetListings] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const requestOptions = {
+          method: 'GET'
+        };
+
+        const response = await fetch("http://localhost:8000/pet/", requestOptions);
+        const result = await response.json();
+        console.log(result);
+        setPetListings(result.results);
+
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    fetchData();
+
+  }, []);
+
+  // Use the following code to see if the useState is correctly set 
+  // useEffect(() => {
+  //   console.log(petListings)
+  // }, [petListings]);
+
+
   return (
-    <main>
-      <div className="filterContainer">
-        <div className="filter" id="dogFilter">
-          <img src="../assets/svgs/Dog.svg" alt="Dog" />
-          <h4>Dog</h4>
-        </div>
-        <div className="filter" id="catFilter">
-          <img src="../assets/svgs/Cat.svg" alt="Cat" />
-          <h4>Cats</h4>
-        </div>
-        <div className="filter" id="otherAnimalsFilter">
-          <img src="../assets/svgs/otherAnimals.svg" alt="Other Animals" />
-          <h4>Other Animals</h4>
-        </div>
-        <div className="filter" id="shelterFilter">
-          <img src="../assets/svgs/Animal Shelter.svg" alt="Shelter" />
-          <h4>Shelters</h4>
-        </div>
-      </div>
-      <div className="sortButtonContainer">
-        <a
-          id="openModal"
-          data-bs-toggle="modal"
-          data-bs-target="#filterModal"
-          style={{ textDecoration: 'none' }}
-        >
-          <div
-            className="filterButton"
-            id="filters"
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
-              gap: '10px',
-              padding: '10px',
-              background: 'white',
-              border: '2px solid #573f35',
-              borderRadius: '10px',
-              height: '60px',
-            }}
-          >
-            <img src="../assets/svgs/Slider.svg" alt="Slider" />
-            <h4>Filters</h4>
+    <>
+    {/* MOVE TO IT'S OWN COMPONENT */}
+    {/* THE FILTER BAR AT THE TOP OF THE PAGE */}
+      <div className="mainContainer">
+        <div className="filterContainer">
+            <div className="filter" id="dogFilter">
+              <img src={DogSVG} alt="Dog" />
+              <h4>Dog</h4>
+            </div>
+            <div className="filter" id="catFilter">
+              <img src={CatSVG} alt="Cat" />
+              <h4>Cats</h4>
+            </div>
+            <div className="filter" id="otherAnimalsFilter">
+              <img src={OtherAnimalsSVG} />
+              <h4>Other Animals</h4>
+            </div>
+            <div className="filter" id="shelterFilter">
+              <img src={ShelterSVG}/>
+              <h4>Shelters</h4>
+            </div>
           </div>
-        </a>
-
-        {/* <!-- START OF SORT BUTTON --> */}
-
-        <div className="dropdown">
-          <button
-            className="btn sortButton"
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            <h4 id="selectedOption">Sort By: Name</h4>
-          </button>
-          <ul
-            className="dropdown-menu"
-            aria-labelledby="dropdownMenuButton1"
-            data-popper-placement="bottom-start"
-          >
-            <li>
-              <a
-                className="dropdown-item"
-                href="#"
-                onClick={() => updateSelectedOption('Sort By: Name', 'AlphabeticalAnimalsGrid')}
-              >
-                Name
-              </a>
-            </li>
-            <li>
-              <a
-                className="dropdown-item"
-                href="#"
-                onClick={() => updateSelectedOption('Sort By: Nearest', 'DistanceAnimalsGrid')}
-              >
-                Nearest
-              </a>
-            </li>
-            <li>
-              <a
-                className="dropdown-item"
-                href="#"
-                onClick={() => updateSelectedOption('Sort By: Age', 'AgeAnimalsGrid')}
-              >
-                Age
-              </a>
-            </li>
-            <li>
-              <a
-                className="dropdown-item"
-                href="#"
-                onClick={() => updateSelectedOption('Sort By: Size', 'SizeAnimalsGrid')}
-              >
-                Size
-              </a>
-            </li>
-          </ul>
-        </div>
+        {/* THE FILTER BAR AT THE TOP OF THE PAGE ENDS*/}
+        <div className="internalContainer">
+            <div className="buttonContainer">
+              <FilterButton/>
+              <SortButton/>
+            </div>
+            
+            <div className="profileGrid">
+              {petListings.map(pet => (
+                <div key={pet.id} className="profileCard">
+                  <div className="profilePic">
+                    <img
+                      src={pet.profile_photo}
+                      alt="Pet Profile"
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
+                  </div>
+                  <div className="profileCardText">
+                    <h3 className="cardTextHeading">{pet.name}</h3>
+                    <p className="cardTextSubHeading">{pet.breed}</p>
+                    <p className="cardTextSubHeading">{pet.shelter.shelter_name}</p>
+                    {/* <p className="cardTextSubHeading">{pet.city}</p> */}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
       </div>
-    </main>
+    </>
   );
 }
 
 export default PetDetails;
-
-// Add this function somewhere in your code
-function updateSelectedOption(option, gridType) {
-  // Implement the logic to update the selected option and grid type
-  console.log(`Selected Option: ${option}, Grid Type: ${gridType}`);
-}

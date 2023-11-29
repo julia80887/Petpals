@@ -1,13 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200;0,6..12,300;0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;0,6..12,1000;1,6..12,200;1,6..12,300;1,6..12,400;1,6..12,500;1,6..12,600;1,6..12,700;1,6..12,800;1,6..12,900;1,6..12,1000&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
 
-main {
+.mainContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
+/* WHITE BAR FILTER CONTAINER */
 .filterContainer {
   width: 100vw;
   height: 100px;
@@ -41,10 +42,35 @@ main {
   margin: 0px;
 }
 
-.filterButton {
+.internalContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
+  width: fit-content;
+}
+
+.buttonContainer {
+  align-self: flex-start;
+  margin-top: 20px;
+  width: fit-content;
+  flex-direction: row;
+  display: flex;
+  gap: 10px;
+  margin-left: 30px;
+}
+
+.filterButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: white;
+  border: 2px solid #573f35;
+  border-radius: 10px;
+  height: 60px;
   transition: transform 0.2s;
   padding-bottom: 10px;
 }
@@ -63,7 +89,9 @@ main {
   transform: scale(1.05);
   cursor: pointer;
 }
+/* WHITE BAR FILTER CONTAINER */
 
+/* FILTER + SORT BUTTON RELATED */
 .disabled {
   flex-direction: row;
   justify-content: center;
@@ -77,34 +105,6 @@ main {
   opacity: 0.6;
 }
 
-.sortButtonContainer {
-  align-self: flex-start;
-  margin-top: 20px;
-  margin-left: 8.75vw;
-  width: fit-content;
-  flex-direction: row;
-  display: flex;
-  gap: 10px;
-}
-
-.modalTitle {
-  color: #573f35;
-  text-align: center;
-  font-family: Nunito Sans;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 700;
-}
-
-.modalSubHeading {
-  color: #573f35;
-  text-align: flex-start;
-  font-family: Open Sans;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 600;
-}
-
 .sortButton {
   background: white;
   height: 60px;
@@ -112,6 +112,7 @@ main {
   width: 100%;
   transition: transform 0.2s;
   border-radius: 10px;
+  padding: 10px;
 }
 
 .sortButton:hover {
@@ -129,6 +130,26 @@ main {
   font-style: normal;
   font-weight: 700;
   margin: 0px;
+}
+/* FILTER + SORT BUTTON RELATED*/
+
+/* MODAL SCREEN */
+/* .modalTitle {
+  color: #573f35;
+  text-align: center;
+  font-family: Nunito Sans;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.modalSubHeading {
+  color: #573f35;
+  text-align: flex-start;
+  font-family: Open Sans;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
 }
 
 .ModalFilter {
@@ -162,7 +183,6 @@ main {
   padding: 20px 20px;
   width: 100%;
   border: 0.5px solid #573f35;
-  /* border-top: 1px solid #573f35; */
   text-align: center;
 }
 
@@ -285,7 +305,33 @@ main {
   cursor: pointer;
   color: #573f35;
   font-family: Open Sans;
+} 
+
+.ShowPets {
+  display: flex;
+  justify-content: center;
+  background-color: #77a0ca;
+  color: white;
+  border-radius: 40px;
+  padding: 10px;
+  text-decoration: none;
+  width: fit-content;
 }
+
+.ShowPets:hover {
+  background-color: #573f35;
+  color: white;
+  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.25));
+}
+
+.ShowPets:active {
+  background-color: #573f35;
+  color: white;
+  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.25));
+}
+
+*/
+/* MODAL SCREEN */
 
 .noResultHeading {
   font-family: Nunito Sans;
@@ -351,6 +397,41 @@ main {
   font-weight: 300;
   line-height: 20px;
 }
+
+/* HEADER RELATED*/
+/* 
+.profileOptionsDropdown .show {
+  transform: translate3d(-70px, 50px, 0px) !important;
+  border-radius: 10px;
+}
+
+.searchButton {
+  background: white;
+  border-radius: 0px 100px 100px 0px;
+  height: 100%;
+  padding: 0px 10px;
+  border: var(--bs-border-width) solid var(--bs-border-color);
+  border-left: none;
+}
+
+.searchButton:active {
+  background: white !important;
+  border-radius: 0px 100px 100px 0px !important;
+  height: 100% !important;
+  padding: 0px 10px !important;
+  border: var(--bs-border-width) solid var(--bs-border-color) !important;
+  border-left: none !important;
+}
+
+.searchButton:hover {
+  background: white;
+  border-radius: 0px 100px 100px 0px;
+  height: 100%;
+  padding: 0px 10px;
+  border: var(--bs-border-width) solid var(--bs-border-color);
+  border-left: none;
+} */
+/* HEADER RELATED*/
 
 @media (max-width: 1230px) {
   .profileGrid {

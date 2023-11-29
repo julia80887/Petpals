@@ -4,7 +4,6 @@ import Home from "./pages/Home";
 import "./App.css";
 import ShelterDetails from "./pages/ShelterDetails";
 
-
 function App() {
   return (
     <BrowserRouter>
@@ -12,10 +11,10 @@ function App() {
         {/* <Route path="/" element={<Layout />}> */}
         <Route index element={<Home />} />
         <Route path="pet/details/" element={<PetDetails />} />
+        {/* <Route path="shelter/details/" element={<ShelterDetails />} /> */}
         {/* </Route> */}
       </Routes>
     </BrowserRouter>
-
   );
 }
 
