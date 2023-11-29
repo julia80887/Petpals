@@ -140,7 +140,7 @@ main {
   gap: 1vw;
 }
 
-.profileCard {
+/* .profileCard {
   display: flex;
   flex-direction: column;
   width: 240px;
@@ -150,7 +150,7 @@ main {
   background: white;
   padding: 20px;
   border-radius: 10px;
-}
+} */
 
 .profilePic {
   border-radius: 10px;
@@ -377,36 +377,36 @@ main {
 /* From in line */
 
 .profileOptionsDropdown .show {
-    transform: translate3d(-70px, 50px, 0px) !important;
-    border-radius: 10px;
-  }
+  transform: translate3d(-70px, 50px, 0px) !important;
+  border-radius: 10px;
+}
 
-  h4 {
-    margin-bottom: 0px;
-  }
-  p {
-    margin-bottom: 0px;
-  }
-  .btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #77a0ca;
-    color: #fff;
-    border-color: #77a0ca;
-    border-radius: 20px;
-    text-decoration: none;
-    font-size: 20px;
-    width: fit-content;
-    height: fit-content;
-    margin: 10px;
-  }
+h4 {
+  margin-bottom: 0px;
+}
+p {
+  margin-bottom: 0px;
+}
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #77a0ca;
+  color: #fff;
+  border-color: #77a0ca;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 20px;
+  width: fit-content;
+  height: fit-content;
+  margin: 10px;
+}
 
-  .btn:hover {
-    background-color: #573f35;
-    color: #fff;
-    border-color: #fff;
-    border-radius: 20px;
-    width: fit-content;
-    height: fit-content;
-  }
+.btn:hover {
+  background-color: #573f35;
+  color: #fff;
+  border-color: #fff;
+  border-radius: 20px;
+  width: fit-content;
+  height: fit-content;
+}

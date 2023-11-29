@@ -1,6 +1,3 @@
-import React from 'react';
-
-const profileButtonUser = () => (
 <svg width="110" height="60" viewBox="0 0 110 60" fill="none" xmlns="http://www.w3.org/2000/svg">
     <g filter="url(#filter0_d_348_5588)">
         <path
@@ -34,6 +31,3 @@ const profileButtonUser = () => (
 
     </defs>
 </svg>
-);
-
-export default profileButtonUser;
