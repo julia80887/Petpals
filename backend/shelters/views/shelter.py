@@ -17,6 +17,7 @@ from rest_framework.generics import RetrieveAPIView
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.hashers import check_password
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 class PetShelterSignUpView(generics.CreateAPIView):
     serializer_class = PetShelterSignUpSerializer
@@ -32,9 +33,17 @@ class PetShelterSignUpView(generics.CreateAPIView):
             new_user = CustomUser.objects.create_user(username=username, password=password, email=email)
             new_shelter = PetShelter.objects.create(user=new_user, shelter_name=shelter_name)
             new_shelter.save()
+            token_obtain_pair_view = TokenObtainPairView.as_view()
+            token_response = token_obtain_pair_view(request=request._request)
+            token_data = token_response.data
+            refresh_token = token_data.get('refresh')
+            access_token = token_data.get('access')
+
             response_data = {
                 'shelter_id': new_shelter.id,
                 'message': 'Shelter successfully created.',
+                'access_token': access_token,
+                'refresh_token': refresh_token,
             }
 
             return Response(response_data, status=status.HTTP_201_CREATED)

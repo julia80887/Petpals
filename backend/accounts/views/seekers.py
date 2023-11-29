@@ -17,6 +17,7 @@ from django.contrib import messages
 from django.contrib.auth.hashers import check_password
 from rest_framework import status
 from chats.models.messages import Message
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 class PetSeekerSignUpView(generics.CreateAPIView):
 
@@ -36,9 +37,18 @@ class PetSeekerSignUpView(generics.CreateAPIView):
 
             new_seeker = PetSeeker.objects.create(user=new_user, firstname=firstname, lastname=lastname)
             new_seeker.save()
+
+            token_obtain_pair_view = TokenObtainPairView.as_view()
+            token_response = token_obtain_pair_view(request=request._request)
+            token_data = token_response.data
+            refresh_token = token_data.get('refresh')
+            access_token = token_data.get('access')
+
             response_data = {
                 'seeker_id': new_seeker.id,
                 'message': 'Seeker successfully created.',
+                'access_token': access_token,
+                'refresh_token': refresh_token,
             }
 
             return Response(response_data, status=status.HTTP_201_CREATED)
