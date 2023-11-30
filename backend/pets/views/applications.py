@@ -248,7 +248,7 @@ class ListAllApplicationView(ListAPIView):
         elif order_by == "Update":
             queryset = queryset.order_by('last_update_time')
             # Default ordering if no specific order is requested
-            queryset = queryset.order_by('creation_time', 'last_update_time')
+        queryset = queryset.order_by('creation_time', 'last_update_time')
 
         return queryset
     
