@@ -5,17 +5,17 @@ import "./App.css";
 import ShelterDetails from "./pages/ShelterDetails";
 import NotFound from "./pages/404/Index";
 import Layout from "./components/Header/Index";
+import Notifications from "./pages/Notifications/Index";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
-          {/* <Route path="/" element={<Layout />}> */}
           <Route index element={<Home />} />
-          <Route path="pet/details/" element={<PetDetails />} />
+          <Route path="pet/:petID/" element={<PetDetails />} />
+          <Route path="notifications/" element={<Notifications />} />
           <Route path="*" element={<NotFound />} />
-          {/* <Route path="shelter/details/" element={<ShelterDetails />} /> */}
         </Route>
       </Routes>
     </BrowserRouter>

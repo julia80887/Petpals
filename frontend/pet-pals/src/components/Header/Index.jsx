@@ -16,6 +16,7 @@ const Layout = () => {
             <h1 id="logoHeading">PetPals</h1>
           </div>
         </a>
+        {/* THIS NEEDS TO BE MADE INTO A BUTTON */}
         <div className="dropdown profileOptionsDropdown">
           <a data-bs-toggle="dropdown" aria-expanded="false">
             <img
