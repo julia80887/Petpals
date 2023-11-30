@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PetDetails from "./pages/PetDetails";
+import Applications from "./pages/Applications";
 import Home from "./pages/Home";
 import "./App.css";
 import ShelterDetails from "./pages/ShelterDetails";
@@ -14,6 +15,7 @@ function App() {
           {/* <Route path="/" element={<Layout />}> */}
           <Route index element={<Home />} />
           <Route path="pet/details/" element={<PetDetails />} />
+          <Route path="pet/applications/" element={<Applications />} />
           <Route path="*" element={<NotFound />} />
           {/* <Route path="shelter/details/" element={<ShelterDetails />} /> */}
         </Route>
