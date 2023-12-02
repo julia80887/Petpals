@@ -339,6 +339,9 @@
   font-weight: 700;
   color: #573f35;
   margin-top: 75px;
+  margin: 75px;
+  /* justify-content: center; */
+  display: flex;
 }
 
 .profileGrid {

@@ -43,7 +43,6 @@ function PetDetails() {
   //   console.log(petListings)
   // }, [petListings]);
 
-
   return (
     <>
       {/* MOVE TO IT'S OWN COMPONENT */}
