@@ -89,6 +89,8 @@ class PetListCreateView(ListCreateAPIView):
             queryset = queryset.order_by('date_of_birth')
         if order_by == 'size':
             queryset = queryset.order_by('weight')
+        if order_by == 'date':
+            queryset = queryset.order_by('publication_date')
 
         return queryset
 

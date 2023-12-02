@@ -21,12 +21,23 @@ class PetSeekerSerializer(serializers.Serializer):
 class PetSeekerSignUpSerializer(serializers.ModelSerializer):
     firstname = serializers.CharField( max_length=30,required=True, validators=[validate_letters])
     lastname = serializers.CharField( max_length=30,required=True, validators=[validate_letters])
+    password1 = serializers.CharField( max_length=30,required=True)
     
     class Meta:
         model = CustomUser
-        fields = ['username', 'password', 'email', 'firstname', 'lastname']
+        fields = ['username', 'password', 'email', 'firstname', 'lastname', 'password1']
 
     def validate_password(self, value):
+        try:
+            validate_password(value)
+        except ValidationError as e:
+            # Catch ValidationError and raise a Serializer error
+            error_messages = ' '.join(map(str, e.messages))
+            raise serializers.ValidationError(error_messages)
+
+        return value
+
+    def validate_password1(self, value):
         try:
             validate_password(value)
         except ValidationError as e:
@@ -57,7 +68,7 @@ class PetSeekerRetrieveSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PetSeeker
-        fields = ['firstname','lastname', 'user']
+        fields = ['firstname','lastname', 'user', 'id']
 
 class CustomUserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
