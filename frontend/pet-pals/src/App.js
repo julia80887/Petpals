@@ -3,9 +3,9 @@ import PetDetails from "./pages/PetDetails";
 import Home from "./pages/Home";
 import "./App.css";
 import ShelterDetails from "./pages/ShelterDetails";
-import NotFound from "./pages/404/Index";
-import Layout from "./components/Header/Index";
-import Notifications from "./pages/Notifications/Index";
+import NotFound from "./pages/404";
+import Layout from "./components/Header";
+import Notifications from "./pages/Notifications";
 
 function App() {
   return (

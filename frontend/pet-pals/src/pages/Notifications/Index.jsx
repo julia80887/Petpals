@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { BasicModal } from "../../components/Modal";
 import "./style.css";
 
 const Notifications = () => {
@@ -9,6 +10,18 @@ const Notifications = () => {
   const [notificationDetails, setNotificationDetails] = useState({});
   const [totalPages, setTotalPages] = useState(1);
   const [searchParams, setSearchParams] = useSearchParams();
+
+  //Modal Hooks
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalChatDetail, setModalChatDetail] = useState();
+
+  const handleOpenModal = (notification) => {
+    const chatDetail = notificationDetails[notification.id];
+    // Set the chatDetail for the modal
+    setModalChatDetail(chatDetail);
+    setIsModalOpen(true);
+  };
+  //
 
   const query = useMemo(
     () => ({
@@ -26,7 +39,7 @@ const Notifications = () => {
         const myHeaders = new Headers();
         myHeaders.append(
           "Authorization",
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAxMzY5OTc2LCJpYXQiOjE3MDEyODM1NzYsImp0aSI6IjAwNWExYmE5OWI3MzRhNGU5NzdhYzRhYjhiMzc4NjY4IiwidXNlcl9pZCI6MX0.PEGExyhreUB8hPkkX_DC5PWKR5nVTVtzt7uTcUz_ajQ" // Replace with a secure way to handle tokens
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAxNDkzOTA2LCJpYXQiOjE3MDE0MDc1MDYsImp0aSI6ImYxZjk4ODMxYTMyMzQ3MGQ5YmFlNGM3OTU3ZTZlNTM4IiwidXNlcl9pZCI6MX0.aCPhdy1_9mRjUXWHAs6IMbJgitUIbf8AUm5DZcZspD4" // Replace with a secure way to handle tokens
         );
 
         const requestOptions = {
@@ -40,7 +53,7 @@ const Notifications = () => {
         );
         const result = await response.json();
 
-        console.log(result);
+        console.log("First call: ", result);
         setNotifications(result.results);
         setTotalPages(
           Math.ceil(
@@ -70,11 +83,10 @@ const Notifications = () => {
           ? `/pet/${petIdMatch[1]}/`
           : notification.link;
 
-        console.log("reached 2", notification.link, notification.id);
         const myHeaders = new Headers();
         myHeaders.append(
           "Authorization",
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAxMzY5OTc2LCJpYXQiOjE3MDEyODM1NzYsImp0aSI6IjAwNWExYmE5OWI3MzRhNGU5NzdhYzRhYjhiMzc4NjY4IiwidXNlcl9pZCI6MX0.PEGExyhreUB8hPkkX_DC5PWKR5nVTVtzt7uTcUz_ajQ" // Replace with a secure way to handle tokens
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAxNDkzOTA2LCJpYXQiOjE3MDE0MDc1MDYsImp0aSI6ImYxZjk4ODMxYTMyMzQ3MGQ5YmFlNGM3OTU3ZTZlNTM4IiwidXNlcl9pZCI6MX0.aCPhdy1_9mRjUXWHAs6IMbJgitUIbf8AUm5DZcZspD4" // Replace with a secure way to handle tokens
         );
 
         try {
@@ -87,7 +99,19 @@ const Notifications = () => {
             `http://localhost:8000${endpoint_link}`,
             requestOptions
           );
-          const notificationDetail = await response.json();
+          let notificationDetail = await response.json();
+
+          console.log("Second call: ", notificationDetail);
+
+          if (notification.notification_type === "new_message") {
+            const response = await fetch(
+              `http://localhost:8000/shelter/${notificationDetail.shelter}/`,
+              requestOptions
+            );
+            notificationDetail = await response.json();
+
+            console.log("Third call: ", notificationDetail);
+          }
 
           setNotificationDetails((prevDetails) => ({
             ...prevDetails,
@@ -103,8 +127,6 @@ const Notifications = () => {
 
       notifications.forEach((notification) => {
         fetchNotificationDetails(notification);
-
-        console.log(notificationDetails);
       });
     }
   }, [notifications]);
@@ -121,6 +143,8 @@ const Notifications = () => {
         const applicationId = applicationIdMatch[1];
         navigate(`/applications/${applicationId}/`);
       }
+    } else {
+      //Change chat boolean modal to true
     }
   };
 
@@ -149,17 +173,31 @@ const Notifications = () => {
                   <div
                     key={notification.id}
                     className="notification"
-                    onClick={() => handleNotificationClick(notification)}
+                    onClick={
+                      notification.notification_type === "new_message"
+                        ? () => handleOpenModal(notification)
+                        : () => handleNotificationClick(notification)
+                    }
                   >
                     <div className="notificationPic">
-                      <img
-                        id="imgProfile"
-                        src={
-                          notificationDetails[notification.id]?.profile_photo ||
-                          "this pet"
-                        }
-                        alt="Profile"
-                      />
+                      {notification.notification_type === "new_message" ? (
+                        <img
+                          id="imgProfile"
+                          src={
+                            notificationDetails[notification.id]?.user
+                              ?.profile_photo
+                          }
+                          alt="Profile"
+                        />
+                      ) : (
+                        <img
+                          id="imgProfile"
+                          src={
+                            notificationDetails[notification.id]?.profile_photo
+                          }
+                          alt="Profile"
+                        />
+                      )}
                     </div>
 
                     <div className="notificationText">
@@ -179,7 +217,16 @@ const Notifications = () => {
                           <h5>Your application has been accepted</h5>
                           <p>{formatDate(notification.date_created)}</p>
                         </>
-                      ) : null}
+                      ) : (
+                        <>
+                          <h5>
+                            {notificationDetails[notification.id]
+                              ?.shelter_name || "This shelter"}{" "}
+                            replied to your chat
+                          </h5>
+                          <p>{formatDate(notification.date_created)}</p>
+                        </>
+                      )}
                     </div>
                   </div>
                 ))}
@@ -223,6 +270,11 @@ const Notifications = () => {
           </div>
         </div>
       )}
+      <BasicModal
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        chatDetail={modalChatDetail}
+      />
     </>
   );
 };
