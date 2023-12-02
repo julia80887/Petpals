@@ -75,7 +75,7 @@ function PetDetails() {
             </div>
             <div className="formContainer">
               <h4 className="applyHeading">Ready to give Rufus a forever home?</h4>
-              <a href="AdoptionPage1.html" role="button" class="applyButton">
+              <a href="AdoptionPage1.html" role="button" className="applyButton">
                 Apply Today
               </a>
             </div>

@@ -8,7 +8,7 @@ from rest_framework import generics, permissions
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from ..models import PetSeeker, CustomUser
-from ..serializers.seeker_serializer import PetSeekerRetrieveSerializer, PetSeekerSignUpSerializer,PetSeekerUpdateSerializer,PetSeekerSerializer
+from ..serializers.seeker_serializer import PetSeekerRetrieveSerializer, CustomUserSerializer, PetSeekerSignUpSerializer,PetSeekerUpdateSerializer,PetSeekerSerializer
 from rest_framework.generics import RetrieveAPIView,RetrieveUpdateDestroyAPIView
 from django.shortcuts import get_object_or_404
 from shelters.models.shelter import PetShelter
@@ -17,6 +17,46 @@ from django.contrib import messages
 from django.contrib.auth.hashers import check_password
 from rest_framework import status
 from chats.models.messages import Message
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def seeker_login(request):
+    username = request.data.get('username')
+    password = request.data.get('password')
+
+    if not username or not password:
+        return Response({'detail': 'Username and password are required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    # You may need to adjust the fields based on your model
+    try:
+        user = CustomUser.objects.get(username=username)
+        seeker = PetSeeker.objects.get(user=user)
+    except PetSeeker.DoesNotExist:
+        return Response({'detail': 'Seeker not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+    if not user.check_password(password):
+        return Response({'detail': 'Invalid password.'}, status=status.HTTP_401_UNAUTHORIZED)
+
+    token_obtain_pair_view = TokenObtainPairView.as_view()
+    token_response = token_obtain_pair_view(request=request._request)
+    token_data = token_response.data
+    refresh_token = token_data.get('refresh')
+    access_token = token_data.get('access')
+    seeker_serializer = PetSeekerRetrieveSerializer(seeker)
+
+    response_data = {
+        'seeker': seeker_serializer.data,
+        'message': 'Seeker successfully logged in.',
+        'access': access_token,
+        'refresh': refresh_token,
+    }
+
+    return Response(response_data, status=status.HTTP_200_OK)
 
 class PetSeekerSignUpView(generics.CreateAPIView):
 
@@ -30,15 +70,35 @@ class PetSeekerSignUpView(generics.CreateAPIView):
             lastname = serializer.validated_data.pop('lastname')
             username = serializer.validated_data.pop('username')
             password = serializer.validated_data.pop('password')
+            password1 = serializer.validated_data.pop('password1')
+
+            if password1 != password:
+                response_data = {
+                    'message': 'Invalid Request.',
+                    'errors': {'password1': 'Passwords do not match.'}
+                }
+
+                return Response(response_data, status=status.HTTP_400_BAD_REQUEST)
+
             email = serializer.validated_data.pop('email')
 
             new_user = CustomUser.objects.create_user(username=username, password=password, email=email)
 
             new_seeker = PetSeeker.objects.create(user=new_user, firstname=firstname, lastname=lastname)
             new_seeker.save()
+
+            token_obtain_pair_view = TokenObtainPairView.as_view()
+            token_response = token_obtain_pair_view(request=request._request)
+            token_data = token_response.data
+            refresh_token = token_data.get('refresh')
+            access_token = token_data.get('access')
+            seeker_serializer = PetSeekerRetrieveSerializer(new_seeker)
+
             response_data = {
-                'seeker_id': new_seeker.id,
+                'seeker': seeker_serializer.data,
                 'message': 'Seeker successfully created.',
+                'access_token': access_token,
+                'refresh_token': refresh_token,
             }
 
             return Response(response_data, status=status.HTTP_201_CREATED)
@@ -162,3 +222,13 @@ class SeekerRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
         instance.delete()
         return Response({'message':'Successfully deleted.'},status=status.HTTP_204_NO_CONTENT)
  
+
+class CustomUserRetrieveView(generics.RetrieveAPIView):
+    serializer_class = CustomUserSerializer
+    queryset = CustomUser.objects.all()
+    permission_classes = [IsAuthenticated]  # Adjust the permission as needed
+
+    def get_object(self):
+        user_id = self.kwargs.get('user_pk')
+        user = CustomUser.objects.get(id=user_id)
+        return user 
