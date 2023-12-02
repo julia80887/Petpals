@@ -1,7 +1,40 @@
 .chatContainer {
-  width: 50vw;
-  height: 50vh;
-  background: white;
+  display: flex;
+  flex-direction: column;
+  width: 60vw;
+  height: 65vh;
+  background-color: white;
+  border-radius: 30px;
+  padding: 30px;
+  justify-content: space-between;
+}
+
+.chatHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.chatHeader h5 {
+  font-size: 24px;
+}
+
+.chatUserInfo {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.chatContent {
+  display: flex;
+  overflow: scroll;
+  margin: 10px;
+  flex-direction: column-reverse;
+}
+
+.closeIcon {
+  cursor: pointer;
 }
 
 .btn {
@@ -53,29 +86,6 @@
   align-items: center;
   justify-content: center;
   text-decoration: none;
-}
-
-.frame {
-  border-radius: 25px;
-  width: 50px;
-  height: 50px;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-}
-
-/*   */
-
-.name {
-  display: flex;
-  justify-content: center;
-  text-align: left;
-  align-items: center;
-}
-
-#exampleModalLongTitle {
-  margin-left: 10px;
-  font-size: 24px;
 }
 
 .userText {
@@ -145,9 +155,4 @@ p {
   align-items: center;
   justify-content: center;
   text-decoration: none;
-}
-
-@media (max-width: 400px) {
-  .exampleModal {
-  }
 }

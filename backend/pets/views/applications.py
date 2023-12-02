@@ -197,9 +197,9 @@ class ApplicationDetailView(RetrieveUpdateAPIView):
 
 
 class CustomPageNumberPagination(PageNumberPagination):
-    page_size = 5  # Set the default page size
+    page_size = 10  # Set the default page size
     page_size_query_param = 'page_size'
-    max_page_size = 5  # Set the maximum allowed page size
+    max_page_size = 10  # Set the maximum allowed page size
 
     def get_paginated_response(self, data):
         return Response({
@@ -356,13 +356,18 @@ class CreateChatMessageView(generics.CreateAPIView):
         if user == chat.seeker.user or user == chat.shelter.user:
             serializer = self.get_serializer(data=request.data)
             if serializer.is_valid():
+                if hasattr(user, 'seeker'):
+                    user_type = 'seeker'
+                else:
+                    user_type = 'shelter'
 
                 content_type = ContentType.objects.get_for_model(chat)
                 model_name = content_type.model_class().__name__
-                serializer.save(sender=user, content_type=content_type,
+                serializer.save(sender=user, sender_type=user_type, content_type=content_type,
                                 object_id=chat.id, message_type=model_name)
                 chat.application.last_update_time = timezone.now()
                 chat.application.save()
+
                 response_data = {
                     'message': 'Successfully created.',
                     'data': serializer.data
