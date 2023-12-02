@@ -30,6 +30,16 @@ class PetShelterSignUpView(generics.CreateAPIView):
             username = serializer.validated_data.pop('username')
             password = serializer.validated_data.pop('password')
             email = serializer.validated_data.pop('email')
+            password1 = serializer.validated_data.pop('password1')
+
+            if password1 != password:
+                response_data = {
+                    'message': 'Invalid Request.',
+                    'errors': {'password1': 'Passwords do not match.'}
+                }
+
+                return Response(response_data, status=status.HTTP_400_BAD_REQUEST)
+
             new_user = CustomUser.objects.create_user(username=username, password=password, email=email)
             new_shelter = PetShelter.objects.create(user=new_user, shelter_name=shelter_name)
             new_shelter.save()
@@ -104,9 +114,10 @@ class ShelterRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
                 user_serializer = CustomUserUpdateSerializer(instance.user, data=user_data, partial=True)
                 if user_serializer.is_valid():
                     user_serializer.save()
+                    serializer.instance.user = user_serializer.instance
             else:
                 serializer.instance.user = self.request.user
-                serializer.save()
+            serializer.save()
 
             shelter = serializer.instance
 

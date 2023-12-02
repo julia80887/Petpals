@@ -12,11 +12,22 @@ class PetShelterSerializer(serializers.Serializer):
 
 class PetShelterSignUpSerializer(serializers.ModelSerializer):
     shelter_name = serializers.CharField(write_only=True, max_length=30, required=True)
+    password1 = serializers.CharField(write_only=True, max_length=30, required=True)
     class Meta:
         model = CustomUser
-        fields = ['username', 'password', 'email', 'shelter_name']
+        fields = ['username', 'password', 'email', 'shelter_name', 'password1']
 
     def validate_password(self, value):
+        try:
+            validate_password(value)
+        except ValidationError as e:
+            # Catch ValidationError and raise a Serializer error
+            error_messages = ' '.join(map(str, e.messages))
+            raise serializers.ValidationError(error_messages)
+
+        return value
+
+    def validate_password1(self, value):
         try:
             validate_password(value)
         except ValidationError as e:

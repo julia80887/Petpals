@@ -8,7 +8,7 @@ from rest_framework import generics, permissions
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from ..models import PetSeeker, CustomUser
-from ..serializers.seeker_serializer import PetSeekerRetrieveSerializer, PetSeekerSignUpSerializer,PetSeekerUpdateSerializer,PetSeekerSerializer
+from ..serializers.seeker_serializer import PetSeekerRetrieveSerializer, CustomUserSerializer, PetSeekerSignUpSerializer,PetSeekerUpdateSerializer,PetSeekerSerializer
 from rest_framework.generics import RetrieveAPIView,RetrieveUpdateDestroyAPIView
 from django.shortcuts import get_object_or_404
 from shelters.models.shelter import PetShelter
@@ -18,6 +18,7 @@ from django.contrib.auth.hashers import check_password
 from rest_framework import status
 from chats.models.messages import Message
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.permissions import IsAuthenticated
 
 class PetSeekerSignUpView(generics.CreateAPIView):
 
@@ -31,6 +32,16 @@ class PetSeekerSignUpView(generics.CreateAPIView):
             lastname = serializer.validated_data.pop('lastname')
             username = serializer.validated_data.pop('username')
             password = serializer.validated_data.pop('password')
+            password1 = serializer.validated_data.pop('password1')
+
+            if password1 != password:
+                response_data = {
+                    'message': 'Invalid Request.',
+                    'errors': {'password1': 'Passwords do not match.'}
+                }
+
+                return Response(response_data, status=status.HTTP_400_BAD_REQUEST)
+
             email = serializer.validated_data.pop('email')
 
             new_user = CustomUser.objects.create_user(username=username, password=password, email=email)
@@ -172,3 +183,13 @@ class SeekerRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
         instance.delete()
         return Response({'message':'Successfully deleted.'},status=status.HTTP_204_NO_CONTENT)
  
+
+class CustomUserRetrieveView(generics.RetrieveAPIView):
+    serializer_class = CustomUserSerializer
+    queryset = CustomUser.objects.all()
+    permission_classes = [IsAuthenticated]  # Adjust the permission as needed
+
+    def get_object(self):
+        user_id = self.kwargs.get('user_pk')
+        user = CustomUser.objects.get(id=user_id)
+        return user 
