@@ -1,17 +1,16 @@
-import { createContext, useState } from 'react';
+import { createContext, useState, useContext } from 'react';
 
 export const LoginContext = createContext({
     currentUser: {},
     setCurrentUser: () => { },
-
 });
 
 export const useLoginContext = () => {
-    const [currentUser, setCurrentUser] = useState([]);
+    // Use the context created above
+    const contextValue = useContext(LoginContext);
 
     return {
-        currentUser,
-        setCurrentUser
+        currentUser: contextValue.currentUser || {},
+        setCurrentUser: contextValue.setCurrentUser || (() => { }),
     };
-
 };

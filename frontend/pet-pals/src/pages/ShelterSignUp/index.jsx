@@ -1,15 +1,18 @@
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { ajax } from '../../ajax';
 import './style.css';
 import { Link } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
+import { LoginContext } from '../../contexts/LoginContext';
+
+
 
 function ShelterSignUp() {
     const [error, setError] = useState("");
     const [errorJson, setErrorJson] = useState({});
     const navigate = useNavigate();
-
+    const { currentUser, setCurrentUser } = useContext(LoginContext);
 
     function validateForm() {
         // Your validation logic here
@@ -82,8 +85,7 @@ function ShelterSignUp() {
                 if ('access_token' in json) {
                     localStorage.setItem('access', json.access);
                     localStorage.setItem('username', data.get('username'));
-                    localStorage.setItem('shelter_id', data.get('shelter_id'));
-
+                    setCurrentUser(json.shelter);
                     navigate('/');
                 }
                 else if ('errors' in json) {
@@ -98,11 +100,7 @@ function ShelterSignUp() {
                 setError("Unknown error while signing in.");
             });
 
-        let shelter_id = localStorage.get('shelter_id')
-        if (shelter_id) {
 
-
-        }
 
     }
 

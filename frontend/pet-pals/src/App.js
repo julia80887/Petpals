@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PetDetails from "./pages/PetDetails";
 import Home from "./pages/Home";
@@ -12,9 +13,11 @@ import { LoginContext, useLoginContext } from './contexts/LoginContext';
 
 
 function App() {
+  const [currentUser, setCurrentUser] = useState({});
+
   return (
     <BrowserRouter>
-      <LoginContext.Provider value={useLoginContext()}>
+      <LoginContext.Provider value={{ currentUser, setCurrentUser }}>
         <Routes>
           <Route path="/shelter/login/" exact element={<ShelterLogin />} />
           <Route path="/seeker/login/" exact element={<SeekerLogin />} />

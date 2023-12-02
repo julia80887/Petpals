@@ -19,6 +19,44 @@ from rest_framework import status
 from chats.models.messages import Message
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def seeker_login(request):
+    username = request.data.get('username')
+    password = request.data.get('password')
+
+    if not username or not password:
+        return Response({'detail': 'Username and password are required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    # You may need to adjust the fields based on your model
+    try:
+        user = CustomUser.objects.get(username=username)
+        seeker = PetSeeker.objects.get(user=user)
+    except PetSeeker.DoesNotExist:
+        return Response({'detail': 'Seeker not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+    if not user.check_password(password):
+        return Response({'detail': 'Invalid password.'}, status=status.HTTP_401_UNAUTHORIZED)
+
+    token_obtain_pair_view = TokenObtainPairView.as_view()
+    token_response = token_obtain_pair_view(request=request._request)
+    token_data = token_response.data
+    refresh_token = token_data.get('refresh')
+    access_token = token_data.get('access')
+    seeker_serializer = PetSeekerRetrieveSerializer(seeker)
+
+    response_data = {
+        'seeker': seeker_serializer.data,
+        'message': 'Seeker successfully logged in.',
+        'access': access_token,
+        'refresh': refresh_token,
+    }
+
+    return Response(response_data, status=status.HTTP_200_OK)
 
 class PetSeekerSignUpView(generics.CreateAPIView):
 
@@ -54,9 +92,10 @@ class PetSeekerSignUpView(generics.CreateAPIView):
             token_data = token_response.data
             refresh_token = token_data.get('refresh')
             access_token = token_data.get('access')
+            seeker_serializer = PetSeekerRetrieveSerializer(new_seeker)
 
             response_data = {
-                'seeker_id': new_seeker.id,
+                'seeker': seeker_serializer.data,
                 'message': 'Seeker successfully created.',
                 'access_token': access_token,
                 'refresh_token': refresh_token,

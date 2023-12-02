@@ -1,13 +1,15 @@
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { ajax } from '../../ajax';
 import './style.css';
 import { Link } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
+import { LoginContext } from '../../contexts/LoginContext';
 
 function SeekerLogin() {
     const [error, setError] = useState("");
     const navigate = useNavigate();
+    const { currentUser, setCurrentUser } = useContext(LoginContext);
 
     function handle_submit(event) {
         let data = new FormData(event.target);
@@ -32,6 +34,7 @@ function SeekerLogin() {
                     if ('access' in json) {
                         localStorage.setItem('access', json.access);
                         localStorage.setItem('username', data.get('username'));
+                        setCurrentUser(json.seeker);
                         navigate('/');
                     }
                     else if ('detail' in json) {
@@ -84,13 +87,8 @@ function SeekerLogin() {
                 <GoogleLogin />
                 <div className="switchLink">
                     <p className="text">Don't have an account yet?</p>
-                    <a
-                        style={{ color: "#0854a0" }}
-                        className="linkSignUp"
-                        href="signupUser.html"
-                        required
-                    >Sign Up!</a
-                    >
+                    <Link className="linkSignUp" style={{ color: "#0854a0" }} to="/seeker/signup/">Sign up!</Link>
+
                 </div></div>
         </div>
     </main>;

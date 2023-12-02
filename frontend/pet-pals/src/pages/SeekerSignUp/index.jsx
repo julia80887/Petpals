@@ -1,14 +1,16 @@
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { ajax } from '../../ajax';
 import './style.css';
 import { Link } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
+import { LoginContext } from '../../contexts/LoginContext';
 
 function SeekerSignUp() {
     const [error, setError] = useState("");
     const [errorJson, setErrorJson] = useState({});
     const navigate = useNavigate();
+    const { currentUser, setCurrentUser } = useContext(LoginContext);
 
     function validateForm() {
         // Your validation logic here
@@ -87,9 +89,10 @@ function SeekerSignUp() {
                 if ('access_token' in json) {
                     localStorage.setItem('access', json.access);
                     localStorage.setItem('username', data.get('username'));
+                    setCurrentUser(json.seeker);
                     navigate('/');
                 }
-                else if ('error' in json) {
+                else if ('errors' in json) {
                     setErrorJson(json.errors);
                 }
                 else {

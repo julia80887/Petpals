@@ -1,39 +1,17 @@
 import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { ajax } from '../../ajax';
 import './style.css';
 import { Link } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
+import { LoginContext } from '../../contexts/LoginContext';
 //import 'bootstrap/dist/css/boostrap.min.css';
 
 function ShelterLogin() {
     const [error, setError] = useState("");
-    const [shelter, setShelter] = useState("");
+    const [login, setLogin] = useState(false);
     const navigate = useNavigate();
-
-
-
-    useEffect(() => {
-        const fetchData = async () => {
-            let id = localStorage.getItem('shelter_id');
-            if (id) {
-                try {
-                    const requestOptions = {
-                        method: 'GET'
-                    };
-                    const response = await fetch(`http://localhost:8000/shelter/${id}/`, requestOptions);
-                    const result = await response.json();
-                    console.log(result);
-                    setShelter(result);
-                } catch (error) {
-                    console.error('Error:', error);
-                }
-            };
-        }
-
-        fetchData();
-
-    }, []);
+    const { currentUser, setCurrentUser } = useContext(LoginContext);
 
 
     function handle_submit(event) {
@@ -61,6 +39,10 @@ function ShelterLogin() {
                     if ('access' in json) {
                         localStorage.setItem('access', json.access);
                         localStorage.setItem('username', data.get('username'));
+                        setCurrentUser(json.shelter);
+                        //console.log("reached");
+                        //console.log(json.shelter);
+                        //console.log(currentUser);
                         navigate('/');
                     }
                     else if ('detail' in json) {
@@ -77,10 +59,6 @@ function ShelterLogin() {
                 });
         }
         event.preventDefault();
-
-
-
-
 
     }
 
@@ -118,13 +96,7 @@ function ShelterLogin() {
                 <GoogleLogin />
                 <div className="switchLink">
                     <p className="text">Don't have an account yet?</p>
-                    <a
-                        style={{ color: "#0854a0" }}
-                        className="linkSignUp"
-                        href="signupUser.html"
-                        required
-                    >Sign Up!</a
-                    >
+                    <Link className="linkSignUp" style={{ color: "#0854a0" }} to="/shelter/signup/">Sign up!</Link>
                 </div></div>
         </div>
     </main>;

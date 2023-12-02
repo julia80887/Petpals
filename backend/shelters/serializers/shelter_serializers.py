@@ -62,7 +62,7 @@ class PetShelterRetrieveSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PetShelter
-        fields = [ 'shelter_name', 'mission_statement', 'user', 'shelter_images']
+        fields = [ 'shelter_name', 'mission_statement', 'user', 'shelter_images', 'id']
         
 
         

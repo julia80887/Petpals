@@ -14,9 +14,10 @@ import { LoginContext } from '../../contexts/LoginContext';
 function PetDetails() {
   const [petListings, setPetListings] = useState([]);
   const { currentUser } = useContext(LoginContext);
-  console.log(currentUser)
 
   useEffect(() => {
+    console.log("Logged in user: ", currentUser);
+
     const fetchData = async () => {
       try {
         const requestOptions = {

@@ -18,6 +18,44 @@ from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.hashers import check_password
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework import status
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def shelter_login(request):
+    username = request.data.get('username')
+    password = request.data.get('password')
+
+    if not username or not password:
+        return Response({'detail': 'Username and password are required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    # You may need to adjust the fields based on your model
+    try:
+        user = CustomUser.objects.get(username=username)
+        shelter = PetShelter.objects.get(user=user)
+    except PetShelter.DoesNotExist:
+        return Response({'detail': 'Shelter not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+    if not user.check_password(password):
+        return Response({'detail': 'Invalid password.'}, status=status.HTTP_401_UNAUTHORIZED)
+
+    token_obtain_pair_view = TokenObtainPairView.as_view()
+    token_response = token_obtain_pair_view(request=request._request)
+    token_data = token_response.data
+    refresh_token = token_data.get('refresh')
+    access_token = token_data.get('access')
+    shelter_serializer = PetShelterRetrieveSerializer(shelter)
+
+    response_data = {
+        'shelter': shelter_serializer.data,
+        'message': 'Shelter successfully logged in.',
+        'access': access_token,
+        'refresh': refresh_token,
+    }
+
+    return Response(response_data, status=status.HTTP_200_OK)
 
 class PetShelterSignUpView(generics.CreateAPIView):
     serializer_class = PetShelterSignUpSerializer
@@ -48,9 +86,10 @@ class PetShelterSignUpView(generics.CreateAPIView):
             token_data = token_response.data
             refresh_token = token_data.get('refresh')
             access_token = token_data.get('access')
+            shelter_serializer = PetShelterRetrieveSerializer(new_shelter)
 
             response_data = {
-                'shelter_id': new_shelter.id,
+                'shelter': shelter_serializer.data,
                 'message': 'Shelter successfully created.',
                 'access_token': access_token,
                 'refresh_token': refresh_token,
