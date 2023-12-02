@@ -22,6 +22,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -36,24 +37,40 @@ def seeker_login(request):
     try:
         user = CustomUser.objects.get(username=username)
         seeker = PetSeeker.objects.get(user=user)
+    except CustomUser.DoesNotExist:
+        return Response({'detail': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
     except PetSeeker.DoesNotExist:
         return Response({'detail': 'Seeker not found.'}, status=status.HTTP_404_NOT_FOUND)
 
     if not user.check_password(password):
         return Response({'detail': 'Invalid password.'}, status=status.HTTP_401_UNAUTHORIZED)
 
-    token_obtain_pair_view = TokenObtainPairView.as_view()
-    token_response = token_obtain_pair_view(request=request._request)
-    token_data = token_response.data
-    refresh_token = token_data.get('refresh')
-    access_token = token_data.get('access')
+    # token_obtain_pair_view = TokenObtainPairView.as_view()
+    # token_response = token_obtain_pair_view(request=request._request)
+    # token_data = token_response.data
+    # refresh_token = token_data.get('refresh')
+    # access_token = token_data.get('access')
+    # seeker_serializer = PetSeekerRetrieveSerializer(seeker)
+
+    # response_data = {
+    #     'seeker': seeker_serializer.data,
+    #     'message': 'Seeker successfully logged in.',
+    #     'access': access_token,
+    #     'refresh': refresh_token,
+    # }
+
+    # return Response(response_data, status=status.HTTP_200_OK)
+    serializer = TokenObtainPairSerializer(data={'username': username, 'password': password})
+    serializer.is_valid(raise_exception=True)
+    tokens = serializer.validated_data
+
     seeker_serializer = PetSeekerRetrieveSerializer(seeker)
 
     response_data = {
         'seeker': seeker_serializer.data,
         'message': 'Seeker successfully logged in.',
-        'access': access_token,
-        'refresh': refresh_token,
+        'access': tokens['access'],
+        'refresh': tokens['refresh'],
     }
 
     return Response(response_data, status=status.HTTP_200_OK)
@@ -87,18 +104,23 @@ class PetSeekerSignUpView(generics.CreateAPIView):
             new_seeker = PetSeeker.objects.create(user=new_user, firstname=firstname, lastname=lastname)
             new_seeker.save()
 
-            token_obtain_pair_view = TokenObtainPairView.as_view()
-            token_response = token_obtain_pair_view(request=request._request)
-            token_data = token_response.data
-            refresh_token = token_data.get('refresh')
-            access_token = token_data.get('access')
+            serializer = TokenObtainPairSerializer(data={'username': username, 'password': password})
+            serializer.is_valid(raise_exception=True)
+            tokens = serializer.validated_data
+
+            # token_obtain_pair_view = TokenObtainPairView.as_view()
+            # token_response = token_obtain_pair_view(request=request._request)
+            # token_data = token_response.data
+            # refresh_token = token_data.get('refresh')
+            # access_token = token_data.get('access')
             seeker_serializer = PetSeekerRetrieveSerializer(new_seeker)
+
 
             response_data = {
                 'seeker': seeker_serializer.data,
                 'message': 'Seeker successfully created.',
-                'access_token': access_token,
-                'refresh_token': refresh_token,
+                'access_token':  tokens['access'],
+                'refresh_token': tokens['refresh'],
             }
 
             return Response(response_data, status=status.HTTP_201_CREATED)
