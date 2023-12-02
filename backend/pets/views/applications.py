@@ -5,7 +5,7 @@ from django.shortcuts import render
 from rest_framework import status
 from django.core.exceptions import PermissionDenied
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView,UpdateAPIView, RetrieveUpdateAPIView
+from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, UpdateAPIView, RetrieveUpdateAPIView
 from rest_framework import views
 from rest_framework import generics, permissions
 from rest_framework.response import Response
@@ -15,7 +15,7 @@ from shelters.models import PetShelter
 from ..models import Pet
 from ..models import Application
 from accounts.models import CustomUser, PetSeeker
-from ..serializers.application_serializers import CreateApplicationSerializer, ApplicationSerializer, ListApplicationSerializer,ChatSerializer
+from ..serializers.application_serializers import CreateApplicationSerializer, ApplicationSerializer, ListApplicationSerializer, ChatSerializer
 from rest_framework.generics import RetrieveAPIView, CreateAPIView
 from django.shortcuts import get_object_or_404
 from chats.serializers.message_serializers import MessageSerializer
@@ -26,14 +26,13 @@ from chats.models.messages import Message
 from django.utils import timezone
 
 
-
 class CreateApplicationView(CreateAPIView):
     serializer_class = CreateApplicationSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-        # if self.request.user != review_serializer.instance.shelter.user:
-        #     return Response({"detail": "You do not have permission to create an application for this pet."},
-        #                 status=status.HTTP_403_FORBIDDEN)
+    # if self.request.user != review_serializer.instance.shelter.user:
+    #     return Response({"detail": "You do not have permission to create an application for this pet."},
+    #                 status=status.HTTP_403_FORBIDDEN)
 
     def create(self, request, *args, **kwargs):
         user = self.request.user
@@ -43,12 +42,12 @@ class CreateApplicationView(CreateAPIView):
                             status=status.HTTP_403_FORBIDDEN)
 
         pet = get_object_or_404(Pet, id=self.kwargs['pet_pk'])
-        existing_application = Application.objects.filter(seeker=seeker, pet=pet)
+        existing_application = Application.objects.filter(
+            seeker=seeker, pet=pet)
         if existing_application:
             return Response({"detail": "You have already created an application for this pet."},
                             status=status.HTTP_403_FORBIDDEN)
 
-        
         app_serializer = self.get_serializer(data=request.data)
 
         if app_serializer.is_valid():
@@ -59,13 +58,15 @@ class CreateApplicationView(CreateAPIView):
                 app_serializer.validated_data['application_status'] = 'Pending'
                 application = app_serializer.save()
                 response_data = {
-                'application_id': application.id,
-                'message': 'Application successfully created.',
-            }
-                # Notification sent to Shelter 
-                url = reverse(f'pet:update', kwargs={'pet_pk': pet.id, 'application_pk': application.id})
+                    'application_id': application.id,
+                    'message': 'Application successfully created.',
+                }
+                # Notification sent to Shelter
+                url = reverse(f'pet:update', kwargs={
+                              'pet_pk': pet.id, 'application_pk': application.id})
                 notification_class = CreateNotificationsView()
-                notification_class.create_shelter_notification(seeker.user.id, pet.shelter.user.id, 'new_application', application.id, url)
+                notification_class.create_shelter_notification(
+                    seeker.user.id, pet.shelter.user.id, 'new_application', application.id, url)
 
                 return Response(response_data, status=status.HTTP_201_CREATED)
             response_data = {
@@ -89,7 +90,7 @@ class ApplicationDetailView(RetrieveUpdateAPIView):
         pet = get_object_or_404(Pet, id=self.kwargs['pet_pk'])
         app = get_object_or_404(Application, pet=pet, id=application_id)
         return app
-    
+
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         user = self.request.user
@@ -119,8 +120,8 @@ class ApplicationDetailView(RetrieveUpdateAPIView):
                 return Response(response_data, status=status.HTTP_200_OK)
         else:
             return Response({"detail": "You are not authenticated. You do not have permission to edit this application."},
-                                status=status.HTTP_403_FORBIDDEN)
-        # return app  
+                            status=status.HTTP_403_FORBIDDEN)
+        # return app
 
         # instance = self.get_object()
 
@@ -133,19 +134,14 @@ class ApplicationDetailView(RetrieveUpdateAPIView):
         # # response_data.update(custom_data)
 
         # return Response(response_data, status=status.HTTP_200_OK)
-    
-
-
-
-
-
 
     def update(self, request, *args, **kwargs):
         application = self.get_object()
         user = self.request.user
         shelter = PetShelter.objects.filter(user=user).first()
         seeker = PetSeeker.objects.filter(user=user).first()
-        app_serializer = self.get_serializer(instance=application, data=request.data)
+        app_serializer = self.get_serializer(
+            instance=application, data=request.data)
 
         if app_serializer.is_valid():
             if shelter and application.application_status == 'Pending':
@@ -158,10 +154,12 @@ class ApplicationDetailView(RetrieveUpdateAPIView):
                         'application_id': application.id,
                         'message': 'Application status was successfully updated.',
                     }
-                    # Create Notification for seeker 
-                    url = reverse(f'pet:update', kwargs={'pet_pk': application.pet.id, 'application_pk': application.id})
+                    # Create Notification for seeker
+                    url = reverse(f'pet:update', kwargs={
+                                  'pet_pk': application.pet.id, 'application_pk': application.id})
                     notification_class = CreateNotificationsView()
-                    notification_class.create_seeker_notification(shelter.user.id, application.seeker.user.id, 'application_status', application.id, url)
+                    notification_class.create_seeker_notification(
+                        shelter.user.id, application.seeker.user.id, 'application_status', application.id, url)
 
                     return Response(response_data, status=status.HTTP_200_OK)
                 else:
@@ -197,9 +195,10 @@ class ApplicationDetailView(RetrieveUpdateAPIView):
             }
             return Response(response_data, status=status.HTTP_400_BAD_REQUEST)
 
+
 class CustomPageNumberPagination(PageNumberPagination):
     page_size = 5  # Set the default page size
-    page_size_query_param = 'page_size'  
+    page_size_query_param = 'page_size'
     max_page_size = 5  # Set the maximum allowed page size
 
     def get_paginated_response(self, data):
@@ -212,6 +211,7 @@ class CustomPageNumberPagination(PageNumberPagination):
             },
             'results': data,
         })
+
 
 class ListAllApplicationView(ListAPIView):
     serializer_class = ListApplicationSerializer
@@ -235,8 +235,9 @@ class ListAllApplicationView(ListAPIView):
             return Application.objects.none()
 
     def filter_queryset(self, queryset):
-    # Filter applications by status
-        application_status = self.request.query_params.get('application_status', None)
+        # Filter applications by status
+        application_status = self.request.query_params.get(
+            'application_status', None)
         if application_status:
             queryset = queryset.filter(application_status=application_status)
 
@@ -251,8 +252,8 @@ class ListAllApplicationView(ListAPIView):
         queryset = queryset.order_by('creation_time', 'last_update_time')
 
         return queryset
-    
-            # Filter applications by status
+
+        # Filter applications by status
         # application_status = self.request.query_params.get('application_status', None)
         # if application_status:
         #     queryset = queryset.filter(application_status=application_status)
@@ -260,7 +261,35 @@ class ListAllApplicationView(ListAPIView):
         # return queryset
 
 
-# Chats 
+# Chats
+
+class ChatDetailView(generics.RetrieveAPIView):
+    queryset = Chat.objects.all()
+    serializer_class = ChatSerializer
+
+    def get(self, request, *args, **kwargs):
+        chat_pk = self.kwargs.get('chat_pk')
+        application_pk = self.kwargs.get('application_pk')
+        application = get_object_or_404(Application, id=application_pk)
+        application_seeker = application.seeker
+        application_shelter = application.shelter
+
+        user_id = self.request.user.id
+        user = get_object_or_404(CustomUser, id=user_id)
+
+        if user == application_seeker.user or user == application_shelter.user:
+            chat = get_object_or_404(Chat, id=chat_pk)
+            serializer = self.get_serializer(chat)
+            response_data = serializer.data
+            # response_data = {
+            #     'message': 'Successfully created.',
+            #     'data': chat
+            # }
+            return Response(response_data, status=status.HTTP_200_OK)
+
+        else:
+            raise PermissionDenied(
+                'You do not have permission to view a chat for this application.')
 
 
 class CreateChatListView(generics.ListCreateAPIView):
@@ -273,12 +302,12 @@ class CreateChatListView(generics.ListCreateAPIView):
 
         user = self.request.user
         if user == application.seeker.user or user == application.shelter.user:
-            queryset = Chat.objects.filter(application=application).order_by('-date_created')
+            queryset = Chat.objects.filter(
+                application=application).order_by('-date_created')
             return queryset
         else:
             raise PermissionDenied(
-                    'You do not have permission to view a chat for this application.')
-            
+                'You do not have permission to view a chat for this application.')
 
     def create(self, request, *args, **kwargs):
         application_pk = self.kwargs.get('application_pk')
@@ -292,12 +321,13 @@ class CreateChatListView(generics.ListCreateAPIView):
         if user == application_seeker.user or user == application_shelter.user:
             serializer = self.get_serializer(data=request.data)
             if serializer.is_valid():
-                serializer.save(shelter=application_shelter, seeker=application_seeker, application=application)
+                serializer.save(shelter=application_shelter,
+                                seeker=application_seeker, application=application)
                 application.last_update_time = timezone.now()
                 application.save()
 
                 response_data = {
-                    'message': 'Successfully created.', 
+                    'message': 'Successfully created.',
                     'data': serializer.data
                 }
                 return Response(response_data, status=status.HTTP_201_CREATED)
@@ -308,9 +338,9 @@ class CreateChatListView(generics.ListCreateAPIView):
                 }
 
                 return Response(response_data, status=status.HTTP_400_BAD_REQUEST)
-        else: 
+        else:
             raise PermissionDenied(
-                    'You do not have permission to create a chat for this application.')
+                'You do not have permission to create a chat for this application.')
 
 
 class CreateChatMessageView(generics.CreateAPIView):
@@ -330,26 +360,26 @@ class CreateChatMessageView(generics.CreateAPIView):
                 content_type = ContentType.objects.get_for_model(chat)
                 model_name = content_type.model_class().__name__
                 serializer.save(sender=user, content_type=content_type,
-                        object_id=chat.id, message_type=model_name)
+                                object_id=chat.id, message_type=model_name)
                 chat.application.last_update_time = timezone.now()
                 chat.application.save()
                 response_data = {
-                    'message': 'Successfully created.', 
+                    'message': 'Successfully created.',
                     'data': serializer.data
                 }
-                # Create Notification 
-                # Seeker 
+                # Create Notification
+                # Seeker
                 if user == chat.shelter.user:
-                    url = reverse(f'pet:list-message',
-                                  kwargs={'chat_pk': chat.id})
+                    url = reverse(f'pet:chat_detail',
+                                  kwargs={'chat_pk': chat.id, 'application_pk': chat.application.id})
                     notification_class = CreateNotificationsView()
                     notification_class.create_seeker_notification(
                         user.id, chat.seeker.user.id, 'new_message', chat_id, url)
 
-                # Shelter 
+                # # Shelter
                 if user == chat.seeker.user:
-                    url = reverse(f'pet:list-message', kwargs={
-                                  'chat_pk': chat.id})
+                    url = reverse(f'pet:chat_detail', kwargs={
+                                  'chat_pk': chat.id, 'application_pk': chat.application.id})
                     notification_class = CreateNotificationsView()
                     notification_class.create_shelter_notification(
                         user.id, chat.shelter.user.id, 'new_message', chat_id, url)
@@ -358,17 +388,15 @@ class CreateChatMessageView(generics.CreateAPIView):
 
             else:
                 response_data = {
-                'message': 'Invalid Request.',
-                'errors': serializer.errors
+                    'message': 'Invalid Request.',
+                    'errors': serializer.errors
                 }
 
                 return Response(response_data, status=status.HTTP_400_BAD_REQUEST)
 
         else:
             raise PermissionDenied(
-                    'You do not have permission to create a message for this chat.')
-        
-        
+                'You do not have permission to create a message for this chat.')
 
 
 class MessageListAPIView(ListAPIView):
@@ -381,11 +409,11 @@ class MessageListAPIView(ListAPIView):
 
         user = self.request.user
         if user == chat.seeker.user or user == chat.shelter.user:
-            
+
             return Message.objects.filter(
                 content_type=ContentType.objects.get_for_model(Chat),
                 object_id=chat_pk
             ).order_by('-date_sent')
         else:
             raise PermissionDenied(
-                    'You do not have permission to view a chat for this application.')
+                'You do not have permission to view a chat for this application.')
