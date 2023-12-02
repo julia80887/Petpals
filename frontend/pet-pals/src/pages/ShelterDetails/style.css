@@ -141,7 +141,8 @@ main {
   gap: 1vw;
 }
 
-/* .profileCard {
+
+ .petListingCard {
   display: flex;
   flex-direction: column;
   width: 240px;
@@ -151,7 +152,41 @@ main {
   background: white;
   padding: 20px;
   border-radius: 10px;
-} */
+} 
+
+.noMore {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: #d3d3d3;
+
+}
+.moreAvailable {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: #77a0ca;
+
+}
+p.moreAvailableText {
+  font-family: Nunito Sans;
+  color: #000;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+
+}
+
+p.noMoreText {
+  font-family: Nunito Sans;
+  color: #000;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+}
+
 
 .profilePic {
   border-radius: 10px;

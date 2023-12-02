@@ -11,31 +11,41 @@ function SeekerLogin() {
 
     function handle_submit(event) {
         let data = new FormData(event.target);
-        console.log(data);
+        data.set('username', event.target.username.value || '');
+        data.set('password', event.target.password.value || '');
+        console.log(data.get('username'));
+        console.log(data.get('password'));
 
-
-        ajax("/seeker/token/", {
-            method: "POST",
-            body: data,
-        })
-            .then(request => request.json())
-            .then(json => {
-                if ('access' in json) {
-                    localStorage.setItem('access', json.access);
-                    localStorage.setItem('username', data.get('username'));
-                    navigate('/pet/details/');
-                }
-                else if ('detail' in json) {
-                    setError(json.detail);
-                }
-                else {
-                    setError("Unknown error while signing in.")
-                }
+        if (data.get('username') === '') {
+            setError('Username can not be blank.');
+        }
+        else if (data.get('password') === '') {
+            setError('Password can not be blank.')
+        }
+        else {
+            ajax("/seeker/token/", {
+                method: "POST",
+                body: data,
             })
-            .catch(error => {
-                setError(error);
-            });
-
+                .then(request => request.json())
+                .then(json => {
+                    if ('access' in json) {
+                        localStorage.setItem('access', json.access);
+                        localStorage.setItem('username', data.get('username'));
+                        navigate('/');
+                    }
+                    else if ('detail' in json) {
+                        setError(json.detail);
+                        console.log(json.detail);
+                    }
+                    else {
+                        setError("Unknown error while signing in.")
+                    }
+                })
+                .catch(error => {
+                    setError(error);
+                });
+        }
         event.preventDefault();
     }
 

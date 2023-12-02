@@ -1,42 +1,87 @@
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ajax } from '../../ajax';
 import './style.css';
 import { Link } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
+//import 'bootstrap/dist/css/boostrap.min.css';
 
 function ShelterLogin() {
     const [error, setError] = useState("");
+    const [shelter, setShelter] = useState("");
     const navigate = useNavigate();
 
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            let id = localStorage.getItem('shelter_id');
+            if (id) {
+                try {
+                    const requestOptions = {
+                        method: 'GET'
+                    };
+                    const response = await fetch(`http://localhost:8000/shelter/${id}/`, requestOptions);
+                    const result = await response.json();
+                    console.log(result);
+                    setShelter(result);
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            };
+        }
+
+        fetchData();
+
+    }, []);
+
+
     function handle_submit(event) {
+
         let data = new FormData(event.target);
-        console.log(data);
 
+        data.set('username', event.target.username.value || '');
+        data.set('password', event.target.password.value || '');
+        console.log(data.get('username'));
+        console.log(data.get('password'));
 
-        ajax("/shelter/token/", {
-            method: "POST",
-            body: data,
-        })
-            .then(request => request.json())
-            .then(json => {
-                if ('access' in json) {
-                    localStorage.setItem('access', json.access);
-                    localStorage.setItem('username', data.get('username'));
-                    navigate('/pet/details/');
-                }
-                else if ('detail' in json) {
-                    setError(json.detail);
-                }
-                else {
-                    setError("Unknown error while signing in.")
-                }
+        if (data.get('username') === '') {
+            setError('Username can not be blank.');
+        }
+        else if (data.get('password') === '') {
+            setError('Password can not be blank.')
+        }
+        else {
+            ajax("/shelter/token/", {
+                method: "POST",
+                body: data,
             })
-            .catch(error => {
-                setError(error);
-            });
+                .then(request => request.json())
+                .then(json => {
+                    if ('access' in json) {
+                        localStorage.setItem('access', json.access);
+                        localStorage.setItem('username', data.get('username'));
+                        navigate('/');
+                    }
+                    else if ('detail' in json) {
 
+                        setError(json.detail);
+                        console.log(json.detail);
+                    }
+                    else {
+                        setError("Unknown error while signing in.")
+                    }
+                })
+                .catch(error => {
+                    setError(error);
+                });
+        }
         event.preventDefault();
+
+
+
+
+
     }
 
     return <main>
@@ -57,13 +102,11 @@ function ShelterLogin() {
                     <div className="input">
                         <label htmlFor="username">Username: </label>
                         <input type="text" id="username" name="username" required />
-
                     </div>
 
                     <div className="input">
                         <label htmlFor="password">Password: </label>
                         <input type="password" id="password" name="password" required />
-
                     </div>
 
                     <div className="buttons">
