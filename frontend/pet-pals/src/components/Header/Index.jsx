@@ -54,6 +54,7 @@ const Layout = () => {
             <h1 id="logoHeading">PetPals</h1>
           </div>
         </a>
+
         <div className="accountSection">
           {currentUser.shelter_name ? (
             <p className="name">Hello, { currentUser.shelter_name}</p>
@@ -74,32 +75,10 @@ const Layout = () => {
                 <LoggedOutAccountMenu />
               )}
         </div>
-        {/* THIS NEEDS TO BE MADE INTO A BUTTON */}
-        {/* <div className="dropdown profileOptionsDropdown">
-          <a data-bs-toggle="dropdown" aria-expanded="false">
-            <img
-              src={ProfileButton}
-              alt="Profile Options"
-              id="profileOptions"
-            />
-          </a>
-          {showDropdown && (
-            <ul class="dropdown-menu">
-              <li>
-                <a class="dropdown-item" href="SignupUser.html">
-                  Sign up
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="Login.html">
-                  Login
-                </a>
-              </li>
-            </ul>
-          )}
-        </div> */}
-      </div>
+</div>
+
       <Outlet />
+          
     </>
   );
 };

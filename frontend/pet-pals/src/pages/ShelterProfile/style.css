@@ -1,12 +1,8 @@
 html {
-    background-color: #ecebea;
-    font-family: "Nunito Sans";
-  }
-  
-  .allData {
-    display: flex;
-    flex-direction: column;
-  }
+  background-color: #ecebea;
+  font-family: "Nunito Sans";
+}
+
 
   .error {
     color: red;
@@ -184,74 +180,69 @@ html {
     justify-content: center;
   }
   
-  /* img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  } */
-    .errorBox {
-        display: flex;
-        justify-content: center;
-        align-items: center; 
-        margin-left: 12vw;
-    }
 
-    @media (max-width: 562px){
-        .errorBox {
-          margin-left: 0vw;
-        }
-      }
-  
-  .imgPlacement {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-  }
-  
-  .left {
-    display: flex;
-    justify-content: left;
-    align-items: center;
-  }
-  
-  #preference {
-    margin: 0px;
-    margin-left: 12px;
-    padding-top: 0px;
-    padding-left: 0px;
-  }
-  
-  #phoneNumber {
-    margin-bottom: 27px;
-  }
-  
-  .emptyLabel {
-    margin: 0px;
-    padding: 0px;
-  }
-  
-  .form-check-input {
-    margin-right: 10px;
-  }
-  
-  #flexRadioDefault1 {
-    margin-left: 20px;
-  }
-  
-  #allRadio {
-    margin-left: 20px;
-    margin-bottom: 17px;
-  }
-  
-  #allText {
-    margin-bottom: 17px;
-  }
-  
-  .buttonCenter {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+  .errorBox {
+      display: flex;
+      justify-content: center;
+      align-items: center; 
+      margin-left: 12vw;
   }
 
 
-  
+@media (max-width: 562px) {
+  .errorBox {
+    margin-left: 0vw;
+  }
+}
+
+.imgPlacement {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.left {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+#preference {
+  margin: 0px;
+  margin-left: 12px;
+  padding-top: 0px;
+  padding-left: 0px;
+}
+
+#phoneNumber {
+  margin-bottom: 27px;
+}
+
+.emptyLabel {
+  margin: 0px;
+  padding: 0px;
+}
+
+.form-check-input {
+  margin-right: 10px;
+}
+
+#flexRadioDefault1 {
+  margin-left: 20px;
+}
+
+#allRadio {
+  margin-left: 20px;
+  margin-bottom: 17px;
+}
+
+#allText {
+  margin-bottom: 17px;
+}
+
+.buttonCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

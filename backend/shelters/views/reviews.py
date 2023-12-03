@@ -4,14 +4,14 @@ from django.shortcuts import render
 from rest_framework import status
 from django.core.exceptions import PermissionDenied
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView,UpdateAPIView
+from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, UpdateAPIView
 from rest_framework import views
 from rest_framework import generics, permissions
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from ..models import PetShelter, Review
 from accounts.models.seekers import CustomUser, PetSeeker
-from ..serializers.shelter_serializers import PetShelterSerializer, PetShelterSignUpSerializer,PetShelterRetrieveSerializer,PetShelterUpdateSerializer
+from ..serializers.shelter_serializers import PetShelterSerializer, PetShelterSignUpSerializer, PetShelterRetrieveSerializer, PetShelterUpdateSerializer
 from rest_framework.generics import RetrieveAPIView
 from django.shortcuts import get_object_or_404
 from ..serializers.review_serializers import ReviewSerializer
@@ -21,9 +21,10 @@ from django.contrib.contenttypes.models import ContentType
 from chats.models.messages import Message
 from notifications.views import CreateNotificationsView
 
+
 class CustomPageNumberPagination(PageNumberPagination):
     page_size = 5  # Set the default page size
-    page_size_query_param = 'page_size'  
+    page_size_query_param = 'page_size'
     max_page_size = 5  # Set the maximum allowed page size
 
     def get_paginated_response(self, data):
@@ -47,20 +48,19 @@ class CreateReviewMessageView(generics.CreateAPIView):
 
         review_id = self.kwargs['review_pk']
         review = get_object_or_404(Review, id=review_id)
-        
+
         content_type = ContentType.objects.get_for_model(review)
         model_name = content_type.model_class().__name__
         serializer.save(sender=user, content_type=content_type,
-            object_id=review.id, message_type=model_name)
-  
-        # Create Notification 
+                        object_id=review.id, message_type=model_name)
+
+        # Create Notification
         if hasattr(user, 'seeker'):
             url = reverse(f'shelter:list_review', kwargs={
                           'shelter_pk': review.shelter.id, 'review_pk': review.id})
             notification_class = CreateNotificationsView()
             notification_class.create_seeker_notification(
                 user.id, review.shelter.user.id, 'review', review.id, url)
-
 
 
 class CreateListView(generics.ListCreateAPIView):
@@ -70,7 +70,8 @@ class CreateListView(generics.ListCreateAPIView):
     def get_queryset(self):
         shelter_id = self.kwargs.get('shelter_pk')
         shelter = get_object_or_404(PetShelter, id=shelter_id)
-        queryset = Review.objects.filter(shelter=shelter).order_by('-creation_time')
+        queryset = Review.objects.filter(
+            shelter=shelter).order_by('-creation_time')
         return queryset
 
     def perform_create(self, serializer):
@@ -88,7 +89,6 @@ class CreateListView(generics.ListCreateAPIView):
             notification_class = CreateNotificationsView()
             notification_class.create_seeker_notification(
                 user.id, shelter.user.id, 'review', serializer.data.get('id'), url)
-
 
 
 class MessageListAPIView(ListAPIView):
