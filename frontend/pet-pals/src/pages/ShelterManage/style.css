@@ -1,0 +1,372 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
+
+html {
+  width: 100vw;
+  /* height: 100vh; */
+}
+
+body {
+  width: 100vw;
+  height: fit-content;
+  background-color: #ecebea;
+}
+
+main {
+  background-color: #ecebea;
+  min-height: 100vh;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 20px;
+  border-width: 20px;
+  border-color: #000;
+  margin: 30px;
+}
+
+.pageContent {
+  display: flex;
+  height: min-content;
+  /* gap: 10px; */
+  align-items: flex-start;
+  /* gap: 20px; */
+  flex-direction: column;
+}
+
+.pageHeading {
+  font-family: "Nunito Sans";
+  color: #77a0ca;
+  font-size: 40px;
+  font-weight: 600;
+  word-wrap: break-word;
+  margin-top: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.petListingGrid {
+  width: 100%;
+  height: 100%;
+}
+
+.petGroup {
+  display: flex;
+  flex-direction: row;
+}
+
+.profileCard {
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+  height: 450px;
+  align-items: center;
+  gap: 20px;
+  margin: 10px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  overflow-y: scroll;
+}
+
+.profilePic {
+  border-radius: 20px;
+  width: 350px;
+  height: 350px;
+  justify-content: center;
+  display: flex;
+}
+
+.profileCardContents {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+  width: 100%;
+}
+
+.specLabels {
+  font-weight: 600;
+  font-family: Open Sans;
+}
+
+.cardTextSubHeading {
+  margin: 2px;
+  font-family: Open Sans;
+  color: #000;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 30px;
+}
+
+.applicationCard {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  height: 450px;
+  align-items: center;
+  gap: 20px;
+  margin: 10px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  overflow-y: scroll;
+}
+
+.applicationCardContents {
+  font-family: Open Sans;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  text-align: left;
+  width: 100%;
+}
+
+.application {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-style: solid;
+  border-color: #77a0ca;
+  border-radius: 10px;
+  width: fit-content;
+}
+
+.applicationInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+  font-size: 25px;
+  width: 100%;
+  margin: 10px;
+}
+
+.appTextSubHeading {
+  margin: 2px;
+  font-family: Open Sans;
+  color: #000;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 30px;
+}
+
+.viewProfile {
+  padding: 8px 16px;
+  background: #77a0ca;
+}
+.buttons {
+  margin-right: 5px;
+}
+
+@media (max-width: 1549px) {
+  .appTextSubHeading {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 1150px) {
+  main {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0px;
+    margin-top: 15px;
+    height: fit-content;
+  }
+  .petGroup {
+    flex-direction: column;
+    align-items: center;
+  }
+  .profileCard {
+    width: 95%;
+    flex-direction: row;
+    height: fit-content;
+    justify-content: center;
+    margin: 10px;
+  }
+  .profilePic {
+    width: 500px;
+    height: 400px;
+    margin: 0px;
+    overflow: hidden;
+  }
+  .applicationCard {
+    width: 95%;
+    height: fit-content;
+    justify-content: center;
+    margin: 10px;
+  }
+  .application {
+    width: 100%;
+  }
+  .applicationInfo {
+    align-items: flex-start;
+  }
+  .btn {
+    white-space: nowrap;
+  }
+  .appTextSubHeading {
+    display: block;
+  }
+  p {
+    margin-bottom: 0px;
+  }
+}
+
+@media (max-width: 700px) {
+  main {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0px;
+    margin-top: 15px;
+    height: fit-content;
+    overflow-x: scroll;
+  }
+  .petGroup {
+    flex-direction: column;
+    align-items: center;
+  }
+  .profileCard {
+    width: 95%;
+    flex-direction: column;
+    height: fit-content;
+    justify-content: center;
+    margin: 10px;
+  }
+  .profilePic {
+    width: 325px;
+    height: 400px;
+    margin: 0px;
+    overflow: hidden;
+  }
+  .applicationCard {
+    width: 95%;
+    height: fit-content;
+    justify-content: center;
+    margin: 10px;
+  }
+  .btn {
+    white-space: unset;
+  }
+  .pageContent {
+    align-items: center;
+  }
+  .appTextSubHeading {
+    display: flex;
+    flex-direction: column;
+  }
+
+  p {
+    margin-bottom: 0px;
+  }
+}
+
+@media (max-width: 340px) {
+  .pageHeading {
+    text-align: center;
+  }
+}
+
+.frame {
+  border-radius: 25px;
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.name {
+  display: flex;
+  justify-content: center;
+  text-align: left;
+  align-items: center;
+}
+
+#exampleModalLongTitle {
+  margin-left: 10px;
+  font-size: 24px;
+}
+
+.userText {
+  background-color: #77a0ca;
+  color: white;
+  width: fit-content;
+  height: fit-content;
+  padding: 10px;
+  border-radius: 20px;
+  display: flex;
+  text-align: left;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.textBody {
+  margin-bottom: 40px;
+}
+p {
+  margin: 0px;
+}
+
+.shelterText {
+  background-color: #ecebea;
+  width: fit-content;
+  height: fit-content;
+  padding: 10px;
+  border-radius: 20px;
+  display: flex;
+  text-align: left;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.right {
+  display: flex;
+  justify-content: right;
+}
+
+.inputMessage {
+  border-radius: 100px;
+  margin-right: 12px;
+  height: 40px;
+  width: 85%;
+  padding: 10px;
+  font-size: 14px;
+}
+.inputText {
+  display: flex;
+  justify-content: center;
+}
+
+#sendButton {
+  background-color: #0854a0;
+  width: 65px;
+  height: 40px;
+  color: #fff;
+  font-family: Nunito Sans;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  border-radius: 100px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}

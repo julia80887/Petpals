@@ -1,19 +1,228 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom"; // Import useParams from react-router-dom
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/css/bootstrap.css";
+import "./style.css";
+import Box from "@mui/material/Box";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import CustomTabPanel from "./CustomTabPanel"; // Replace with the actual path to your CustomTabPanel component
 
+// Function to generate unique accessibility props for each tab
+function a11yProps(index) {
+  return {
+    id: `tab-${index}`,
+    "aria-controls": `tabpanel-${index}`,
+  };
+}
+
+// import "react-select/dist/react-select.css";
+// var pet;
 function PetDetails() {
+  const [value, setValue] = useState(0);
+  const { pet_id } = useParams();
+  const [petDetails, setPetDetails] = useState([]);
+  const [shelterDetails, setShelterDetails] = useState({});
+  // const navigate = useNavigate();
+
   useEffect(() => {
-    var requestOptions = {
-      method: "GET",
+    const fetchData = async () => {
+      try {
+        const requestOptions = {
+          method: "GET",
+        };
+        console.log(pet_id);
+        const response = await fetch(
+          `http://localhost:8000/pet/${pet_id}/`,
+          requestOptions
+        );
+        const result = await response.json();
+        console.log(result);
+        setPetDetails(result);
+      } catch (error) {
+        console.error("Error:", error);
+      }
     };
 
-    fetch("http://localhost:8000/pet/1/", requestOptions)
-      .then((response) => response.json())
-      .then((result) => console.log(result))
-      .catch((error) => console.log("error", error));
+    fetchData();
   }, []);
-  
-  return <></>;
+  // let shelterNameURL = '';
 
+  useEffect(() => {
+    const fetchData = async () => {
+      if (petDetails && petDetails.shelter) {
+        try {
+          const requestOptions = {
+            method: "GET",
+          };
+
+          console.log(petDetails);
+          let id =
+            petDetails && petDetails.shelter ? petDetails.shelter.id : "";
+
+          // shelterNameURL = encodeURIComponent(shelter.shelter_name);
+          // console.log(shelterNameURL);
+
+          const response = await fetch(
+            `http://localhost:8000/shelter/${id}/`,
+            requestOptions
+          );
+          const result = await response.json();
+          console.log("Shelter Results: ", result);
+          setShelterDetails(result);
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      }
+    };
+    fetchData();
+  }, [petDetails]);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  return (
+    <>
+      {/* {loading ? (
+        <p>Loading.....</p>
+      ) : ( */}
+      <div className="mainContainer">
+        <div className="detailsContainer">
+          <h1 className="textHeading">
+            Hi, I’m <span className="chewyHeading">{petDetails.name}</span>!
+          </h1>
+          <div className="imageContainer">
+            <div className="largeImage">
+              <img
+                src={petDetails.profile_photo}
+                id="rufusPic"
+                alt={petDetails.name}
+              />
+            </div>
+          </div>
+          <div className="contentContianer">
+            <div className="internalContainer">
+              <div className="contentSelector">
+                <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                  <Tabs
+                    value={value}
+                    onChange={handleChange}
+                    aria-label="basic tabs example"
+                  >
+                    <Tab label="General Info" {...a11yProps(0)} />
+                    <Tab label="Status" {...a11yProps(1)} />
+                    <Tab label="Images" {...a11yProps(2)} />
+                    {/* </Tabs> */}
+                    {/* <CustomTabPanel className="tab" id="generalTab" value={value} index={0}>
+                  General Info
+                </CustomTabPanel>
+                <CustomTabPanel className="tab" id="generalTab" value={value} index={1}>
+                  Status
+                </CustomTabPanel>
+                <CustomTabPanel className="tab" id="generalTab" value={value} index={2}>
+                  Images
+                </CustomTabPanel> */}
+
+                    {/* <div className="tab" id="generalTab">
+                    <Tab label="General Info" {...a11yProps(0)} />
+                  </div>
+                  <div className="tab" id="statusTab">
+                    <Tab label="Status" {...a11yProps(1)} />
+                  </div>
+                  <div className="tab" id="imageTab">
+                    <Tab label="Images" {...a11yProps(2)} />
+                  </div> */}
+                  </Tabs>
+                </Box>
+              </div>
+
+              <CustomTabPanel
+                className="tab"
+                id="generalTab"
+                value={value}
+                index={0}
+              >
+                <div className="textContainer" id="petInfo">
+                  <div className="specs">
+                    <p className="specsLine">
+                      {petDetails.breed} · {petDetails.city},{" "}
+                      {petDetails.province}
+                    </p>
+                    <p className="specsLine">{petDetails.gender} · Medium</p>
+                    <p className="specsLine">
+                      <span className="specLabels">Birthday: </span>
+                      {petDetails.date_of_birth}
+                    </p>
+                    <p className="specsLine">
+                      <span className="specLabels">Shelter: </span>
+                      {shelterDetails.shelter_name}
+                    </p>
+                    <p className="specsLine">
+                      <span className="specLabels">About: </span>
+                      {petDetails.about}
+                    </p>
+                  </div>
+                </div>
+              </CustomTabPanel>
+
+              <CustomTabPanel className="tab" id="generalTab" value={value} index={1}>
+              <div className="textContainer" id="petStatus">
+                <div className="specs">
+                  <p className="specsLine">
+                    <span className="specLabels">Status: </span>{" "}
+                    {petDetails.status}
+                  </p>
+                  <p className="specsLine">
+                    <span className="specLabels">Publication Date: </span>
+                    {petDetails.publication_date}
+                  </p>
+                  <p className="specsLine">
+                    <span className="specLabels">Application Deadline: </span>
+                    {petDetails.application_deadline}
+                  </p>
+                  <p className="specsLine">
+                    <span className="specLabels">Medical History:</span>{" "}
+                    {petDetails.medical_history}
+                  </p>
+                  <p className="specsLine">
+                    <span className="specLabels">Behaviour: </span>
+                    {petDetails.behavior}
+                  </p>
+                </div>
+              </div>
+              </CustomTabPanel>
+
+              <CustomTabPanel className="tab" id="generalTab" value={value} index={2}>
+              <div className="textContainer" id="petImages">
+                <img
+                  src="../assets/pictures/rufus2.jpg"
+                  id="dogPic"
+                  alt="No pictures"
+                />
+              </div>
+              </CustomTabPanel>
+
+              <div className="formContainer">
+                <h4 className="applyHeading">
+                  Ready to give {petDetails.name} a forever home?
+                </h4>
+                <Link to={`/pet/${petDetails.id}/applications/`} style={{ textDecoration: "none" }}>
+                <div
+                  role="button"
+                  className="applyButton"
+                >
+                  Apply Today
+                </div>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* )} */}
+    </>
+  );
 }
 
 export default PetDetails;

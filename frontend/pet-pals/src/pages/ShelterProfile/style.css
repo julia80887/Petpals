@@ -25,7 +25,8 @@ html {
     width: 80vw;
     border-radius: 10px;
     display: flex;
-    justify-content: center;
+    /* bring back if bootstrap works*/
+    /* justify-content: center;  */
     text-align: center;
     align-items: center;
     margin-bottom: 10vh;
@@ -179,7 +180,6 @@ html {
     display: flex;
     justify-content: center;
   }
-  
 
 
   .errorBox {
