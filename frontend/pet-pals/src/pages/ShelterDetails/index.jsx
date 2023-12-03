@@ -19,10 +19,13 @@ function ShelterDetails() {
                 };
                 const response = await fetch(`http://localhost:8000/shelter/${id}/`, requestOptions);
                 const result = await response.json();
-                console.log(result);
-                setShelter(result);
-
-
+                if ('detail' in result) {
+                    navigate('/*')
+                }
+                else {
+                    console.log(result);
+                    setShelter(result);
+                }
             } catch (error) {
                 console.error('Error:', error);
             }
@@ -97,29 +100,7 @@ function ShelterDetails() {
 
                     <div className="petListings">
                         <h2 className="petListingsHeadings">Our Pets</h2>
-                        {/* <div class="petListingGrid">
-                            {pets.map((pet, index) => (
-                                index < 3 && (
-                                    <div key={index} className="profileCard">
-                                        <div className="profilePic">
-                                            <img
-                                                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                                                src={pet.imageSrc}
-                                                alt={`Profile picture of ${pet.name}`}
-                                            />
-                                        </div>
-                                        <div className="profileCardText">
-                                            <h3 className="cardTextHeading">{pet.name}</h3>
-                                            <p className="cardTextSubHeading">{pet.breed}</p>
-                                            <p className="cardTextSubHeading">{pet.distance}</p>
-                                        </div>
-                                        <a className="btn" href="PetDetails.html" role="button">
-                                            View Full Profile
-                                    </a>
-                                    </div>
-                                )
-                            ))}
-                        </div> */}
+
                         <div className="petListingGrid">
                             {pets.length > 0 && pets.map((pet, index) => (
                                 index < 3 && (
