@@ -1,114 +1,189 @@
-import React, { useEffect, useState } from 'react';
-import './style.css';
-import { useParams } from 'react-router-dom';
-import StarSVG from '../../assets/svgs/Star.svg';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import "./style.css";
+import { useParams } from "react-router-dom";
+import StarSVG from "../../assets/svgs/Star.svg";
+import { useNavigate } from "react-router-dom";
+import Reviews from "./Reviews";
 
 function ShelterDetails() {
+  const { id } = useParams();
+  const [shelter, setShelter] = useState({});
+  const [reviews, setReviews] = useState([]);
+  const [reviewDetails, setReviewDetails] = useState({});
+  const [pets, setPets] = useState([]);
+  const [loadingShelter, setLoadingShelter] = useState(true);
+  const [loadingPets, setLoadingPets] = useState(true);
+  const [loadingReviews, setLoadingReviews] = useState(true);
+  const navigate = useNavigate();
 
-    const { id } = useParams();
-    const [shelter, setShelter] = useState({});
-    const [pets, setPets] = useState([]);
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const requestOptions = {
-                    method: 'GET'
-                };
-                const response = await fetch(`http://localhost:8000/shelter/${id}/`, requestOptions);
-                const result = await response.json();
-                if ('detail' in result) {
-                    navigate('/*')
-                }
-                else {
-                    console.log(result);
-                    setShelter(result);
-                }
-            } catch (error) {
-                console.error('Error:', error);
-            }
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const requestOptions = {
+          method: "GET",
         };
-
-        fetchData();
-
-    }, []);
-    let shelterNameURL = '';
-
-    useEffect(() => {
-        const fetchData = async () => {
-
-            if (shelter) {
-                try {
-                    const requestOptions = {
-                        method: 'GET'
-                    };
-                    // let shelterNameURL = shelter.shelter_name.replace(/ /g, '%20');
-
-                    shelterNameURL = encodeURIComponent(shelter.shelter_name);
-                    console.log(shelterNameURL);
-
-                    const response = await fetch(`http://localhost:8000/pet/?shelter=${shelterNameURL}`, requestOptions);
-                    const result = await response.json();
-                    console.log("Pet Results: ", result.results);
-                    setPets(result.results);
-
-
-                } catch (error) {
-                    console.error('Error:', error);
-                }
-
-            }
-        };
-        fetchData();
-    }, [shelter]);
-
-    const navigatePetDetail = () => {
-        // Use the navigate function to redirect to '/'
-        navigate('/');
+        const response = await fetch(
+          `http://localhost:8000/shelter/${id}/`,
+          requestOptions
+        );
+        const result = await response.json();
+        setShelter(result);
+        setLoadingShelter(false);
+      } catch (error) {
+        console.error("Error:", error);
+      }
     };
 
-    const navigateMorePets = () => {
-        // TEMPORARY -> CHANGE WHEN RUMAISA MAKES SEARCH 
-        navigate(`/search/?shelter=${shelterNameURL}`);
+    fetchData();
+  }, [id]);
+
+  useEffect(() => {
+    const fetchPetData = async () => {
+      if (shelter && shelter.shelter_name) {
+        try {
+          const requestOptions = {
+            method: "GET",
+          };
+          const shelterNameURL = encodeURIComponent(shelter.shelter_name);
+          const response = await fetch(
+            `http://localhost:8000/pet/?shelter=${shelterNameURL}`,
+            requestOptions
+          );
+          const result = await response.json();
+          setPets(result.results);
+          setLoadingPets(false);
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      }
     };
 
-    return (
-        <main>
-            <div className="allContent">
-                <div className="pageContent">
-                    <div className="mainInfo">
-                        <h1 className="mainInfoHeading">{shelter.shelter_name}</h1>
-                        <img src={shelter.user && shelter.user.profile_photo} alt="" id="oliver" />
-                        <div className="specs">
-                            <p>
-                                <span className="specLabels">Location: </span>
-                                {(shelter.user && shelter.user.address) || 'No address available.'}
-                            </p>
-                            <p>
-                                <span className="specLabels">Phone Number:</span> {(shelter.user && shelter.user.phone_number) || 'No phone number available.'}
-                            </p>
-                            <p>
-                                <span className="specLabels">Email Address:</span> {(shelter.user && shelter.user.email) || 'No email available.'}
-                            </p>
-                            <p className="mission">
-                                <span className="specLabels">Our Mission Statement:</span> {shelter.mission_statement || 'No mission statement available.'}
-                            </p>
-                        </div>
-                    </div>
+    const fetchReviewData = async () => {
+      setLoadingReviews(true);
+      if (shelter) {
+        try {
+          var myHeaders = new Headers();
+          myHeaders.append(
+            "Authorization",
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAxNjM1MzM4LCJpYXQiOjE3MDE1NDg5MzgsImp0aSI6ImE3NDJiYzUyMzc0NTQ3N2E4MWQ2M2EzOWJkZWY5OTYzIiwidXNlcl9pZCI6MX0.RQlfY5nZhGYtmOlHBw3DC5PSyc3yKzMmeJZnPa2T8wg"
+          );
 
-                    <div className="petListings">
-                        <h2 className="petListingsHeadings">Our Pets</h2>
+          const requestOptions = {
+            method: "GET",
+            headers: myHeaders,
+          };
 
-                        <div className="petListingGrid">
-                            {pets.length > 0 && pets.map((pet, index) => (
+          const response = await fetch(
+            `http://localhost:8000/shelter/${id}/review/`,
+            requestOptions
+          );
+          const result = await response.json();
+          setReviews(result.results);
+          setLoadingReviews(false);
+        } catch (error) {
+          setLoadingReviews(false);
+          console.error("Error getting reviews:", error);
+        }
+      }
+    };
+
+    fetchPetData();
+    fetchReviewData();
+  }, [shelter]);
+
+  useEffect(() => {
+    if (reviews.length > 0) {
+      const fetchReviewDetails = async (review) => {
+        const myHeaders = new Headers();
+        myHeaders.append(
+          "Authorization",
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAxNjM1MzM4LCJpYXQiOjE3MDE1NDg5MzgsImp0aSI6ImE3NDJiYzUyMzc0NTQ3N2E4MWQ2M2EzOWJkZWY5OTYzIiwidXNlcl9pZCI6MX0.RQlfY5nZhGYtmOlHBw3DC5PSyc3yKzMmeJZnPa2T8wg"
+        );
+
+        try {
+          const requestOptions = {
+            method: "GET",
+            headers: myHeaders,
+          };
+
+          const response = await fetch(
+            `http://localhost:8000/seeker/customuser/${review.user}/`,
+            requestOptions
+          );
+          let reviewDetail = await response.json();
+
+          setReviewDetails((prevDetails) => ({
+            ...prevDetails,
+            [review.id]: reviewDetail,
+          }));
+        } catch (error) {
+          console.error(
+            `Error fetching details for Review ${review.id}:`,
+            error
+          );
+        }
+      };
+
+      reviews.forEach((review) => {
+        fetchReviewDetails(review);
+      });
+    }
+  }, [reviews]);
+
+  const navigatePetDetail = () => {
+    navigate("/");
+  };
+
+  const navigateMorePets = () => {
+    navigate(`/search/?shelter=${encodeURIComponent(shelter.shelter_name)}`);
+  };
+
+  if (loadingShelter || loadingPets) {
+    return <p>Loading...</p>;
+  }
+
+  return (
+    <div className="allContent">
+      <div className="pageContent">
+        <div className="mainInfo">
+          <h1 className="mainInfoHeading">{shelter.shelter_name}</h1>
+          <img
+            src={shelter.user && shelter.user.profile_photo}
+            alt=""
+            id="oliver"
+          />
+          <div className="specs">
+            <p>
+              <span className="specLabels">Location: </span>
+              {(shelter.user && shelter.user.address) ||
+                "No address available."}
+            </p>
+            <p>
+              <span className="specLabels">Phone Number:</span>{" "}
+              {(shelter.user && shelter.user.phone_number) ||
+                "No phone number available."}
+            </p>
+            <p>
+              <span className="specLabels">Email Address:</span>{" "}
+              {(shelter.user && shelter.user.email) || "No email available."}
+            </p>
+            <p className="mission">
+              <span className="specLabels">Our Mission Statement:</span>{" "}
+              {shelter.mission_statement || "No mission statement available."}
+            </p>
+          </div>
+        </div>
+
+        <div className="petListings">
+          <h2 className="petListingsHeadings">Our Pets</h2>
+          {/* <div class="petListingGrid">
+                            {pets.map((pet, index) => (
                                 index < 3 && (
-                                    <div key={index} className="petListingCard">
+                                    <div key={index} className="profileCard">
                                         <div className="profilePic">
                                             <img
                                                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                                                src={pet.profile_photo}
+                                                src={pet.imageSrc}
                                                 alt={`Profile picture of ${pet.name}`}
                                             />
                                         </div>
@@ -117,41 +192,65 @@ function ShelterDetails() {
                                             <p className="cardTextSubHeading">{pet.breed}</p>
                                             <p className="cardTextSubHeading">{pet.distance}</p>
                                         </div>
-
-                                        <button className="btn" onClick={navigatePetDetail}>View Full Profile</button>
+                                        <a className="btn" href="PetDetails.html" role="button">
+                                            View Full Profile
+                                    </a>
                                     </div>
                                 )
                             ))}
-                            {pets.length > 3 && (
-                                <div className="petListingCard moreAvailable">
-                                    <p className="moreAvailableText">{`+${pets.length - 3} more pets available`}</p>
+                        </div> */}
+          <div className="petListingGrid">
+            {pets.length > 0 &&
+              pets.map(
+                (pet, index) =>
+                  index < 3 && (
+                    <div key={index} className="petListingCard">
+                      <div className="profilePic">
+                        <img
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
+                          }}
+                          src={pet.profile_photo}
+                          alt={`Profile picture of ${pet.name}`}
+                        />
+                      </div>
+                      <div className="profileCardText">
+                        <h3 className="cardTextHeading">{pet.name}</h3>
+                        <p className="cardTextSubHeading">{pet.breed}</p>
+                        <p className="cardTextSubHeading">{pet.distance}</p>
+                      </div>
 
-
-                                    <button className="btn" onClick={navigateMorePets}>View More Pets</button>
-                                </div>
-                            )}
-
-                            {pets.length <= 3 && (
-                                <div className="petListingCard noMore">
-
-                                    <p className="noMoreText">No more pets available.</p>
-
-
-                                </div>
-                            )}
-
-                        </div>
-
+                      <button className="btn" onClick={navigatePetDetail}>
+                        View Full Profile
+                      </button>
                     </div>
+                  )
+              )}
+            {pets.length > 3 && (
+              <div className="petListingCard moreAvailable">
+                <p className="moreAvailableText">{`+${
+                  pets.length - 3
+                } more pets available`}</p>
 
+                <button className="btn" onClick={navigateMorePets}>
+                  View More Pets
+                </button>
+              </div>
+            )}
 
-                </div>
-            </div>
-
-
-        </main>
-    );
+            {pets.length <= 3 && (
+              <div className="petListingCard noMore">
+                <p className="noMoreText">No more pets available.</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+      <Reviews shelter={shelter} shelterID={id} />
+    </div>
+  );
 }
 
 export default ShelterDetails;
-

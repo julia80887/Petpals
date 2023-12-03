@@ -141,8 +141,7 @@ main {
   gap: 1vw;
 }
 
-
- .petListingCard {
+.petListingCard {
   display: flex;
   flex-direction: column;
   width: 240px;
@@ -152,7 +151,7 @@ main {
   background: white;
   padding: 20px;
   border-radius: 10px;
-} 
+}
 
 .noMore {
   display: flex;
@@ -160,7 +159,6 @@ main {
   align-items: center;
   text-align: center;
   background: #d3d3d3;
-
 }
 .moreAvailable {
   display: flex;
@@ -168,7 +166,6 @@ main {
   align-items: center;
   text-align: center;
   background: #77a0ca;
-
 }
 p.moreAvailableText {
   font-family: Nunito Sans;
@@ -176,7 +173,6 @@ p.moreAvailableText {
   font-size: 24px;
   font-style: normal;
   font-weight: 600;
-
 }
 
 p.noMoreText {
@@ -186,7 +182,6 @@ p.noMoreText {
   font-style: normal;
   font-weight: 600;
 }
-
 
 .profilePic {
   border-radius: 10px;
@@ -304,7 +299,7 @@ p.noMoreText {
   flex-direction: row;
   gap: 30px;
   margin-bottom: 40px;
-  border-style: solid;
+  /* border-style: solid; */
   border-radius: 10px;
   margin: 10px;
   border-color: #ecebea;
@@ -423,7 +418,7 @@ h4 {
 p {
   margin-bottom: 0px;
 }
-.btn {
+.reviewBtn {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -435,10 +430,10 @@ p {
   font-size: 20px;
   width: fit-content;
   height: fit-content;
-  margin: 10px;
+  margin: 40px 0px;
 }
 
-.btn:hover {
+.reviewBtn:hover {
   background-color: #573f35;
   color: #fff;
   border-color: #fff;
