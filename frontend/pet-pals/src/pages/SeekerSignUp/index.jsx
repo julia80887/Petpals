@@ -5,12 +5,15 @@ import './style.css';
 import { Link } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import { LoginContext } from '../../contexts/LoginContext';
+import { jwtDecode } from 'jwt-decode';
 
 function SeekerSignUp() {
     const [error, setError] = useState("");
     const [errorJson, setErrorJson] = useState({});
     const navigate = useNavigate();
     const { currentUser, setCurrentUser } = useContext(LoginContext);
+    const [isGoogle, setGoogle] = useState(false);
+    const [googleCred, setGoogleCred] = useState({});
 
     function validateForm() {
         // Your validation logic here
@@ -70,15 +73,43 @@ function SeekerSignUp() {
         navigate('/');
     };
 
+    function handle_google() {
+
+        let data = new FormData();
+        data.append('firstname', googleCred.given_name);
+        data.append('lastname', googleCred.family_name);
+        data.append('username', googleCred.email);
+        data.append('email', googleCred.email);
+        data.append('password', googleCred.email);
+        data.append('password1', googleCred.email);
+        let photodata = new FormData();
+
+        login(data);
+
+    }
+
     function handle_submit(event) {
-        let data = new FormData(event.target);
-        console.log(data);
         event.preventDefault();
 
         if (!validateForm()) {
             return;
         }
 
+        console.log(event.target);
+        let data = new FormData(event.target);
+        console.log(data.get('username'));
+        console.log(data.get('shelter_name'));
+        console.log(data.get('password'));
+        console.log(data.get('password1'));
+        console.log(data.get('email'));
+        login(data);
+
+
+    }
+
+
+
+    function login(data) {
 
         ajax("/seeker/account/", {
             method: "POST",
@@ -169,7 +200,20 @@ function SeekerSignUp() {
                     </div>
                     <p className="error">{error}</p>
                 </form>
-                <GoogleLogin />
+                <GoogleLogin
+                    onSuccess={(credentialResponse) => {
+                        const credentialResponseDecoded = jwtDecode(credentialResponse.credential);
+                        setGoogle(true);
+                        setGoogleCred(credentialResponseDecoded);
+                        handle_google();
+                        console.log(credentialResponseDecoded);
+
+                    }}
+                    onError={() => {
+                        console.log('Login Failed');
+                    }}
+                    isSignedIn={true}
+                />
                 <div className="switchLink">
                     <p className="text">Already have an account?</p>
                     <a

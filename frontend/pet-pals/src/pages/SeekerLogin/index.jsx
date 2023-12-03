@@ -5,11 +5,24 @@ import './style.css';
 import { Link } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import { LoginContext } from '../../contexts/LoginContext';
+import { jwtDecode } from 'jwt-decode';
 
 function SeekerLogin() {
     const [error, setError] = useState("");
     const navigate = useNavigate();
     const { currentUser, setCurrentUser } = useContext(LoginContext);
+
+    function handle_google(googleCred) {
+
+        let data = new FormData();
+        data.append('username', googleCred.email);
+        data.append('password', googleCred.email);
+        let photodata = new FormData();
+
+        login_user(data);
+
+    }
+
 
     function handle_submit(event) {
         let data = new FormData(event.target);
@@ -25,31 +38,36 @@ function SeekerLogin() {
             setError('Password can not be blank.')
         }
         else {
-            ajax("/seeker/token/", {
-                method: "POST",
-                body: data,
-            })
-                .then(request => request.json())
-                .then(json => {
-                    if ('access' in json) {
-                        localStorage.setItem('access', json.access);
-                        localStorage.setItem('username', data.get('username'));
-                        setCurrentUser(json.seeker);
-                        navigate('/');
-                    }
-                    else if ('detail' in json) {
-                        setError(json.detail);
-                        console.log(json.detail);
-                    }
-                    else {
-                        setError("Unknown error while signing in.")
-                    }
-                })
-                .catch(error => {
-                    setError(error);
-                });
+            login_user(data);
         }
         event.preventDefault();
+    }
+
+    function login_user(data) {
+        ajax("/seeker/token/", {
+            method: "POST",
+            body: data,
+        })
+            .then(request => request.json())
+            .then(json => {
+                if ('access' in json) {
+                    localStorage.setItem('access', json.access);
+                    localStorage.setItem('username', data.get('username'));
+                    setCurrentUser(json.seeker);
+                    navigate('/');
+                }
+                else if ('detail' in json) {
+                    setError(json.detail);
+                    console.log(json.detail);
+                }
+                else {
+                    setError("Unknown error while signing in.")
+                }
+            })
+            .catch(error => {
+                setError(error);
+            });
+
     }
 
     return <main>
@@ -84,7 +102,22 @@ function SeekerLogin() {
                     </div>
                     <p className="error">{error}</p>
                 </form>
-                <GoogleLogin />
+                <GoogleLogin
+                    buttonText="Log in with Google"
+                    onSuccess={(credentialResponse) => {
+                        const credentialResponseDecoded = jwtDecode(credentialResponse.credential);
+                        //setGoogle(true);
+                        //setGoogleCred(credentialResponseDecoded);
+                        handle_google(credentialResponseDecoded);
+                        console.log(credentialResponseDecoded);
+
+                    }}
+
+                    onError={() => {
+                        console.log('Login Failed');
+                    }}
+                    isSignedIn={true}
+                />
                 <div className="switchLink">
                     <p className="text">Don't have an account yet?</p>
                     <Link className="linkSignUp" style={{ color: "#0854a0" }} to="/seeker/signup/">Sign up!</Link>

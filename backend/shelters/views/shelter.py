@@ -24,6 +24,46 @@ from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 
+#import requests
+from django.http import JsonResponse
+
+def google_login(request):
+    print('reached')
+    print(request)
+    # if request.method == 'POST':
+    #     code = request.POST.get('code')
+    #     client_id = '832382730471-hkl70jvnciutl8u460v58gd7tvcm4b49.apps.googleusercontent.com'
+    #     client_secret = 'YOUR_CLIENT_SECRET'
+    #     redirect_uri = 'YOUR_REDIRECT_URI'
+    #     grant_type = 'authorization_code'
+
+    #     token_url = 'https://oauth2.googleapis.com/token'
+
+    #     headers = {
+    #         'Content-Type': 'application/x-www-form-urlencoded',
+    #     }
+
+    #     data = {
+    #         'code': code,
+    #         'client_id': client_id,
+    #         'client_secret': client_secret,
+    #         'redirect_uri': redirect_uri,
+    #         'grant_type': grant_type,
+    #     }
+
+    #     try:
+    #         response = requests.post(token_url, headers=headers, data=data)
+    #         response.raise_for_status()
+    #         tokens = response.json()
+    #         # Send the tokens back to the frontend, or store them securely and create a session
+    #         return JsonResponse(tokens)
+    #     except requests.RequestException as error:
+    #         # Handle errors in the token exchange
+    #         print('Token exchange error:', error)
+    #         return JsonResponse({'error': 'Internal Server Error'}, status=500)
+
+    # return JsonResponse({'error': 'Invalid request'}, status=400)
+
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def shelter_login(request):

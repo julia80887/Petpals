@@ -5,12 +5,16 @@ import './style.css';
 import { Link } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import { LoginContext } from '../../contexts/LoginContext';
+import { jwtDecode } from 'jwt-decode';
+
 
 
 
 function ShelterSignUp() {
     const [error, setError] = useState("");
     const [errorJson, setErrorJson] = useState({});
+    const [isGoogle, setGoogle] = useState(false);
+    const [googleCred, setGoogleCred] = useState({});
     const navigate = useNavigate();
     const { currentUser, setCurrentUser } = useContext(LoginContext);
 
@@ -60,6 +64,20 @@ function ShelterSignUp() {
         navigate('/');
     };
 
+    function handle_google() {
+
+        let data = new FormData();
+        data.append('shelter_name', googleCred.given_name + " " + googleCred.family_name);
+        data.append('username', googleCred.email);
+        data.append('email', googleCred.email);
+        data.append('password', googleCred.email);
+        data.append('password1', googleCred.email);
+        let photodata = new FormData();
+
+        login(data);
+
+    }
+
     function handle_submit(event) {
         event.preventDefault();
 
@@ -74,7 +92,44 @@ function ShelterSignUp() {
         console.log(data.get('password'));
         console.log(data.get('password1'));
         console.log(data.get('email'));
+        login(data);
 
+
+    }
+
+    // function upload_pic(data) {
+    //     event.preventDefault();
+
+    //     const formData = new FormData();
+
+    //     // Append user data
+    //     if (event.target.fileInput.files[0]) {
+    //         formData.append('user.profile_photo', event.target.fileInput?.files[0] ? event.target.fileInput?.files[0] : "http://localhost:8000/media/default.jpg");
+
+    //     }
+
+    //     //console.log(formData.get('user.phone_number'));
+    //     console.log(formData.get('user.profile_photo'));
+
+    //     // if you are here, validation passed, so make PUT request
+    //     try {
+    //         const requestOptions = {
+    //             method: 'PUT',
+    //             headers: {
+    //                 Authorization: `Bearer ${localStorage.getItem('access')}`,
+    //             },
+    //             body: formData, // Use the FormData object directly as the body
+    //         };
+
+    //         fetch(`http://localhost:8000/shelter/${currentUser.id}/`, requestOptions)
+    //             .then((response) => response.json())
+    //             .then((data) => { console.log(data); })
+    //     } catch (error) {
+    //         console.error('Error:', error);
+
+    //     }
+    // }
+    function login(data) {
         ajax("/shelter/account/", {
             method: "POST",
             body: data,
@@ -99,8 +154,6 @@ function ShelterSignUp() {
                 console.error(error);
                 setError("Unknown error while signing in.");
             });
-
-
 
     }
 
@@ -159,7 +212,20 @@ function ShelterSignUp() {
                     </div>
                     <p className="error">{error}</p>
                 </form>
-                <GoogleLogin />
+                <GoogleLogin
+                    onSuccess={(credentialResponse) => {
+                        const credentialResponseDecoded = jwtDecode(credentialResponse.credential);
+                        setGoogle(true);
+                        setGoogleCred(credentialResponseDecoded);
+                        handle_google();
+                        console.log(credentialResponseDecoded);
+
+                    }}
+                    onError={() => {
+                        console.log('Login Failed');
+                    }}
+                    isSignedIn={true}
+                />
                 <div className="switchLink">
                     <p className="text">Already have an account?</p>
                     <a

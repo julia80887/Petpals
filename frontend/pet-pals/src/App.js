@@ -14,32 +14,39 @@ import ShelterSignUp from "./pages/ShelterSignUp";
 import SeekerSignUp from "./pages/SeekerSignUp";
 import { LoginContext, useLoginContext } from "./contexts/LoginContext";
 import ShelterProfile from "./pages/ShelterProfile";
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
 
   return (
     <BrowserRouter>
-      <LoginContext.Provider value={{ currentUser, setCurrentUser }}>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path="pet/details/" element={<PetDetails />} />
-            <Route path="notifications/" element={<Notifications />} />
-            <Route path="pet/applications/" element={<Applications />} />
-            <Route path="/shelter/login/" exact element={<ShelterLogin />} />
-            <Route path="/seeker/login/" exact element={<SeekerLogin />} />
-            <Route path="/shelter/signup/" exact element={<ShelterSignUp />} />
-            <Route path="/seeker/signup/" exact element={<SeekerSignUp />} />
-            <Route path="shelter/:id/" element={<ShelterDetails />} />
-            <Route
-              path="profile/shelter/:shelter_id/"
-              element={<ShelterProfile />}
-            />
-            <Route path="*" element={<NotFound />} />
-          </Route>
-        </Routes>
-      </LoginContext.Provider>
+
+      <GoogleOAuthProvider clientId=
+        "832382730471-hkl70jvnciutl8u460v58gd7tvcm4b49.apps.googleusercontent.com">
+        <LoginContext.Provider value={{ currentUser, setCurrentUser }}>
+          <Routes>
+
+            <Route path="/" element={<Layout />}>
+              {/* <Route path="/" element={<Layout />}> */}
+              <Route index element={<Home />} />
+              <Route path="pet/details/" element={<PetDetails />} />
+              <Route path="notifications/" element={<Notifications />} />
+              <Route path="pet/applications/" element={<Applications />} />
+              <Route path="/shelter/login/" exact element={<ShelterLogin />} />
+              <Route path="/seeker/login/" exact element={<SeekerLogin />} />
+              <Route path="/shelter/signup/" exact element={<ShelterSignUp />} />
+              <Route path="/seeker/signup/" exact element={<SeekerSignUp />} />
+              <Route path="shelter/:id/" element={<ShelterDetails />} />
+              <Route path="profile/shelter/:shelter_id/" element={<ShelterProfile />} />
+              <Route path="*" element={<NotFound />} />
+
+            </Route>
+          </Routes>
+        </LoginContext.Provider>
+      </GoogleOAuthProvider>
+
+
     </BrowserRouter>
   );
 }
