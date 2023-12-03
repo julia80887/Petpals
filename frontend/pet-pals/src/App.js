@@ -14,6 +14,8 @@ import ShelterSignUp from "./pages/ShelterSignUp";
 import SeekerSignUp from "./pages/SeekerSignUp";
 import { LoginContext, useLoginContext } from "./contexts/LoginContext";
 import ShelterProfile from "./pages/ShelterProfile";
+import SeekerProfile from "./pages/SeekerProfile";
+import CreateApplication from "./pages/CreateApplication";
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
@@ -24,9 +26,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
-            <Route path="pet/details/" element={<PetDetails />} />
+            <Route path="pet/details/:pet_id" element={<PetDetails />} />
             <Route path="notifications/" element={<Notifications />} />
             <Route path="pet/applications/" element={<Applications />} />
+            <Route path="pet/:pet_id/applications/" element={<CreateApplication />} />
             <Route path="/shelter/login/" exact element={<ShelterLogin />} />
             <Route path="/seeker/login/" exact element={<SeekerLogin />} />
             <Route path="/shelter/signup/" exact element={<ShelterSignUp />} />
@@ -35,6 +38,10 @@ function App() {
             <Route
               path="profile/shelter/:shelter_id/"
               element={<ShelterProfile />}
+            />
+            <Route
+              path="profile/seeker/:seeker_id/"
+              element={<SeekerProfile />}
             />
             <Route path="*" element={<NotFound />} />
           </Route>
