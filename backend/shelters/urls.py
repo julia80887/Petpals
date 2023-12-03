@@ -4,7 +4,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .views.shelter import PetShelterSignUpView, ShelterImageCreateView, ShelterImageDeleteView,ShelterRetrieveUpdateDestroyView
 
-from .views.shelter import PetShelterListView, shelter_login
+from .views.shelter import PetShelterListView, shelter_login, google_login
 from .views.reviews import CreateListView, CreateReviewMessageView, MessageListAPIView
 
 app_name = 'shelter'
@@ -12,6 +12,7 @@ app_name = 'shelter'
 urlpatterns = [
     path('account/', PetShelterSignUpView.as_view(), name='signup'),
     path('token/', shelter_login, name='login'),
+    path('api/auth/google/', google_login, name='google_login'),
     path('<int:shelter_pk>/', ShelterRetrieveUpdateDestroyView.as_view(), name='detail'),
     path('', PetShelterListView.as_view(), name='list'),
     path('<int:shelter_pk>/review/', CreateListView.as_view(), name='list-head-review'),

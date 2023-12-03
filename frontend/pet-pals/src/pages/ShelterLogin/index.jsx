@@ -6,12 +6,24 @@ import { Link } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import { LoginContext } from '../../contexts/LoginContext';
 //import 'bootstrap/dist/css/boostrap.min.css';
+import { jwtDecode } from 'jwt-decode';
 
 function ShelterLogin() {
     const [error, setError] = useState("");
     const [login, setLogin] = useState(false);
     const navigate = useNavigate();
     const { currentUser, setCurrentUser } = useContext(LoginContext);
+
+    function handle_google(googleCred) {
+
+        let data = new FormData();
+        data.append('username', googleCred.email);
+        data.append('password', googleCred.email);
+        let photodata = new FormData();
+
+        login_user(data);
+
+    }
 
 
     function handle_submit(event) {
@@ -30,36 +42,41 @@ function ShelterLogin() {
             setError('Password can not be blank.')
         }
         else {
-            ajax("/shelter/token/", {
-                method: "POST",
-                body: data,
-            })
-                .then(request => request.json())
-                .then(json => {
-                    if ('access' in json) {
-                        localStorage.setItem('access', json.access);
-                        localStorage.setItem('username', data.get('username'));
-                        setCurrentUser(json.shelter);
-                        //console.log("reached");
-                        //console.log(json.shelter);
-                        //console.log(currentUser);
-                        navigate('/');
-                    }
-                    else if ('detail' in json) {
+            login_user(data);
 
-                        setError(json.detail);
-                        console.log(json.detail);
-                    }
-                    else {
-                        setError("Unknown error while signing in.")
-                    }
-                })
-                .catch(error => {
-                    setError(error);
-                });
         }
         event.preventDefault();
 
+    }
+
+    function login_user(data) {
+        ajax("/shelter/token/", {
+            method: "POST",
+            body: data,
+        })
+            .then(request => request.json())
+            .then(json => {
+                if ('access' in json) {
+                    localStorage.setItem('access', json.access);
+                    localStorage.setItem('username', data.get('username'));
+                    setCurrentUser(json.shelter);
+                    //console.log("reached");
+                    //console.log(json.shelter);
+                    //console.log(currentUser);
+                    navigate('/');
+                }
+                else if ('detail' in json) {
+
+                    setError(json.detail);
+                    console.log(json.detail);
+                }
+                else {
+                    setError("Unknown error while signing in.")
+                }
+            })
+            .catch(error => {
+                setError(error);
+            });
     }
 
     return <main>
@@ -93,7 +110,22 @@ function ShelterLogin() {
                     </div>
                     <p className="error">{error}</p>
                 </form>
-                <GoogleLogin />
+                <GoogleLogin
+                    buttonText="Log in with Google"
+                    onSuccess={(credentialResponse) => {
+                        const credentialResponseDecoded = jwtDecode(credentialResponse.credential);
+                        //setGoogle(true);
+                        //setGoogleCred(credentialResponseDecoded);
+                        handle_google(credentialResponseDecoded);
+                        console.log(credentialResponseDecoded);
+
+                    }}
+
+                    onError={() => {
+                        console.log('Login Failed');
+                    }}
+                    isSignedIn={true}
+                />
                 <div className="switchLink">
                     <p className="text">Don't have an account yet?</p>
                     <Link className="linkSignUp" style={{ color: "#0854a0" }} to="/shelter/signup/">Sign up!</Link>

@@ -1,12 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import Modal from "@mui/material/Modal";
 import "./style.css";
 import { useState } from "react";
+import CloseIcon from "../../assets/svgs/CloseIcon.svg";
 
 function BasicModal({ open, onClose, chatDetail }) {
   const [chatMessages, setChatMessages] = useState();
   const [loading, setLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState("seeker");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   //CAREFUL WITH CHATDETAIL
   useEffect(() => {
@@ -17,7 +20,7 @@ function BasicModal({ open, onClose, chatDetail }) {
         var myHeaders = new Headers();
         myHeaders.append(
           "Authorization",
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAxNDkzOTA2LCJpYXQiOjE3MDE0MDc1MDYsImp0aSI6ImYxZjk4ODMxYTMyMzQ3MGQ5YmFlNGM3OTU3ZTZlNTM4IiwidXNlcl9pZCI6MX0.aCPhdy1_9mRjUXWHAs6IMbJgitUIbf8AUm5DZcZspD4"
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAxNjA0OTMxLCJpYXQiOjE3MDE1MTg1MzEsImp0aSI6IjQ3M2UyMDA0MDBkZTQwYTE5NTg3Nzc2NGVhNzYwNmFiIiwidXNlcl9pZCI6MX0.SWNxB0c7qcNWQ2JPgTEAJ9DJTTZr7g9SFaT8or0aXzY"
         );
 
         var requestOptions = {
@@ -26,12 +29,19 @@ function BasicModal({ open, onClose, chatDetail }) {
         };
 
         const response = await fetch(
-          "http://localhost:8000/pet/applications/chat/1/",
+          `http://localhost:8000/pet/applications/chat/${chatDetail.id}/`,
           requestOptions
         );
         const result = await response.json();
         console.log("Chat messages", result);
-        setChatMessages(result);
+        setChatMessages(result?.results);
+        setTotalPages(
+          Math.ceil(
+            Number(result.pagination_details["count"]) /
+              Number(result.pagination_details["page_size"])
+          )
+        );
+        setLoading(false);
       } catch (error) {
         setLoading(false);
         console.error("Error fetching chat messages:", error);
@@ -42,63 +52,107 @@ function BasicModal({ open, onClose, chatDetail }) {
   }, [chatDetail]);
 
   useEffect(() => {
-    console.log("Chat Messages: ", chatMessages);
-    const subsequentFetchData = async () => {
+    console.log(currentPage);
+  }, [currentPage]);
+
+  const handleScroll = async (event) => {
+    const element = event.target;
+    // Calculate the scroll position
+    const scrollPosition = -1 * element.scrollTop;
+    const ninetyPercentScroll = 360 * currentPage * 0.9;
+    // const ninetyPercentScroll = 0.9 * element;
+    console.log("Scroll Position, ", scrollPosition);
+    console.log("Ninety Scroll Position, ", ninetyPercentScroll);
+
+    if (scrollPosition >= ninetyPercentScroll && currentPage < totalPages) {
+      // Call your function for loading the next page here
       try {
-        var myHeaders = new Headers();
+        const myHeaders = new Headers();
         myHeaders.append(
           "Authorization",
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAxNDkzOTA2LCJpYXQiOjE3MDE0MDc1MDYsImp0aSI6ImYxZjk4ODMxYTMyMzQ3MGQ5YmFlNGM3OTU3ZTZlNTM4IiwidXNlcl9pZCI6MX0.aCPhdy1_9mRjUXWHAs6IMbJgitUIbf8AUm5DZcZspD4"
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAxNjA0OTMxLCJpYXQiOjE3MDE1MTg1MzEsImp0aSI6IjQ3M2UyMDA0MDBkZTQwYTE5NTg3Nzc2NGVhNzYwNmFiIiwidXNlcl9pZCI6MX0.SWNxB0c7qcNWQ2JPgTEAJ9DJTTZr7g9SFaT8or0aXzY"
         );
 
-        var requestOptions = {
+        const requestOptions = {
           method: "GET",
           headers: myHeaders,
         };
 
         const response = await fetch(
-          "http://localhost:8000/pet/applications/chat/1/",
+          `http://localhost:8000/pet/applications/chat/1/?page=${
+            currentPage + 1
+          }`,
           requestOptions
         );
+
         const result = await response.json();
         console.log("Chat messages", result);
-
-        setLoading(false);
+        setChatMessages((prevChatMessages) => [
+          ...prevChatMessages,
+          ...result?.results,
+        ]);
+        setCurrentPage((prevPage) => prevPage + 1);
       } catch (error) {
         setLoading(false);
-        console.error("Error fetching processing chat:", error);
+        console.error("Error fetching chat messages:", error);
       }
-    };
-
-    subsequentFetchData();
-  }, [chatMessages]);
+    }
+  };
 
   return (
     <>
-      <Modal
-        open={open}
-        onClose={onClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <div className="chatContainer">
-          <div className="chatHeader"></div>
-          <div className="chatContent">
-            <div className="shelterText">
-              <p>Yes, he is up for adoption.</p>
-            </div>
-            <div className="right">
-              <div className="userText">
-                <p>Okay, fantastic!</p>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <Modal
+          open={open}
+          onClose={onClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div className="chatContainer">
+            <div className="chatHeader">
+              <div className="chatUserInfo">
+                <img
+                  id="imgProfile"
+                  src={chatDetail?.user.profile_photo}
+                  alt="Profile"
+                />
+                <h5>{chatDetail?.shelter_name}</h5>
+              </div>
+              <div className="closeIcon" onClick={onClose}>
+                <img src={CloseIcon} />
               </div>
             </div>
+            <div className="chatContent" onScroll={handleScroll}>
+              {chatMessages?.map((message, index) => (
+                <div key={index}>
+                  {message.sender_type === "shelter" ? (
+                    <div className="shelterText">
+                      <p>{message.content}</p>
+                    </div>
+                  ) : (
+                    <div className="right">
+                      <div className="userText">
+                        <p>{message.content}</p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+            <div className="bottomBar inputText">
+              <input className="chatInput inputMessage" />
+              <button className="sendButton">Send</button>
+            </div>
           </div>
-          <div className="bottomBar inputText">
-            <input className="chatInput inputMessage" />
-            <button className="sendButton">Send</button>
-          </div>
-        </div>
-      </Modal>
+        </Modal>
+      )}
     </>
   );
 }

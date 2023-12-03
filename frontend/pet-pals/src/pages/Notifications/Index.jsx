@@ -39,7 +39,7 @@ const Notifications = () => {
         const myHeaders = new Headers();
         myHeaders.append(
           "Authorization",
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAxNDkzOTA2LCJpYXQiOjE3MDE0MDc1MDYsImp0aSI6ImYxZjk4ODMxYTMyMzQ3MGQ5YmFlNGM3OTU3ZTZlNTM4IiwidXNlcl9pZCI6MX0.aCPhdy1_9mRjUXWHAs6IMbJgitUIbf8AUm5DZcZspD4" // Replace with a secure way to handle tokens
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAxNjA0OTMxLCJpYXQiOjE3MDE1MTg1MzEsImp0aSI6IjQ3M2UyMDA0MDBkZTQwYTE5NTg3Nzc2NGVhNzYwNmFiIiwidXNlcl9pZCI6MX0.SWNxB0c7qcNWQ2JPgTEAJ9DJTTZr7g9SFaT8or0aXzY" // Replace with a secure way to handle tokens
         );
 
         const requestOptions = {
@@ -86,7 +86,7 @@ const Notifications = () => {
         const myHeaders = new Headers();
         myHeaders.append(
           "Authorization",
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAxNDkzOTA2LCJpYXQiOjE3MDE0MDc1MDYsImp0aSI6ImYxZjk4ODMxYTMyMzQ3MGQ5YmFlNGM3OTU3ZTZlNTM4IiwidXNlcl9pZCI6MX0.aCPhdy1_9mRjUXWHAs6IMbJgitUIbf8AUm5DZcZspD4" // Replace with a secure way to handle tokens
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAxNjA0OTMxLCJpYXQiOjE3MDE1MTg1MzEsImp0aSI6IjQ3M2UyMDA0MDBkZTQwYTE5NTg3Nzc2NGVhNzYwNmFiIiwidXNlcl9pZCI6MX0.SWNxB0c7qcNWQ2JPgTEAJ9DJTTZr7g9SFaT8or0aXzY" // Replace with a secure way to handle tokens
         );
 
         try {
