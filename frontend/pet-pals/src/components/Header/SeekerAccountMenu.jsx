@@ -22,6 +22,7 @@ export default function ShelterAccountMenu() {
     const navigate = useNavigate();
     const open = Boolean(anchorEl);
     const { currentUser, setCurrentUser } = useContext(LoginContext);
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };

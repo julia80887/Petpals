@@ -21,6 +21,11 @@ export default function ShelterAccountMenu() {
   const navigate = useNavigate();
   const open = Boolean(anchorEl);
   const { currentUser, setCurrentUser } = useContext(LoginContext);
+  const shelter_name = localStorage.getItem('shelter_name');
+  const id = localStorage.getItem('id');
+  const profile_photo = localStorage.getItem('profile_photo');
+
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -30,6 +35,9 @@ export default function ShelterAccountMenu() {
 
   function handleLogout() {
     localStorage.removeItem('access');
+    localStorage.removeItem('shelter_name');
+    localStorage.removeItem('id');
+    localStorage.removeItem('profile_photo');
     setCurrentUser({});
     navigate('/');
 
@@ -38,6 +46,7 @@ export default function ShelterAccountMenu() {
 
   }
   function handlePets() {
+    navigate('/pets/');
 
   }
   function handleNotifications() {
@@ -55,7 +64,7 @@ export default function ShelterAccountMenu() {
           aria-haspopup="true"
           aria-expanded={open ? "true" : undefined}
         >
-          <Avatar sx={{ width: 32, height: 32 }} src={currentUser.profile_photo} />
+          <Avatar sx={{ width: 32, height: 32 }} src={profile_photo} />
         </IconButton>
       </Box>
       <Menu
@@ -94,7 +103,7 @@ export default function ShelterAccountMenu() {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <MenuItem onClick={handleProfile}>
-          <Avatar src={currentUser.profile_photo} /> Edit Profile
+          <Avatar src={profile_photo} /> Edit Profile
         </MenuItem>
         <Divider />
         <MenuItem onClick={handlePets}>

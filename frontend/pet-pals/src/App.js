@@ -17,6 +17,7 @@ import ShelterProfile from "./pages/ShelterProfile";
 import SeekerProfile from "./pages/SeekerProfile";
 import CreateApplication from "./pages/CreateApplication";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import ShelterManage from "./pages/ShelterManage";
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
@@ -30,20 +31,21 @@ function App() {
               {/* <Route path="/" element={<Layout />}> */}
               <Route index element={<Home />} />
               <Route path="pet/:pet_id/" element={<PetDetails />} />
+              <Route path="pets/" element={<ShelterManage />} />
               <Route path="notifications/" element={<Notifications />} />
               <Route path="pet/applications/" element={<Applications />} />
               <Route
                 path="pet/:pet_id/applications/"
                 element={<CreateApplication />}
               />
-              <Route path="/shelter/login/" exact element={<ShelterLogin />} />
-              <Route path="/seeker/login/" exact element={<SeekerLogin />} />
+              <Route path="shelter/login/" exact element={<ShelterLogin />} />
+              <Route path="seeker/login/" exact element={<SeekerLogin />} />
               <Route
-                path="/shelter/signup/"
+                path="shelter/signup/"
                 exact
                 element={<ShelterSignUp />}
               />
-              <Route path="/seeker/signup/" exact element={<SeekerSignUp />} />
+              <Route path="seeker/signup/" exact element={<SeekerSignUp />} />
               <Route path="shelter/:id/" element={<ShelterDetails />} />
               <Route
                 path="profile/shelter/:shelter_id/"

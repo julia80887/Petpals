@@ -15,7 +15,8 @@ function Home() {
   const { currentUser } = useContext(LoginContext);
 
   useEffect(() => {
-    console.log("Logged in user: ", currentUser);
+    console.log("Logged in user: ", localStorage.getItem('shelter_name'));
+    console.log("Logged in user: ", localStorage.getItem('id'));
 
     const fetchData = async () => {
       try {
