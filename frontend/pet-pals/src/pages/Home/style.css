@@ -134,13 +134,39 @@
 /* FILTER + SORT BUTTON RELATED*/
 
 /* MODAL SCREEN */
-/* .modalTitle {
+.modalContent {
+  background: white;
+  color: #573f35;
+  display: flex;
+  height: fit-content;
+  width: 700px;
+  border-radius: 10px;
+  flex-direction: column;
+  /* box-sizing: border-box; */
+}
+
+.modalHeader {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 70px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  border-bottom: #dadada 1px solid;
+}
+
+.modalTitle {
   color: #573f35;
   text-align: center;
   font-family: Nunito Sans;
   font-size: 24px;
   font-style: normal;
   font-weight: 700;
+}
+
+.modalBody {
+  margin: 40px;
 }
 
 .modalSubHeading {
@@ -152,12 +178,15 @@
   font-weight: 600;
 }
 
+/* I Don't know what this does */
 .ModalFilter {
   display: flex;
   flex-direction: column;
   margin-bottom: 15px;
   align-items: flex-start;
 }
+
+/* AGE BUTTON CONTAINER */
 
 .ageButtonContainer {
   display: flex;
@@ -190,6 +219,9 @@
   border: 1.25px solid #573f35;
 }
 
+/* AGE BUTTON CONTAINER */
+
+/* SIZE BUTTON CONTAINER */
 .selectedTab {
   color: white;
   background-color: #573f35;
@@ -236,14 +268,16 @@
   border: 1.5px solid #573f35;
   background-color: #ecebea;
 }
+/* SIZE BUTTON CONTAINER */
 
-.breedDropdown {
+/* ANIMAL TYPE DROPDOWN */
+.animalTypeDropdown {
   display: flex;
   width: 100%;
   align-items: flex-start;
 }
 
-.breedButton {
+.animalTypeButton {
   background: white;
   height: 60px;
   border: 1px solid #573f35;
@@ -252,13 +286,13 @@
   border-radius: 10px;
 }
 
-.breedButton:hover {
+.animalTypeButton:hover {
   cursor: pointer;
   background: white;
   border: 1.5px solid #573f35;
 }
 
-.breedButton h4 {
+.animalTypeButton h4 {
   color: #573f35;
   text-align: center;
   font-family: Nunito Sans;
@@ -268,9 +302,47 @@
   margin: 0px;
 }
 
-.breedDropdown .show {
+.animalTypeDropdown .show {
   width: 99%;
 }
+/* ANIMAL TYPE DROPDOWN */
+
+/* SHELTER DROPDOWN */
+.shelterDropdown {
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+}
+
+.shelterButton {
+  background: white;
+  height: 60px;
+  border: 1px solid #573f35;
+  width: 99%;
+  transition: transform 0.2s;
+  border-radius: 10px;
+}
+
+.shelterButton:hover {
+  cursor: pointer;
+  background: white;
+  border: 1.5px solid #573f35;
+}
+
+.shelterButton h4 {
+  color: #573f35;
+  text-align: center;
+  font-family: Nunito Sans;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  margin: 0px;
+}
+
+.shelterDropdown .show {
+  width: 99%;
+}
+/* SHELTER DROPDOWN */
 
 .checkBoxContainer {
   display: grid;
@@ -305,7 +377,7 @@
   cursor: pointer;
   color: #573f35;
   font-family: Open Sans;
-} 
+}
 
 .ShowPets {
   display: flex;
@@ -330,7 +402,16 @@
   filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.25));
 }
 
-*/
+.modalFooter {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 70px;
+  align-items: center;
+  padding: 20px;
+  border-top: #dadada 1px solid;
+}
+
 /* MODAL SCREEN */
 
 .noResultHeading {
@@ -341,6 +422,7 @@
   margin-top: 75px;
   margin: 75px;
   /* justify-content: center; */
+  white-space: nowrap;
   display: flex;
 }
 
@@ -379,8 +461,6 @@
   flex-direction: column;
   gap: 8px;
 }
-
-
 
 .cardTextHeading {
   margin: 0px;

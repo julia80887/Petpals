@@ -12,7 +12,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from ..models import PetImage, Pet
 from shelters.models import PetShelter, Review
 from accounts.models import CustomUser, PetSeeker
-from shelters.serializers.shelter_serializers import PetShelterSerializer, PetShelterSignUpSerializer,PetShelterRetrieveSerializer,PetShelterUpdateSerializer
+from shelters.serializers.shelter_serializers import PetShelterSerializer, PetShelterSignUpSerializer, PetShelterRetrieveSerializer, PetShelterUpdateSerializer
 from rest_framework.generics import RetrieveAPIView, ListAPIView
 from django.shortcuts import get_object_or_404
 from ..serializers.pet_serializers import PetSerializer, PetImageSerializer, PetUpdateSerializer, PetRetrieveSerializer
@@ -20,6 +20,7 @@ from rest_framework.pagination import PageNumberPagination
 from django.contrib.contenttypes.models import ContentType
 from chats.models.messages import Message
 from notifications.views import CreateNotificationsView
+
 
 class CustomPageNumberPagination(PageNumberPagination):
     page_size = 10  # Set the default page size
@@ -45,7 +46,7 @@ class PetListCreateView(ListCreateAPIView):
     pagination_class = CustomPageNumberPagination
 
     def get_permissions(self):
-        # change permissions for POST, so user must be logged in 
+        # change permissions for POST, so user must be logged in
         if self.request.method == 'POST':
             return [IsAuthenticated()]
         return super().get_permissions()
@@ -59,9 +60,11 @@ class PetListCreateView(ListCreateAPIView):
             queryset = queryset.filter(shelter__shelter_name=shelter)
 
         status = self.request.query_params.get(
-            'status', 'Available')  # Default status is 'available'
-        if status:
+            'status')  # Default status is 'available'
+        if status == "Adopted" or status == "Pending":
             queryset = queryset.filter(status=status)
+        else:
+            queryset = queryset.filter(status="Available")
 
         # # # Additional filters
         gender = self.request.query_params.get('gender')
@@ -69,16 +72,26 @@ class PetListCreateView(ListCreateAPIView):
             queryset = queryset.filter(gender=gender)
 
         color = self.request.query_params.get('color')
-        if color:
+        if color == "other":
+            queryset = queryset.exclude(color="black").exclude(color="white").exclude("brown").exclude(
+                "grey").exclude("multicolor").exclude("orange").exclude("red").exclude("green")
+        elif color:
             queryset = queryset.filter(color=color)
-        
+
         size = self.request.query_params.get('size')
         if size:
             queryset = queryset.filter(weight__lte=size)
 
         pet_type = self.request.query_params.get(
             'type')  # Look into case sensitivity
-        if pet_type:
+
+        if pet_type == "Dog":
+            queryset = queryset.filter(pet_type="Dog")
+        elif pet_type == "Cat":
+            queryset = queryset.filter(pet_type="Cat")
+        if pet_type == "Other":
+            queryset = queryset.exclude(pet_type="Cat").exclude(pet_type="Dog")
+        elif pet_type != "":
             queryset = queryset.filter(pet_type=pet_type)
 
         # # # Sorting options
@@ -93,7 +106,6 @@ class PetListCreateView(ListCreateAPIView):
             queryset = queryset.order_by('publication_date')
 
         return queryset
-
 
     def create(self, request, *args, **kwargs):
         user = self.request.user
@@ -115,11 +127,11 @@ class PetListCreateView(ListCreateAPIView):
                 'message': 'Pet successfully created.',
             }
 
-            all_seekers =  PetSeeker.objects.all()
+            all_seekers = PetSeeker.objects.all()
 
             for seeker in all_seekers:
                 print(seeker)
-            # Create Notification for Seeker 
+            # Create Notification for Seeker
                 url = reverse(f'pet:pet_detail', kwargs={'pet_pk': pet.id})
                 notification_class = CreateNotificationsView()
                 notification_class.create_seeker_notification(
@@ -139,16 +151,16 @@ class PetDetailView(RetrieveUpdateDestroyAPIView):
 
     def get_object(self):
         return get_object_or_404(Pet, id=self.kwargs['pet_pk'])
-    
+
     def get_serializer_class(self):
         # Override to use different serializers for different HTTP methods
-        if self.request.method == 'PUT': # update
+        if self.request.method == 'PUT':  # update
             return PetUpdateSerializer
         return PetRetrieveSerializer
 
     def get_permissions(self):
-        # change permissions for DELETE and UPDATE, so user must be logged in 
-        if self.request.method == 'DELETE' or self.request.method=='PUT':
+        # change permissions for DELETE and UPDATE, so user must be logged in
+        if self.request.method == 'DELETE' or self.request.method == 'PUT':
             return [IsAuthenticated()]
         return super().get_permissions()
 
@@ -185,7 +197,7 @@ class PetDetailView(RetrieveUpdateDestroyAPIView):
             for image in pet.pet_images.all():
                 if image.id not in old_image_id:
                     image.delete()
-            
+
             response_data = {
                 'message': 'Pet successfully updated.',
                 'data': serializer.data
@@ -217,16 +229,17 @@ class PetImageCreateView(generics.CreateAPIView):
             data = {
                 'status': 'success',
                 'message': 'Successfully created.',
-                'data': serializer.data,  
+                'data': serializer.data,
             }
             return Response(data, status=status.HTTP_201_CREATED)
 
         response_data = {
-                'message': 'Invalid Request.',
-                'errors': serializer.errors
-            }
+            'message': 'Invalid Request.',
+            'errors': serializer.errors
+        }
 
         return Response(response_data, status=status.HTTP_400_BAD_REQUEST)
+
 
 class PetImageDeleteView(generics.DestroyAPIView):
     queryset = PetImage.objects.all()
@@ -234,7 +247,7 @@ class PetImageDeleteView(generics.DestroyAPIView):
 
     def delete(self, request, *args, **kwargs):
         pet_image = get_object_or_404(PetImage, id=self.kwargs['image_pk'])
-        
+
         pet = get_object_or_404(Pet, id=self.kwargs['pet_pk'])
 
         if self.request.user != pet.shelter.user:

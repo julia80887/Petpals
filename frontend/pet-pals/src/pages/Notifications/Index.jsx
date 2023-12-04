@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { BasicModal } from "../../components/Modal";
+import { ChatModal } from "../../components/Modal";
 import "./style.css";
 
 const Notifications = () => {
@@ -269,8 +269,7 @@ const Notifications = () => {
                 )}
             </div>
           </div>
-        )}
-      <BasicModal
+      <ChatModal
         open={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         chatDetail={modalChatDetail}
