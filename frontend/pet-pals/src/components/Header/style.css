@@ -8,7 +8,7 @@
   height: 75px;
   align-items: center;
   justify-content: space-between;
-  /* width: 100vw; */
+  width: 100vw;
   padding-left: 20px;
   padding-right: 20px;
   box-sizing: border-box;
@@ -21,14 +21,12 @@
   font-weight: 600;
   font-style: Nunito Sans;
   margin: 10px;
-
 }
 .accountSection {
   display: flex;
-  flex-direction: row; 
+  flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
-  
 }
 
 .logo {
