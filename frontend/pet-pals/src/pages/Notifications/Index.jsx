@@ -21,7 +21,7 @@ const Notifications = () => {
     setModalChatDetail(chatDetail);
     setIsModalOpen(true);
   };
-  //
+
 
   const query = useMemo(
     () => ({
@@ -58,7 +58,7 @@ const Notifications = () => {
         setTotalPages(
           Math.ceil(
             Number(result.pagination_details["count"]) /
-              Number(result.pagination_details["page_size"])
+            Number(result.pagination_details["page_size"])
           )
         );
 
@@ -161,115 +161,115 @@ const Notifications = () => {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <div className="notificationContent">
-          <div className="notificationsContainer">
-            <h1 className="pageHeading">Notifications</h1>
+          <div className="notificationContent">
+            <div className="notificationsContainer">
+              <h1 className="pageHeading">Notifications</h1>
 
-            {notifications.length === 0 ? (
-              <p>No notifications available.</p>
-            ) : (
-              <div className="notificationGrid">
-                {notifications.map((notification) => (
-                  <div
-                    key={notification.id}
-                    className="notification"
-                    onClick={
-                      notification.notification_type === "new_message"
-                        ? () => handleOpenModal(notification)
-                        : () => handleNotificationClick(notification)
-                    }
-                  >
-                    <div className="notificationPic">
-                      {notification.notification_type === "new_message" ? (
-                        <img
-                          id="imgProfile"
-                          src={
-                            notificationDetails[notification.id]?.user
-                              ?.profile_photo
-                          }
-                          alt="Profile"
-                        />
-                      ) : (
-                        <img
-                          id="imgProfile"
-                          src={
-                            notificationDetails[notification.id]?.profile_photo
-                          }
-                          alt="Profile"
-                        />
-                      )}
-                    </div>
+              {notifications.length === 0 ? (
+                <p>No notifications available.</p>
+              ) : (
+                  <div className="notificationGrid">
+                    {notifications.map((notification) => (
+                      <div
+                        key={notification.id}
+                        className="notification"
+                        onClick={
+                          notification.notification_type === "new_message"
+                            ? () => handleOpenModal(notification)
+                            : () => handleNotificationClick(notification)
+                        }
+                      >
+                        <div className="notificationPic">
+                          {notification.notification_type === "new_message" ? (
+                            <img
+                              id="imgProfile"
+                              src={
+                                notificationDetails[notification.id]?.user
+                                  ?.profile_photo
+                              }
+                              alt="Profile"
+                            />
+                          ) : (
+                              <img
+                                id="imgProfile"
+                                src={
+                                  notificationDetails[notification.id]?.profile_photo
+                                }
+                                alt="Profile"
+                              />
+                            )}
+                        </div>
 
-                    <div className="notificationText">
-                      {notification.notification_type === "new_pet" ? (
-                        <>
-                          <h5 className="notificationHeading">
-                            Are you ready to give{" "}
-                            {notificationDetails[notification.id]?.name ||
-                              "this pet"}{" "}
+                        <div className="notificationText">
+                          {notification.notification_type === "new_pet" ? (
+                            <>
+                              <h5 className="notificationHeading">
+                                Are you ready to give{" "}
+                                {notificationDetails[notification.id]?.name ||
+                                  "this pet"}{" "}
                             their forever home?
                           </h5>
-                          <p>{formatDate(notification.date_created)}</p>
-                        </>
-                      ) : notification.notification_type ===
-                        "application_status" ? (
-                        <>
-                          <h5>Your application has been accepted</h5>
-                          <p>{formatDate(notification.date_created)}</p>
-                        </>
-                      ) : (
-                        <>
-                          <h5>
-                            {notificationDetails[notification.id]
-                              ?.shelter_name || "This shelter"}{" "}
+                              <p>{formatDate(notification.date_created)}</p>
+                            </>
+                          ) : notification.notification_type ===
+                            "application_status" ? (
+                                <>
+                                  <h5>Your application has been accepted</h5>
+                                  <p>{formatDate(notification.date_created)}</p>
+                                </>
+                              ) : (
+                                <>
+                                  <h5>
+                                    {notificationDetails[notification.id]
+                                      ?.shelter_name || "This shelter"}{" "}
                             replied to your chat
                           </h5>
-                          <p>{formatDate(notification.date_created)}</p>
-                        </>
-                      )}
+                                  <p>{formatDate(notification.date_created)}</p>
+                                </>
+                              )}
+                        </div>
+                      </div>
+                    ))}
+                    <div className="pagination">
+                      <div className="paginationButtonContainer">
+                        {query.page > 1 && query.page <= totalPages ? (
+                          <button
+                            className="paginationButton"
+                            onClick={() =>
+                              setSearchParams({ ...query, page: query.page - 1 })
+                            }
+                          >
+                            Previous
+                          </button>
+                        ) : (
+                            <></>
+                          )}
+                        {query.page < totalPages ? (
+                          <button
+                            className="paginationButton"
+                            onClick={() =>
+                              setSearchParams({ ...query, page: query.page + 1 })
+                            }
+                          >
+                            Next
+                          </button>
+                        ) : (
+                            <></>
+                          )}
+                      </div>
+                      {query.page <= totalPages ? (
+                        <p className="totalPages">
+                          Page {query.page} out of {totalPages}.
+                        </p>
+                      ) : (
+                          <p className="totalPages">Page does not exist.</p>
+                        )}
                     </div>
                   </div>
-                ))}
-                <div className="pagination">
-                  <div className="paginationButtonContainer">
-                    {query.page > 1 && query.page <= totalPages ? (
-                      <button
-                        className="paginationButton"
-                        onClick={() =>
-                          setSearchParams({ ...query, page: query.page - 1 })
-                        }
-                      >
-                        Previous
-                      </button>
-                    ) : (
-                      <></>
-                    )}
-                    {query.page < totalPages ? (
-                      <button
-                        className="paginationButton"
-                        onClick={() =>
-                          setSearchParams({ ...query, page: query.page + 1 })
-                        }
-                      >
-                        Next
-                      </button>
-                    ) : (
-                      <></>
-                    )}
-                  </div>
-                  {query.page <= totalPages ? (
-                    <p className="totalPages">
-                      Page {query.page} out of {totalPages}.
-                    </p>
-                  ) : (
-                    <p className="totalPages">Page does not exist.</p>
-                  )}
-                </div>
-              </div>
-            )}
+                )}
+            </div>
           </div>
-        </div>
-      )}
+        )}
       <BasicModal
         open={isModalOpen}
         onClose={() => setIsModalOpen(false)}
