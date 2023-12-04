@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom"; // Import useParams from react-router-dom
+import { Link, useParams, useNavigate } from "react-router-dom"; // Import useParams from react-router-dom
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.css";
 import "./style.css";
@@ -23,7 +23,9 @@ function PetDetails() {
   const { pet_id } = useParams();
   const [petDetails, setPetDetails] = useState([]);
   const [shelterDetails, setShelterDetails] = useState({});
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [loadingShelter, setLoadingShelter] = useState(true);
+  const [loadingPets, setLoadingPets] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,15 +39,20 @@ function PetDetails() {
           requestOptions
         );
         const result = await response.json();
-        console.log(result);
+        // if (petDetails["detail"] == "Not found.") {
+        //   navigate(`/`);
+        // }
+        console.log(result["detail"]);
         setPetDetails(result);
+        setLoadingPets(false);
       } catch (error) {
         console.error("Error:", error);
+        navigate(`/`);
       }
     };
 
     fetchData();
-  }, []);
+  }, [pet_id]);
   // let shelterNameURL = '';
 
   useEffect(() => {
@@ -70,6 +77,7 @@ function PetDetails() {
           const result = await response.json();
           console.log("Shelter Results: ", result);
           setShelterDetails(result);
+          setLoadingShelter(false);
         } catch (error) {
           console.error("Error:", error);
         }
@@ -82,39 +90,52 @@ function PetDetails() {
     setValue(newValue);
   };
 
-  return (
-    <>
-      {/* {loading ? (
-        <p>Loading.....</p>
-      ) : ( */}
-      <div className="mainContainer">
-        <div className="detailsContainer">
-          <h1 className="textHeading">
-            Hi, I’m <span className="chewyHeading">{petDetails.name}</span>!
-          </h1>
-          <div className="imageContainer">
-            <div className="largeImage">
-              <img
-                src={petDetails.profile_photo}
-                id="rufusPic"
-                alt={petDetails.name}
-              />
-            </div>
-          </div>
-          <div className="contentContianer">
-            <div className="internalContainer">
-              <div className="contentSelector">
-                <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                  <Tabs
-                    value={value}
-                    onChange={handleChange}
-                    aria-label="basic tabs example"
-                  >
-                    <Tab label="General Info" {...a11yProps(0)} />
-                    <Tab label="Status" {...a11yProps(1)} />
-                    <Tab label="Images" {...a11yProps(2)} />
-                    {/* </Tabs> */}
-                    {/* <CustomTabPanel className="tab" id="generalTab" value={value} index={0}>
+  if (loadingShelter || loadingPets) {
+    if (petDetails['detail'] == 'Not found.') {
+      return <h1>This Pet does not exist.</h1>
+    }
+    else {
+      console.log(petDetails)
+      console.log(shelterDetails)
+      return <p>Loading...</p>;
+    }
+  }
+
+
+  if (petDetails && shelterDetails) {
+    return (
+      <>
+        {/* {loadingShelter || loadingPets ? (
+          <p>Loading.....</p>
+        ) : ( */}
+          <div className="mainContainer">
+            <div className="detailsContainer">
+              <h1 className="textHeading">
+                Hi, I’m <span className="chewyHeading">{petDetails.name}</span>!
+              </h1>
+              <div className="imageContainer">
+                <div className="largeImage">
+                  <img
+                    src={petDetails.profile_photo}
+                    id="rufusPic"
+                    alt={petDetails.name}
+                  />
+                </div>
+              </div>
+              <div className="contentContianer">
+                <div className="internalContainer">
+                  <div className="contentSelector">
+                    <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                      <Tabs
+                        value={value}
+                        onChange={handleChange}
+                        aria-label="basic tabs example"
+                      >
+                        <Tab label="General Info" {...a11yProps(0)} />
+                        <Tab label="Status" {...a11yProps(1)} />
+                        <Tab label="Images" {...a11yProps(2)} />
+                        {/* </Tabs> */}
+                        {/* <CustomTabPanel className="tab" id="generalTab" value={value} index={0}>
                   General Info
                 </CustomTabPanel>
                 <CustomTabPanel className="tab" id="generalTab" value={value} index={1}>
@@ -124,7 +145,7 @@ function PetDetails() {
                   Images
                 </CustomTabPanel> */}
 
-                    {/* <div className="tab" id="generalTab">
+                        {/* <div className="tab" id="generalTab">
                     <Tab label="General Info" {...a11yProps(0)} />
                   </div>
                   <div className="tab" id="statusTab">
@@ -133,96 +154,117 @@ function PetDetails() {
                   <div className="tab" id="imageTab">
                     <Tab label="Images" {...a11yProps(2)} />
                   </div> */}
-                  </Tabs>
-                </Box>
-              </div>
+                      </Tabs>
+                    </Box>
+                  </div>
 
-              <CustomTabPanel
-                className="tab"
-                id="generalTab"
-                value={value}
-                index={0}
-              >
-                <div className="textContainer" id="petInfo">
-                  <div className="specs">
-                    <p className="specsLine">
-                      {petDetails.breed} · {petDetails.city},{" "}
-                      {petDetails.province}
-                    </p>
-                    <p className="specsLine">{petDetails.gender} · Medium</p>
-                    <p className="specsLine">
-                      <span className="specLabels">Birthday: </span>
-                      {petDetails.date_of_birth}
-                    </p>
-                    <p className="specsLine">
-                      <span className="specLabels">Shelter: </span>
-                      {shelterDetails.shelter_name}
-                    </p>
-                    <p className="specsLine">
-                      <span className="specLabels">About: </span>
-                      {petDetails.about}
-                    </p>
+                  <CustomTabPanel
+                    className="tab"
+                    id="generalTab"
+                    value={value}
+                    index={0}
+                  >
+                    <div className="textContainer" id="petInfo">
+                      <div className="specs">
+                        <p className="specsLine">
+                          {petDetails.breed} · {petDetails.city},{" "}
+                          {petDetails.province}
+                        </p>
+                        <p className="specsLine">
+                          {petDetails.gender} · Medium
+                        </p>
+                        <p className="specsLine">
+                          <span className="specLabels">Birthday: </span>
+                          {petDetails.date_of_birth}
+                        </p>
+                        <p className="specsLine">
+                          <span className="specLabels">Shelter: </span>
+                          {shelterDetails.shelter_name}
+                        </p>
+                        <p className="specsLine">
+                          <span className="specLabels">About: </span>
+                          {petDetails.about}
+                        </p>
+                      </div>
+                    </div>
+                  </CustomTabPanel>
+
+                  <CustomTabPanel
+                    className="tab"
+                    id="generalTab"
+                    value={value}
+                    index={1}
+                  >
+                    <div className="textContainer" id="petStatus">
+                      <div className="specs">
+                        <p className="specsLine">
+                          <span className="specLabels">Status: </span>{" "}
+                          {petDetails.status}
+                        </p>
+                        <p className="specsLine">
+                          <span className="specLabels">Publication Date: </span>
+                          {petDetails.publication_date}
+                        </p>
+                        <p className="specsLine">
+                          <span className="specLabels">
+                            Application Deadline:{" "}
+                          </span>
+                          {petDetails.application_deadline}
+                        </p>
+                        <p className="specsLine">
+                          <span className="specLabels">Medical History:</span>{" "}
+                          {petDetails.medical_history}
+                        </p>
+                        <p className="specsLine">
+                          <span className="specLabels">Behaviour: </span>
+                          {petDetails.behavior}
+                        </p>
+                      </div>
+                    </div>
+                  </CustomTabPanel>
+
+                  <CustomTabPanel
+                    className="tab"
+                    id="generalTab"
+                    value={value}
+                    index={2}
+                  >
+                    <div className="textContainer" id="petImages">
+                      <img
+                        src="../assets/pictures/rufus2.jpg"
+                        id="dogPic"
+                        alt="No pictures"
+                      />
+                    </div>
+                  </CustomTabPanel>
+
+                  <div className="formContainer">
+                    <h4 className="applyHeading">
+                      Ready to give {petDetails.name} a forever home?
+                    </h4>
+                    <Link
+                      to={`/pet/${petDetails.id}/applications/`}
+                      style={{ textDecoration: "none" }}
+                    >
+                      <div role="button" className="applyButton">
+                        Apply Today
+                      </div>
+                    </Link>
                   </div>
                 </div>
-              </CustomTabPanel>
-
-              <CustomTabPanel className="tab" id="generalTab" value={value} index={1}>
-              <div className="textContainer" id="petStatus">
-                <div className="specs">
-                  <p className="specsLine">
-                    <span className="specLabels">Status: </span>{" "}
-                    {petDetails.status}
-                  </p>
-                  <p className="specsLine">
-                    <span className="specLabels">Publication Date: </span>
-                    {petDetails.publication_date}
-                  </p>
-                  <p className="specsLine">
-                    <span className="specLabels">Application Deadline: </span>
-                    {petDetails.application_deadline}
-                  </p>
-                  <p className="specsLine">
-                    <span className="specLabels">Medical History:</span>{" "}
-                    {petDetails.medical_history}
-                  </p>
-                  <p className="specsLine">
-                    <span className="specLabels">Behaviour: </span>
-                    {petDetails.behavior}
-                  </p>
-                </div>
-              </div>
-              </CustomTabPanel>
-
-              <CustomTabPanel className="tab" id="generalTab" value={value} index={2}>
-              <div className="textContainer" id="petImages">
-                <img
-                  src="../assets/pictures/rufus2.jpg"
-                  id="dogPic"
-                  alt="No pictures"
-                />
-              </div>
-              </CustomTabPanel>
-
-              <div className="formContainer">
-                <h4 className="applyHeading">
-                  Ready to give {petDetails.name} a forever home?
-                </h4>
-                <Link to={`/pet/${petDetails.id}/applications/`} style={{ textDecoration: "none" }}>
-                <div
-                  role="button"
-                  className="applyButton"
-                >
-                  Apply Today
-                </div>
-                </Link>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      {/* )} */}
-    </>
-  );
+        {/* )} */}
+      </>
+    );
+  } else {
+    return (
+      <>
+        <p>This pet does not exist.</p>
+      </>
+    );
+  }
 }
 
 export default PetDetails;
