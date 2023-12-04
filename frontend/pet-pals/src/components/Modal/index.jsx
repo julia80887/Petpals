@@ -4,7 +4,7 @@ import "./style.css";
 import { useState } from "react";
 import CloseIcon from "../../assets/svgs/CloseIcon.svg";
 
-function BasicModal({ open, onClose, chatDetail }) {
+function ChatModal({ open, onClose, chatDetail }) {
   const [chatMessages, setChatMessages] = useState();
   const [loading, setLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState("seeker");
@@ -157,4 +157,4 @@ function BasicModal({ open, onClose, chatDetail }) {
   );
 }
 
-export { BasicModal };
+export { ChatModal };

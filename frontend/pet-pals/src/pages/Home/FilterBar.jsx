@@ -5,31 +5,59 @@ import CatSVG from "../../assets/svgs/Cat.svg";
 import OtherAnimalsSVG from "../../assets/svgs/otherAnimals.svg";
 import ShelterSVG from "../../assets/svgs/animalShelter.svg";
 
-function FilterBar() {
+function FilterBar({ setParams, retrieveShelter, retrievePet, query }) {
+  const handleClick = (text) => {
+    // setParams({ type: text });
+
+    setParams({
+      page: query.page,
+      type: text,
+      shelter: query.shelter,
+      gender: query.gender,
+      color: query.color,
+      size: query.size,
+      status: query.status,
+      order_by: query.order_by,
+    });
+    retrievePet();
+  };
+
   return (
     <>
-      {/* MOVE TO IT'S OWN COMPONENT */}
-      {/* THE FILTER BAR AT THE TOP OF THE PAGE */}
-      {/* <div className="mainContainer"> */}
       <div className="filterContainer">
-        <div className="filter" id="dogFilter">
+        <div
+          className="filter"
+          id="dogFilter"
+          onClick={() => handleClick("Dog")}
+        >
           <img src={DogSVG} alt="Dog" />
           <h4>Dog</h4>
         </div>
-        <div className="filter" id="catFilter">
+        <div
+          className="filter"
+          id="catFilter"
+          onClick={() => handleClick("Cat")}
+        >
           <img src={CatSVG} alt="Cat" />
           <h4>Cats</h4>
         </div>
-        <div className="filter" id="otherAnimalsFilter">
+        <div
+          className="filter"
+          id="otherAnimalsFilter"
+          onClick={() => handleClick("Other")}
+        >
           <img src={OtherAnimalsSVG} />
           <h4>Other Animals</h4>
         </div>
-        <div className="filter" id="shelterFilter">
+        <div
+          className="filter"
+          id="shelterFilter"
+          onClick={() => retrieveShelter()}
+        >
           <img src={ShelterSVG} />
           <h4>Shelters</h4>
         </div>
       </div>
-      {/* </div> */}
     </>
   );
 }
