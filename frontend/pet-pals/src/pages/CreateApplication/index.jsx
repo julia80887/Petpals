@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom"; // Import useParams from rea
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.css";
 import "./style.css";
+import { useNavigate } from "react-router-dom";
 // import "react-select/dist/react-select.css";
 
 function CreateApplication() {
@@ -10,13 +11,10 @@ function CreateApplication() {
   const [errorJson, setErrorJson] = useState({});
   let errorFound = false;
   const [step, setStep] = useState(1);
+  const navigate = useNavigate();
 
   const handleNext = (e) => {
     e.preventDefault();
-    console.log("first page: " + JSON.stringify(firstPageFormValues));
-    console.log("second page: " + JSON.stringify(secondPageFormValues));
-    console.log("third page: " + JSON.stringify(thirdPageFormValues));
-    console.log("fourth page: " + JSON.stringify(fourthPageFormValues));
 
     if (step == 1) {
       if (validateFormPage1()) {
@@ -157,7 +155,7 @@ function CreateApplication() {
       "additional_comments",
       event.target.additionalComments.value
     );
-    console.log(JSON.stringify(formData))
+    console.log(JSON.stringify(formData));
 
     // if you are here, validation passed, so make PUT request
     try {
@@ -175,7 +173,7 @@ function CreateApplication() {
         .then((data) => {
           console.log(data);
         });
-
+      // navigate(`/pet/${pet_id}/`);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -248,50 +246,50 @@ function CreateApplication() {
     // validation for shelter name -> checking not empty
     const nameRegex = /.+/;
     if (!nameRegex.test(dailyRoutine)) {
-        setErrorJson((prevValues) => ({
-          ...prevValues,
-          dailyRoutine: "Cannot be blank.",
-        }));
-        console.log(errorJson);
-        errorFound = true;
-      }
-      if (!nameRegex.test(expenses)) {
-        setErrorJson((prevValues) => ({
-          ...prevValues,
-          expenses: "Cannot be blank.",
-        }));
-        console.log(errorJson);
-        errorFound = true;
-      }
-      if (!nameRegex.test(prevPets)) {
-        setErrorJson((prevValues) => ({
-          ...prevValues,
-          prevPets: "Cannot be blank.",
-        }));
-        console.log(errorJson);
-        errorFound = true;
-      }
-      if (!nameRegex.test(preferences)) {
-        setErrorJson((prevValues) => ({
-          ...prevValues,
-          preferences: "Cannot be blank.",
-        }));
-        console.log(errorJson);
-        errorFound = true;
-      }
-      if (!nameRegex.test(reason)) {
-        setErrorJson((prevValues) => ({
-          ...prevValues,
-          reason: "Cannot be blank.",
-        }));
-        console.log(errorJson);
-        errorFound = true;
-      }
-      if (errorFound) {
-        return false;
-      }
-      return true;
+      setErrorJson((prevValues) => ({
+        ...prevValues,
+        dailyRoutine: "Cannot be blank.",
+      }));
+      console.log(errorJson);
+      errorFound = true;
     }
+    if (!nameRegex.test(expenses)) {
+      setErrorJson((prevValues) => ({
+        ...prevValues,
+        expenses: "Cannot be blank.",
+      }));
+      console.log(errorJson);
+      errorFound = true;
+    }
+    if (!nameRegex.test(prevPets)) {
+      setErrorJson((prevValues) => ({
+        ...prevValues,
+        prevPets: "Cannot be blank.",
+      }));
+      console.log(errorJson);
+      errorFound = true;
+    }
+    if (!nameRegex.test(preferences)) {
+      setErrorJson((prevValues) => ({
+        ...prevValues,
+        preferences: "Cannot be blank.",
+      }));
+      console.log(errorJson);
+      errorFound = true;
+    }
+    if (!nameRegex.test(reason)) {
+      setErrorJson((prevValues) => ({
+        ...prevValues,
+        reason: "Cannot be blank.",
+      }));
+      console.log(errorJson);
+      errorFound = true;
+    }
+    if (errorFound) {
+      return false;
+    }
+    return true;
+  }
 
   // function for validating the values in the form
   function validateFormPage2() {
@@ -522,6 +520,7 @@ function CreateApplication() {
                       value={firstPageFormValues.firstName}
                       required
                     />
+                    <p className="error">{errorJson.firstName || ""}</p>
                   </div>
                 </div>
 
@@ -541,6 +540,7 @@ function CreateApplication() {
                       value={firstPageFormValues.lastName}
                       required
                     />
+                    <p className="error">{errorJson.lastName || ""}</p>
                   </div>
                 </div>
 
@@ -560,6 +560,7 @@ function CreateApplication() {
                       value={firstPageFormValues.phoneNumber}
                       required
                     />
+                    <p className="error">{errorJson.phoneNumber || ""}</p>
                   </div>
                 </div>
 
@@ -579,6 +580,7 @@ function CreateApplication() {
                       value={firstPageFormValues.email}
                       required
                     />
+                    <p className="error">{errorJson.email || ""}</p>
                   </div>
                 </div>
 
@@ -599,6 +601,7 @@ function CreateApplication() {
                       placeholder="Street Address"
                       required
                     />
+                    <p className="error">{errorJson.inputAddress || ""}</p>
                   </div>
                 </div>
 
@@ -619,6 +622,7 @@ function CreateApplication() {
                       placeholder="Unit, Floor"
                       required
                     />
+                    <p className="error">{errorJson.inputAddress2 || ""}</p>
                   </div>
                 </div>
 
@@ -637,6 +641,7 @@ function CreateApplication() {
                       placeholder="City"
                       required
                     />
+                    <p className="error">{errorJson.inputCity || ""}</p>
                   </div>
                 </div>
 
@@ -684,6 +689,7 @@ function CreateApplication() {
                         )
                       )}
                     </select>
+                    <p className="error">{errorJson.inputState || ""}</p>
                   </div>
                   <div className="col-sm-4">
                     <input
@@ -693,6 +699,7 @@ function CreateApplication() {
                       onChange={handleInputChange}
                       required
                     />
+                    <p className="error">{errorJson.postalCode || ""}</p>
                   </div>
                 </div>
 
@@ -752,6 +759,7 @@ function CreateApplication() {
                       value={secondPageFormValues.numAdults}
                       required
                     />
+                    <p className="error">{errorJson.numAdults || ""}</p>
                   </div>
                 </div>
 
@@ -770,6 +778,7 @@ function CreateApplication() {
                       value={secondPageFormValues.numChildren}
                       required
                     />
+                    <p className="error">{errorJson.numChildren || ""}</p>
                   </div>
                 </div>
 
@@ -820,6 +829,7 @@ function CreateApplication() {
                         )
                       )}
                     </select>
+                    <p className="error">{errorJson.houseType || ""}</p>
                   </div>
 
                   <div className="col-sm-4">
@@ -865,6 +875,7 @@ function CreateApplication() {
                         )
                       )}
                     </select>
+                    <p className="error">{errorJson.ownershipType || ""}</p>
                   </div>
                 </div>
 
@@ -888,7 +899,9 @@ function CreateApplication() {
                         whiteSpace: "normal",
                       }}
                       required
-                    ></input>
+                    >
+                      <p className="error">{errorJson.petAloneTime || ""}</p>
+                    </input>
                   </div>
                 </div>
 
@@ -912,7 +925,7 @@ function CreateApplication() {
                         whiteSpace: "normal",
                       }}
                       required
-                    ></input>
+                    ><p className="error">{errorJson.currentPets || ""}</p></input>
                   </div>
                 </div>
 
@@ -977,6 +990,7 @@ function CreateApplication() {
                       }}
                       required
                     ></input>
+                    <p className="error">{errorJson.dailyRoutine || ""}</p>
                   </div>
                 </div>
 
@@ -1002,6 +1016,7 @@ function CreateApplication() {
                       }}
                       required
                     ></input>
+                    <p className="error">{errorJson.expenses || ""}</p>
                   </div>
                 </div>
 
@@ -1027,6 +1042,7 @@ function CreateApplication() {
                       }}
                       required
                     ></input>
+                    <p className="error">{errorJson.prevPets || ""}</p>
                   </div>
                 </div>
 
@@ -1052,6 +1068,7 @@ function CreateApplication() {
                       }}
                       required
                     ></input>
+                    <p className="error">{errorJson.preferences || ""}</p>
                   </div>
                 </div>
 
@@ -1077,31 +1094,31 @@ function CreateApplication() {
                       }}
                       required
                     ></input>
+                    <p className="error">{errorJson.reason || ""}</p>
                   </div>
                 </div>
 
                 <div className="twoButtonPositions">
-                <div className="form-group row">
-                  <div className="col-sm-6" id="buttonCenter">
-                    <button
-                      type="button"
-                      onClick={handlePrev}
-                      className="btn btn-primary backButton"
-                    >
-                      Back
-                    </button>
-                  </div>
-                  <div className="col-sm-6" id="buttonCenter">
-                    <button
-                      type="submit"
-                      className="btn btn-primary nextButton"
-                    >
-                      Next
-                    </button>
+                  <div className="form-group row">
+                    <div className="col-sm-6" id="buttonCenter">
+                      <button
+                        type="button"
+                        onClick={handlePrev}
+                        className="btn btn-primary backButton"
+                      >
+                        Back
+                      </button>
+                    </div>
+                    <div className="col-sm-6" id="buttonCenter">
+                      <button
+                        type="submit"
+                        className="btn btn-primary nextButton"
+                      >
+                        Next
+                      </button>
+                    </div>
                   </div>
                 </div>
-                </div>
-
               </form>
             </div>
           </div>
@@ -1135,6 +1152,7 @@ function CreateApplication() {
                       placeholder="Name"
                       required
                     />
+                    <p className="error">{errorJson.name1 || ""}</p>
                   </div>
                 </div>
                 <div className="form-group row">
@@ -1151,6 +1169,7 @@ function CreateApplication() {
                       placeholder="Phone Number"
                       required
                     />
+                    <p className="error">{errorJson.phoneNumber1 || ""}</p>
                   </div>
                 </div>
                 <div className="form-group row">
@@ -1168,6 +1187,7 @@ function CreateApplication() {
                       placeholder="Email"
                       required
                     />
+                    <p className="error">{errorJson.email1 || ""}</p>
                   </div>
                 </div>
 
@@ -1192,31 +1212,31 @@ function CreateApplication() {
                       }}
                       required
                     ></input>
+                    <p className="error">{errorJson.additionalComments || ""}</p>
                   </div>
                 </div>
 
                 <div className="twoButtonPositions">
-                <div className="form-group row">
-                  <div className="col-sm-6" id="buttonCenter">
-                    <button
-                      type="button"
-                      onClick={handlePrev}
-                      className="btn btn-primary backButton"
-                    >
-                      Back
-                    </button>
-                  </div>
-                  <div className="col-sm-6" id="buttonCenter">
-                    <button
-                      type="submit"
-                      className="btn btn-primary nextButton"
-                    >
-                      Next
-                    </button>
+                  <div className="form-group row">
+                    <div className="col-sm-6" id="buttonCenter">
+                      <button
+                        type="button"
+                        onClick={handlePrev}
+                        className="btn btn-primary backButton"
+                      >
+                        Back
+                      </button>
+                    </div>
+                    <div className="col-sm-6" id="buttonCenter">
+                      <button
+                        type="submit"
+                        className="btn btn-primary nextButton"
+                      >
+                        Next
+                      </button>
+                    </div>
                   </div>
                 </div>
-                </div>
-
               </form>
             </div>
           </div>
