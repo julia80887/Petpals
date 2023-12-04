@@ -16,7 +16,11 @@ import { LoginContext, useLoginContext } from "./contexts/LoginContext";
 import ShelterProfile from "./pages/ShelterProfile";
 import SeekerProfile from "./pages/SeekerProfile";
 import CreateApplication from "./pages/CreateApplication";
+import ViewEditApplication from "./pages/ViewEditApplication";
+import CreatePet from "./pages/CreatePet";
+import EditDeletePet from "./pages/EditDeletePet";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import ShelterManage from "./pages/ShelterManage";
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
@@ -30,20 +34,33 @@ function App() {
               {/* <Route path="/" element={<Layout />}> */}
               <Route index element={<Home />} />
               <Route path="pet/:pet_id/" element={<PetDetails />} />
+
+              <Route path="pets/" element={<ShelterManage />} />
+
+              <Route path="pet/" element={<CreatePet />} />
+              <Route path="pet/:pet_id/edit/" element={<EditDeletePet />} />
+
               <Route path="notifications/" element={<Notifications />} />
               <Route path="pet/applications/" element={<Applications />} />
               <Route
                 path="pet/:pet_id/applications/"
                 element={<CreateApplication />}
               />
-              <Route path="/shelter/login/" exact element={<ShelterLogin />} />
-              <Route path="/seeker/login/" exact element={<SeekerLogin />} />
+
+              <Route path="shelter/login/" exact element={<ShelterLogin />} />
+              <Route path="seeker/login/" exact element={<SeekerLogin />} />
+
               <Route
-                path="/shelter/signup/"
+                path="/pet/:pet_id/applications/:application_id/"
+                element={<ViewEditApplication />}
+              />
+
+              <Route
+                path="shelter/signup/"
                 exact
                 element={<ShelterSignUp />}
               />
-              <Route path="/seeker/signup/" exact element={<SeekerSignUp />} />
+              <Route path="seeker/signup/" exact element={<SeekerSignUp />} />
               <Route path="shelter/:id/" element={<ShelterDetails />} />
               <Route
                 path="profile/shelter/:shelter_id/"

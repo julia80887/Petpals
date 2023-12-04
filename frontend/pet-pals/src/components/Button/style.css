@@ -1,0 +1,21 @@
+.mainButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #77a0ca;
+  color: #fff;
+  border: 0px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 20px;
+  min-width: 107px;
+  width: fit-content;
+  height: fit-content;
+  padding: 7px 10px 7px 10px;
+  font-weight: 500;
+  margin: 2px;
+}
+
+.mainButton:hover {
+  background-color: #573f35;
+}

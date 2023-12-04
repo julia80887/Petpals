@@ -11,7 +11,7 @@ body {
   background-color: #ecebea;
 }
 
-main {
+.shelterManageMain {
   background-color: #ecebea;
   min-height: 100vh;
   display: flex;
@@ -31,6 +31,7 @@ main {
   align-items: flex-start;
   /* gap: 20px; */
   flex-direction: column;
+  margin: 30px;
 }
 
 .pageHeading {
@@ -47,16 +48,46 @@ main {
 .petListingGrid {
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .petGroup {
   display: flex;
   flex-direction: row;
 }
+/* .applications {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 10px;
+  margin: 10px;
+  width: 95%;
+  height: 440px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+} */
 
-.profileCard {
+.applications {
+  display: flex;
+  flex-direction: column;
+  min-width: 400px;
+  width: fit-content;
+  height: 450px;
+  align-items: center;
+  gap: 20px;
+  margin: 10px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.shelterProfileCard {
   display: flex;
   flex-direction: row;
+  min-width: 965px;
   width: fit-content;
   height: 450px;
   align-items: center;
@@ -68,7 +99,7 @@ main {
   overflow-y: scroll;
 }
 
-.profilePic {
+.shelterProfilePic {
   border-radius: 20px;
   width: 350px;
   height: 350px;
@@ -76,7 +107,7 @@ main {
   display: flex;
 }
 
-.profileCardContents {
+.shelterProfileCardContents {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -84,7 +115,7 @@ main {
   width: 100%;
 }
 
-.specLabels {
+.shelterSpecLabels {
   font-weight: 600;
   font-family: Open Sans;
 }
@@ -100,20 +131,15 @@ main {
 }
 
 .applicationCard {
-  display: flex;
+  /* display: flex;
   flex-direction: column;
-  width: fit-content;
+  width: 100%;
   height: 450px;
   align-items: center;
   gap: 20px;
   margin: 10px;
-  background: white;
   padding: 20px;
-  border-radius: 10px;
-  overflow-y: scroll;
-}
-
-.applicationCardContents {
+  border-radius: 10px; */
   font-family: Open Sans;
   display: flex;
   flex-direction: column;
@@ -123,6 +149,17 @@ main {
   text-align: left;
   width: 100%;
 }
+
+/* .applicationCardContents {
+  font-family: Open Sans;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  text-align: left;
+  width: 100%;
+} */
 
 .application {
   display: flex;
@@ -161,7 +198,10 @@ main {
   background: #77a0ca;
 }
 .buttons {
+  display: flex;
+  flex-direction: column;
   margin-right: 5px;
+  gap: 5px;
 }
 
 @media (max-width: 1549px) {
@@ -184,19 +224,20 @@ main {
     flex-direction: column;
     align-items: center;
   }
-  .profileCard {
+  .shelterProfileCard {
     width: 95%;
     flex-direction: row;
     height: fit-content;
     justify-content: center;
     margin: 10px;
   }
-  .profilePic {
+  .shelterProfilePic {
     width: 500px;
     height: 400px;
     margin: 0px;
     overflow: hidden;
   }
+
   .applicationCard {
     width: 95%;
     height: fit-content;
@@ -234,14 +275,14 @@ main {
     flex-direction: column;
     align-items: center;
   }
-  .profileCard {
+  .shelterProfileCard {
     width: 95%;
     flex-direction: column;
     height: fit-content;
     justify-content: center;
     margin: 10px;
   }
-  .profilePic {
+  .shelterProfilePic {
     width: 325px;
     height: 400px;
     margin: 0px;

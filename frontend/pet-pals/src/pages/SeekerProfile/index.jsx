@@ -262,20 +262,6 @@ function SeekerProfile() {
           event.target.postalCode.value
         : "";
     const formData = new FormData();
-    //data to pass to backend
-    // const stuff = {
-    //   shelter_name: event.target.shelterName.value,
-    //   user: {
-    //     profile_photo: event.target.fileInput &&
-    //       event.target.fileInput.value != "" ? event.target.fileInput.value : "http://localhost:8000/media/default.jpg",
-    //     email: event.target.email ? event.target.email.value : null,
-    //     address: full_address,
-    //     phone_number:
-    //       event.target.phoneNumber && event.target.phoneNumber.value
-    //         ? event.target.phoneNumber.value
-    //         : null,
-    //   }
-    // };
 
     // Append shelter_name
     formData.append("firstname", event.target.firstName.value);

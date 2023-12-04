@@ -15,9 +15,12 @@ const Layout = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const { currentUser, setCurrentUser } = useContext(LoginContext);
   const [notificationsArray, setnotificationsArray] = useState([]);
-  const shouldDisplayIcons = currentUser.shelter_name || currentUser.firstname;
+  const shelter_name = localStorage.getItem('shelter_name');
+  const firstname = localStorage.getItem('firstname');
 
-  console.log(currentUser)
+  const shouldDisplayIcons = shelter_name || firstname;
+
+  //console.log(currentUser)
 
 
   useEffect(() => {
@@ -56,29 +59,29 @@ const Layout = () => {
         </a>
 
         <div className="accountSection">
-          {currentUser.shelter_name ? (
-            <p className="name">Hello, { currentUser.shelter_name}</p>
-          ) : currentUser.firstname ? (
-            <p className="name">Hello, { currentUser.firstname}</p>
+          {shelter_name ? (
+            <p className="name">Hello, { shelter_name}</p>
+          ) : firstname ? (
+            <p className="name">Hello, { firstname}</p>
           ) : null}
-          {shouldDisplayIcons && notificationsArray.length > 0 ? (
+          {shouldDisplayIcons && notificationsArray?.length > 0 ? (
             <img src={NotificationsNew} alt="Notifications New" />
           ) : shouldDisplayIcons ? (
             <img src={Vector} alt="Vector" />
           ) : null}
 
-          {currentUser.shelter_name ? (
+          {shelter_name ? (
             <ShelterAccountMenu />
-          ) : currentUser.firstname ? (
+          ) : firstname ? (
             <SeekerAccountMenu />
           ) : (
                 <LoggedOutAccountMenu />
               )}
         </div>
-</div>
+      </div>
 
       <Outlet />
-          
+
     </>
   );
 };

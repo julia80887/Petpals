@@ -12,6 +12,7 @@ import SortButton from "./SortButton";
 import { LoginContext } from "../../contexts/LoginContext";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
+
 function Home() {
   const [petListings, setPetListings] = useState([]);
   const [shelterList, setShelterList] = useState([]);
@@ -23,6 +24,7 @@ function Home() {
   const [showFilterModal, setShowFilterModal] = useState(false);
   // const [filterModalDict, setFilterModalDict] = useState({});
   const [completeShelterList, setCompleteShelterList] = useState([]);
+
 
   // useSearchParams returns a URLSearchParams object
   const [searchParams, _setSearchParams] = useSearchParams();
@@ -42,6 +44,9 @@ function Home() {
   }, [searchParams]);
 
   useEffect(() => {
+    console.log("Logged in user: ", localStorage.getItem("shelter_name"));
+    console.log("Logged in user: ", localStorage.getItem("id"));
+  
     const fetchData = async () => {
       try {
         const requestOptions = {

@@ -16,7 +16,7 @@ from ..models import Pet
 from ..models import Application
 from accounts.models import CustomUser, PetSeeker
 from ..serializers.application_serializers import CreateApplicationSerializer, ApplicationSerializer, ListApplicationSerializer, ChatSerializer
-from rest_framework.generics import RetrieveAPIView, CreateAPIView
+from rest_framework.generics import RetrieveAPIView, CreateAPIView, ListCreateAPIView
 from django.shortcuts import get_object_or_404
 from chats.serializers.message_serializers import MessageSerializer
 from rest_framework.pagination import PageNumberPagination
@@ -25,14 +25,38 @@ from django.contrib.contenttypes.models import ContentType
 from chats.models.messages import Message
 from django.utils import timezone
 
+class CustomPageNumberPagination(PageNumberPagination):
+    page_size = 2  # Set the default page size
+    page_size_query_param = 'page_size'
+    max_page_size = 2  # Set the maximum allowed page size
 
-class CreateApplicationView(CreateAPIView):
+    def get_paginated_response(self, data):
+        return Response({
+            'pagination_details': {
+                'count': self.page.paginator.count,
+                'next': self.get_next_link(),
+                'previous': self.get_previous_link(),
+                'page_size': self.page_size,
+            },
+            'results': data,
+        })
+
+
+class CreateApplicationView(ListCreateAPIView):
     serializer_class = CreateApplicationSerializer
     permission_classes = [permissions.IsAuthenticated]
+    pagination_class = CustomPageNumberPagination
 
     # if self.request.user != review_serializer.instance.shelter.user:
     #     return Response({"detail": "You do not have permission to create an application for this pet."},
     #                 status=status.HTTP_403_FORBIDDEN)
+
+    def get_queryset(self):
+        user = self.request.user
+        shelter = get_object_or_404(PetShelter, user=user)
+        pet = get_object_or_404(Pet, id=self.kwargs['pet_pk'])
+        return Application.objects.filter(pet=pet, shelter=shelter)
+
 
     def create(self, request, *args, **kwargs):
         user = self.request.user
@@ -196,21 +220,6 @@ class ApplicationDetailView(RetrieveUpdateAPIView):
             return Response(response_data, status=status.HTTP_400_BAD_REQUEST)
 
 
-class CustomPageNumberPagination(PageNumberPagination):
-    page_size = 10  # Set the default page size
-    page_size_query_param = 'page_size'
-    max_page_size = 10  # Set the maximum allowed page size
-
-    def get_paginated_response(self, data):
-        return Response({
-            'pagination_details': {
-                'count': self.page.paginator.count,
-                'next': self.get_next_link(),
-                'previous': self.get_previous_link(),
-                'page_size': self.page_size,
-            },
-            'results': data,
-        })
 
 
 class ListAllApplicationView(ListAPIView):

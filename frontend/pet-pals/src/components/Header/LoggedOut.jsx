@@ -50,7 +50,7 @@ export default function LoggedOutAccountMenu() {
                     aria-haspopup="true"
                     aria-expanded={open ? "true" : undefined}
                 >
-                    <Avatar sx={{ width: 32, height: 32 }} src={currentUser.profile_photo} />
+                    <Avatar sx={{ width: 32, height: 32 }} src={"http://localhost:8000/media/default.jpg"} />
                 </IconButton>
             </Box>
             <Menu
