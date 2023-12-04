@@ -53,8 +53,8 @@ class ShelterImageSerializer(serializers.ModelSerializer):
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['username','phone_number', 'address', 'email', 'profile_photo']
-        read_only_fields = ['username']
+        fields = ['id', 'username','phone_number', 'address', 'email', 'profile_photo']
+        read_only_fields = ['id', 'username']
 
 class PetShelterRetrieveSerializer(serializers.ModelSerializer):
     user = CustomUserSerializer()

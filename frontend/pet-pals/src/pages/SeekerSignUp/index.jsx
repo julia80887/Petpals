@@ -119,7 +119,12 @@ function SeekerSignUp() {
             .then(json => {
                 if ('access_token' in json) {
                     localStorage.setItem('access', json.access);
-                    localStorage.setItem('username', data.get('username'));
+                    localStorage.setItem('username', json.seeker.user.username);
+                    localStorage.setItem('custom_user', json.seeker.user.id.toString());
+                    localStorage.setItem('firstname', json.seeker.firstname);
+                    localStorage.setItem('lastname', json.seeker.lastname);
+                    localStorage.setItem('id', json.seeker.id.toString());
+                    localStorage.setItem('profile_photo', json.seeker.user.profile_photo.toString());
                     setCurrentUser(json.seeker);
                     navigate('/');
                 }

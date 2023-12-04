@@ -139,7 +139,11 @@ function ShelterSignUp() {
                 console.log(json);
                 if ('access_token' in json) {
                     localStorage.setItem('access', json.access);
-                    localStorage.setItem('username', data.get('username'));
+                    localStorage.setItem('username', json.shelter.user.username);
+                    localStorage.setItem('custom_user', json.shelter.user.id.toString());
+                    localStorage.setItem('shelter_name', json.shelter.shelter_name);
+                    localStorage.setItem('id', json.shelter.id.toString());
+                    localStorage.setItem('profile_photo', json.shelter.user.profile_photo.toString());
                     setCurrentUser(json.shelter);
                     navigate('/');
                 }

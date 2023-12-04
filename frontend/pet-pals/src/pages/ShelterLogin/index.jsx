@@ -58,9 +58,13 @@ function ShelterLogin() {
             .then(json => {
                 if ('access' in json) {
                     localStorage.setItem('access', json.access);
-                    localStorage.setItem('username', data.get('username'));
+                    localStorage.setItem('username', json.shelter.user.username);
+                    localStorage.setItem('custom_user', json.shelter.user.id.toString());
+                    localStorage.setItem('shelter_name', json.shelter.shelter_name);
+                    localStorage.setItem('id', json.shelter.id.toString());
+                    localStorage.setItem('profile_photo', json.shelter.user.profile_photo.toString());
                     setCurrentUser(json.shelter);
-                    //console.log("reached");
+                    console.log("reached");
                     //console.log(json.shelter);
                     //console.log(currentUser);
                     navigate('/');
