@@ -55,11 +55,7 @@ function App() {
                 element={<ViewEditApplication />}
               />
 
-              <Route
-                path="shelter/signup/"
-                exact
-                element={<ShelterSignUp />}
-              />
+              <Route path="shelter/signup/" exact element={<ShelterSignUp />} />
               <Route path="seeker/signup/" exact element={<SeekerSignUp />} />
               <Route path="shelter/:id/" element={<ShelterDetails />} />
               <Route

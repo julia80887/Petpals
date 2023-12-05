@@ -65,7 +65,7 @@ function ShelterDetails() {
           var myHeaders = new Headers();
           myHeaders.append(
             "Authorization",
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAxNjM1MzM4LCJpYXQiOjE3MDE1NDg5MzgsImp0aSI6ImE3NDJiYzUyMzc0NTQ3N2E4MWQ2M2EzOWJkZWY5OTYzIiwidXNlcl9pZCI6MX0.RQlfY5nZhGYtmOlHBw3DC5PSyc3yKzMmeJZnPa2T8wg"
+            `Bearer ${localStorage.getItem("access")}`
           );
 
           const requestOptions = {
@@ -97,7 +97,7 @@ function ShelterDetails() {
         const myHeaders = new Headers();
         myHeaders.append(
           "Authorization",
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAxNjM1MzM4LCJpYXQiOjE3MDE1NDg5MzgsImp0aSI6ImE3NDJiYzUyMzc0NTQ3N2E4MWQ2M2EzOWJkZWY5OTYzIiwidXNlcl9pZCI6MX0.RQlfY5nZhGYtmOlHBw3DC5PSyc3yKzMmeJZnPa2T8wg"
+          `Bearer ${localStorage.getItem("access")}`
         );
 
         try {

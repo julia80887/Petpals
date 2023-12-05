@@ -57,7 +57,7 @@ const ShelterManagement = () => {
         const shelterNameURL = encodeURIComponent(shelter_name);
         console.log("shelter name: ", shelter_name);
         const response = await fetch(
-          `http://localhost:8000/pet/?shelter=${shelterNameURL}`
+          `http://localhost:8000/pet/?shelter=${shelterNameURL}&page=${mainCurrentPage}&gender=&color=&size=&type=&order_by=&status=`
         );
         const result = await response.json();
 
