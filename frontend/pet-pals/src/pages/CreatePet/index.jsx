@@ -9,6 +9,10 @@ import { useNavigate } from "react-router-dom";
 function CreatePet() {
   const [errorJson, setErrorJson] = useState({});
   const navigate = useNavigate();
+  const shelter_user = localStorage.getItem("shelter_name") || "";
+  const seeker_user = localStorage.getItem("firstname") || "";
+  
+
 
   const [formValues, setFormValues] = useState({
     name: "",
@@ -172,7 +176,7 @@ function CreatePet() {
       formData.append("pet_type", formValues.pet_type);
       formData.append("gender", formValues.gender);
       formData.append("breed", formValues.breed);
-      formData.append("color", formValues.color);
+      formData.append("color", (formValues.color).toLowerCase());
       formData.append("date_of_birth", final_birthdate);
       formData.append("medical_history", formValues.medical_history);
       formData.append("behavior", formValues.behavior);
@@ -199,8 +203,7 @@ function CreatePet() {
         const requestOptions = {
           method: "POST",
           headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAxNjc0MDg1LCJpYXQiOjE3MDE1ODc2ODUsImp0aSI6ImFhMjVjOGI1ZmU4ODQ0ODU5NTJkYzhlNTVlZjVlMTgyIiwidXNlcl9pZCI6MTF9.cbgHQ_xUDcQBg0fhqoogpQxyfBJHuwrWW6mc9TyREiQ",
+            Authorization: `Bearer ${localStorage.getItem("access")}`,
           },
           body: formData, // Use the FormData object directly as the body
         };
@@ -209,6 +212,9 @@ function CreatePet() {
           .then((response) => response.json())
           .then((data) => {
             console.log(data);
+            if (data['message'] == 'Pet successfully created.') {
+                navigate(`/pet/${data['pet_id']}/`);
+            }
           });
         // navigate(`/pet/${pet_id}/`);
       } catch (error) {
@@ -218,385 +224,391 @@ function CreatePet() {
     return;
   }
 
-  return (
-    <>
-      <div className="mainContainer">
-        <h1>Create Your Pet</h1>
-        <div className="container">
-          <form
-            className="createPetForm"
-            style={{ backgroundColor: "white" }}
-            onSubmit={handleSubmit}
-          >
-            <div className="form-group row">
-              <label
-                htmlFor="name"
-                className="col-sm-4 col-form-label labelLeft"
-              >
-                Name
-              </label>
-              <div className="col-sm-8">
-                <input
-                  className="form-control"
-                  id="name"
-                  value={formValues.name}
-                  onChange={handleInputChange}
-                  required
-                />
-                <p className="error">{errorJson.name || ""}</p>
-              </div>
-            </div>
-
-            <div className="form-group row">
-              <label
-                htmlFor="weight"
-                className="col-sm-4 col-form-label labelLeft"
-              >
-                Weight
-              </label>
-              <div className="col-sm-5">
-                <input
-                  className="form-control"
-                  id="weight"
-                  value={formValues.weight}
-                  onChange={handleInputChange}
-                  required
-                />
-                <p className="error">{errorJson.weight || ""}</p>
-              </div>
-              <div className="col-sm-3">
-                <select className="form-control" id="weightInput1" required>
-                  <option>kg</option>
-                  <option>lb</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="form-group row">
-              <label
-                htmlFor="gender"
-                className="col-sm-4 col-form-label labelLeft"
-              >
-                Gender
-              </label>
-              <div className="col-sm-8">
-                <select
-                  className="form-control"
-                  value={formValues.gender}
-                  onChange={handleInputChange}
-                  id="gender"
-                  required
-                >
-                  {[...sex].map((p) =>
-                    formValues.gender == { p } ? (
-                      <option key={p} value={p} selectedOption>
-                        {p}
-                      </option>
-                    ) : (
-                      <option key={p} value={p}>
-                        {p}
-                      </option>
-                    )
-                  )}
-                </select>
-              </div>
-            </div>
-
-            <div className="form-group row">
-              <label
-                htmlFor="pet_type"
-                className="col-sm-4 col-form-label labelLeft"
-              >
-                Pet Type
-              </label>
-              <div className="col-sm-8">
-                <select
-                  className="form-control"
-                  value={formValues.pet_type}
-                  onChange={handleInputChange}
-                  id="pet_type"
-                  required
-                >
-                  {[...petTypes].map((p) =>
-                    formValues.pet_type == { p } ? (
-                      <option key={p} value={p} selectedOption>
-                        {p}
-                      </option>
-                    ) : (
-                      <option key={p} value={p}>
-                        {p}
-                      </option>
-                    )
-                  )}
-                </select>
-              </div>
-            </div>
-
-            <div className="form-group row">
-              <label
-                htmlFor="breed"
-                className="col-sm-4 col-form-label labelLeft"
-              >
-                Breed
-              </label>
-              <div className="col-sm-8">
-                <input
-                  className="form-control"
-                  id="breed"
-                  value={formValues.breed}
-                  onChange={handleInputChange}
-                  required
-                />
-                <p className="error">{errorJson.breed || ""}</p>
-              </div>
-            </div>
-
-            <div className="form-group row">
-              <label
-                htmlFor="fileInput"
-                className="col-sm-4 col-form-label labelLeft"
-              >
-                Profile Photo
-              </label>
-              <div className="col-sm-8">
-                <input
-                  type="file"
-                  className="form-control"
-                  id="fileInput"
-                  //   value={formValues.fileInput}
-                  onChange={handleInputChange}
-                  required
-                />
-                <p className="error">{errorJson.fileInput || ""}</p>
-              </div>
-            </div>
-
-            <div className="form-group row">
-              <label
-                htmlFor="about"
-                className="col-sm-4 col-form-label labelLeft"
-              >
-                About
-              </label>
-              <div className="col-sm-8">
-                <input
-                  className="form-control descriptionInput"
-                  id="about"
-                  placeholder="Tell everyone about your pet"
-                  value={formValues.about}
-                  onChange={handleInputChange}
-                  required
-                  style={{
-                    height: "100px",
-                    borderRadius: "70px",
-                    paddingBottom: "60px",
-                    whiteSpace: "normal",
-                  }}
-                />
-                <p className="error">{errorJson.about || ""}</p>
-              </div>
-            </div>
-
-            <div className="form-group row">
-              <label
-                htmlFor="date_of_birth"
-                className="col-sm-4 col-form-label labelLeft"
-              >
-                Birthday
-              </label>
-              <div className="col-sm-8">
-                <input
-                  className="form-control"
-                  id="date_of_birth"
-                  placeholder="dd/mm/yyyy"
-                  value={formValues.date_of_birth}
-                  onChange={handleInputChange}
-                  required
-                />
-                <p className="error">{errorJson.date_of_birth || ""}</p>
-              </div>
-            </div>
-
-            <div className="form-group row">
-              <label
-                htmlFor="application_deadline"
-                className="col-sm-4 col-form-label labelLeft"
-              >
-                Application Deadline
-              </label>
-              <div className="col-sm-8">
-                <input
-                  className="form-control"
-                  id="application_deadline"
-                  placeholder="dd/mm/yyyy"
-                  value={formValues.application_deadline}
-                  onChange={handleInputChange}
-                  required
-                />
-                <p className="error">{errorJson.application_deadline || ""}</p>
-              </div>
-            </div>
-
-            <div className="form-group row">
-              <label
-                htmlFor="city"
-                className="col-sm-4 col-form-label labelLeft"
-              >
-                City
-              </label>
-              <div className="col-sm-8">
-                <input
-                  className="form-control"
-                  id="city"
-                  value={formValues.city}
-                  onChange={handleInputChange}
-                  required
-                />
-                <p className="error">{errorJson.city || ""}</p>
-              </div>
-            </div>
-
-            <div className="form-group row">
-              <label
-                htmlFor="province"
-                className="col-sm-4 col-form-label labelLeft"
-              >
-                Province
-              </label>
-              <div className="col-sm-8">
-                <input
-                  className="form-control"
-                  id="province"
-                  value={formValues.province}
-                  onChange={handleInputChange}
-                  placeholder="Please limit input to 2 letters."
-                  required
-                />
-                <p className="error">{errorJson.province || ""}</p>
-              </div>
-            </div>
-
-            <div className="form-group row">
-              <label
-                htmlFor="color"
-                className="col-sm-4 col-form-label labelLeft"
-              >
-                Color
-              </label>
-              <div className="col-sm-8">
-                <input
-                  className="form-control"
-                  id="color"
-                  value={formValues.color}
-                  onChange={handleInputChange}
-                  required
-                />
-                <p className="error">{errorJson.color || ""}</p>
-              </div>
-            </div>
-
-            <div className="form-group row">
-              <label
-                htmlFor="medical_history"
-                className="col-sm-4 col-form-label labelLeft"
-              >
-                Medical History
-              </label>
-              <div className="col-sm-8">
-                <input
-                  className="form-control descriptionInput"
-                  id="medical_history"
-                  placeholder="Describe the pet's medical history."
-                  value={formValues.medical_history}
-                  onChange={handleInputChange}
-                  required
-                  style={{
-                    height: "100px",
-                    borderRadius: "70px",
-                    paddingBottom: "60px",
-                    whiteSpace: "normal",
-                  }}
-                />
-                <p className="error">{errorJson.medical_history || ""}</p>
-              </div>
-            </div>
-
-            <div className="form-group row">
-              <label
-                htmlFor="behavior"
-                className="col-sm-4 col-form-label labelLeft"
-              >
-                Behaviour
-              </label>
-              <div className="col-sm-8">
-                <input
-                  className="form-control descriptionInput"
-                  id="behavior"
-                  placeholder="Describe the pet's behaviour."
-                  value={formValues.behavior}
-                  onChange={handleInputChange}
-                  required
-                  style={{
-                    height: "100px",
-                    borderRadius: "70px",
-                    paddingBottom: "60px",
-                    whiteSpace: "normal",
-                  }}
-                />
-                <p className="error">{errorJson.behavior || ""}</p>
-              </div>
-            </div>
-
-            <div className="form-group row">
-              <label
-                htmlFor="requirements"
-                className="col-sm-4 col-form-label labelLeft"
-              >
-                Requirements
-              </label>
-              <div className="col-sm-8">
-                <input
-                  className="form-control descriptionInput"
-                  id="requirements"
-                  placeholder="Describe the pet's special needs and requirements."
-                  value={formValues.requirements}
-                  onChange={handleInputChange}
-                  required
-                  style={{
-                    height: "100px",
-                    borderRadius: "70px",
-                    paddingBottom: "60px",
-                    whiteSpace: "normal",
-                  }}
-                />
-                <p className="error">{errorJson.requirements || ""}</p>
-              </div>
-            </div>
-
-            <div className="twoButtonPositions">
+  if (shelter_user != "" && seeker_user == "") {
+    return (
+      <>
+        <div className="mainContainer">
+          <h1>Create Your Pet</h1>
+          <div className="container">
+            <form
+              className="createPetForm"
+              style={{ backgroundColor: "white" }}
+              onSubmit={handleSubmit}
+            >
               <div className="form-group row">
-                <div className="col-sm-6" id="buttonCenter">
-                  <a
-                    href="ShelterManage.html" // replace with shelter management endpoint
-                    className="backButton form-control"
-                  >
-                    Back
-                  </a>
-                </div>
-                <div className="col-sm-6" id="buttonCenter">
-                  <button
-                    type="submit"
-                    className="btn btn-primary submitButton"
-                  >
-                    Submit
-                  </button>
+                <label
+                  htmlFor="name"
+                  className="col-sm-4 col-form-label labelLeft"
+                >
+                  Name
+                </label>
+                <div className="col-sm-8">
+                  <input
+                    className="form-control"
+                    id="name"
+                    value={formValues.name}
+                    onChange={handleInputChange}
+                    required
+                  />
+                  <p className="error">{errorJson.name || ""}</p>
                 </div>
               </div>
-            </div>
-          </form>
+
+              <div className="form-group row">
+                <label
+                  htmlFor="weight"
+                  className="col-sm-4 col-form-label labelLeft"
+                >
+                  Weight
+                </label>
+                <div className="col-sm-5">
+                  <input
+                    className="form-control"
+                    id="weight"
+                    value={formValues.weight}
+                    onChange={handleInputChange}
+                    required
+                  />
+                  <p className="error">{errorJson.weight || ""}</p>
+                </div>
+                <div className="col-sm-3">
+                  <select className="form-control" id="weightInput1" required>
+                    <option>kg</option>
+                    <option>lb</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="form-group row">
+                <label
+                  htmlFor="gender"
+                  className="col-sm-4 col-form-label labelLeft"
+                >
+                  Gender
+                </label>
+                <div className="col-sm-8">
+                  <select
+                    className="form-control"
+                    value={formValues.gender}
+                    onChange={handleInputChange}
+                    id="gender"
+                    required
+                  >
+                    {[...sex].map((p) =>
+                      formValues.gender == { p } ? (
+                        <option key={p} value={p} selectedOption>
+                          {p}
+                        </option>
+                      ) : (
+                        <option key={p} value={p}>
+                          {p}
+                        </option>
+                      )
+                    )}
+                  </select>
+                </div>
+              </div>
+
+              <div className="form-group row">
+                <label
+                  htmlFor="pet_type"
+                  className="col-sm-4 col-form-label labelLeft"
+                >
+                  Pet Type
+                </label>
+                <div className="col-sm-8">
+                  <select
+                    className="form-control"
+                    value={formValues.pet_type}
+                    onChange={handleInputChange}
+                    id="pet_type"
+                    required
+                  >
+                    {[...petTypes].map((p) =>
+                      formValues.pet_type == { p } ? (
+                        <option key={p} value={p} selectedOption>
+                          {p}
+                        </option>
+                      ) : (
+                        <option key={p} value={p}>
+                          {p}
+                        </option>
+                      )
+                    )}
+                  </select>
+                </div>
+              </div>
+
+              <div className="form-group row">
+                <label
+                  htmlFor="breed"
+                  className="col-sm-4 col-form-label labelLeft"
+                >
+                  Breed
+                </label>
+                <div className="col-sm-8">
+                  <input
+                    className="form-control"
+                    id="breed"
+                    value={formValues.breed}
+                    onChange={handleInputChange}
+                    required
+                  />
+                  <p className="error">{errorJson.breed || ""}</p>
+                </div>
+              </div>
+
+              <div className="form-group row">
+                <label
+                  htmlFor="fileInput"
+                  className="col-sm-4 col-form-label labelLeft"
+                >
+                  Profile Photo
+                </label>
+                <div className="col-sm-8">
+                  <input
+                    type="file"
+                    className="form-control"
+                    id="fileInput"
+                    //   value={formValues.fileInput}
+                    onChange={handleInputChange}
+                    required
+                  />
+                  <p className="error">{errorJson.fileInput || ""}</p>
+                </div>
+              </div>
+
+              <div className="form-group row">
+                <label
+                  htmlFor="about"
+                  className="col-sm-4 col-form-label labelLeft"
+                >
+                  About
+                </label>
+                <div className="col-sm-8">
+                  <input
+                    className="form-control descriptionInput"
+                    id="about"
+                    placeholder="Tell everyone about your pet"
+                    value={formValues.about}
+                    onChange={handleInputChange}
+                    required
+                    style={{
+                      height: "100px",
+                      borderRadius: "70px",
+                      paddingBottom: "60px",
+                      whiteSpace: "normal",
+                    }}
+                  />
+                  <p className="error">{errorJson.about || ""}</p>
+                </div>
+              </div>
+
+              <div className="form-group row">
+                <label
+                  htmlFor="date_of_birth"
+                  className="col-sm-4 col-form-label labelLeft"
+                >
+                  Birthday
+                </label>
+                <div className="col-sm-8">
+                  <input
+                    className="form-control"
+                    id="date_of_birth"
+                    placeholder="dd/mm/yyyy"
+                    value={formValues.date_of_birth}
+                    onChange={handleInputChange}
+                    required
+                  />
+                  <p className="error">{errorJson.date_of_birth || ""}</p>
+                </div>
+              </div>
+
+              <div className="form-group row">
+                <label
+                  htmlFor="application_deadline"
+                  className="col-sm-4 col-form-label labelLeft"
+                >
+                  Application Deadline
+                </label>
+                <div className="col-sm-8">
+                  <input
+                    className="form-control"
+                    id="application_deadline"
+                    placeholder="dd/mm/yyyy"
+                    value={formValues.application_deadline}
+                    onChange={handleInputChange}
+                    required
+                  />
+                  <p className="error">
+                    {errorJson.application_deadline || ""}
+                  </p>
+                </div>
+              </div>
+
+              <div className="form-group row">
+                <label
+                  htmlFor="city"
+                  className="col-sm-4 col-form-label labelLeft"
+                >
+                  City
+                </label>
+                <div className="col-sm-8">
+                  <input
+                    className="form-control"
+                    id="city"
+                    value={formValues.city}
+                    onChange={handleInputChange}
+                    required
+                  />
+                  <p className="error">{errorJson.city || ""}</p>
+                </div>
+              </div>
+
+              <div className="form-group row">
+                <label
+                  htmlFor="province"
+                  className="col-sm-4 col-form-label labelLeft"
+                >
+                  Province
+                </label>
+                <div className="col-sm-8">
+                  <input
+                    className="form-control"
+                    id="province"
+                    value={formValues.province}
+                    onChange={handleInputChange}
+                    placeholder="Please limit input to 2 letters."
+                    required
+                  />
+                  <p className="error">{errorJson.province || ""}</p>
+                </div>
+              </div>
+
+              <div className="form-group row">
+                <label
+                  htmlFor="color"
+                  className="col-sm-4 col-form-label labelLeft"
+                >
+                  Color
+                </label>
+                <div className="col-sm-8">
+                  <input
+                    className="form-control"
+                    id="color"
+                    value={formValues.color}
+                    onChange={handleInputChange}
+                    required
+                  />
+                  <p className="error">{errorJson.color || ""}</p>
+                </div>
+              </div>
+
+              <div className="form-group row">
+                <label
+                  htmlFor="medical_history"
+                  className="col-sm-4 col-form-label labelLeft"
+                >
+                  Medical History
+                </label>
+                <div className="col-sm-8">
+                  <input
+                    className="form-control descriptionInput"
+                    id="medical_history"
+                    placeholder="Describe the pet's medical history."
+                    value={formValues.medical_history}
+                    onChange={handleInputChange}
+                    required
+                    style={{
+                      height: "100px",
+                      borderRadius: "70px",
+                      paddingBottom: "60px",
+                      whiteSpace: "normal",
+                    }}
+                  />
+                  <p className="error">{errorJson.medical_history || ""}</p>
+                </div>
+              </div>
+
+              <div className="form-group row">
+                <label
+                  htmlFor="behavior"
+                  className="col-sm-4 col-form-label labelLeft"
+                >
+                  Behaviour
+                </label>
+                <div className="col-sm-8">
+                  <input
+                    className="form-control descriptionInput"
+                    id="behavior"
+                    placeholder="Describe the pet's behaviour."
+                    value={formValues.behavior}
+                    onChange={handleInputChange}
+                    required
+                    style={{
+                      height: "100px",
+                      borderRadius: "70px",
+                      paddingBottom: "60px",
+                      whiteSpace: "normal",
+                    }}
+                  />
+                  <p className="error">{errorJson.behavior || ""}</p>
+                </div>
+              </div>
+
+              <div className="form-group row">
+                <label
+                  htmlFor="requirements"
+                  className="col-sm-4 col-form-label labelLeft"
+                >
+                  Requirements
+                </label>
+                <div className="col-sm-8">
+                  <input
+                    className="form-control descriptionInput"
+                    id="requirements"
+                    placeholder="Describe the pet's special needs and requirements."
+                    value={formValues.requirements}
+                    onChange={handleInputChange}
+                    required
+                    style={{
+                      height: "100px",
+                      borderRadius: "70px",
+                      paddingBottom: "60px",
+                      whiteSpace: "normal",
+                    }}
+                  />
+                  <p className="error">{errorJson.requirements || ""}</p>
+                </div>
+              </div>
+
+              <div className="twoButtonPositions">
+                <div className="form-group row">
+                  <div className="col-sm-6" id="buttonCenter">
+                    <a
+                      href="ShelterManage.html" // replace with shelter management endpoint
+                      className="backButton form-control"
+                    >
+                      Back
+                    </a>
+                  </div>
+                  <div className="col-sm-6" id="buttonCenter">
+                    <button
+                      type="submit"
+                      className="btn btn-primary submitButton"
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
-    </>
-  );
+      </>
+    );
+  } else {
+    return <h1>You cannot create a pet. Please create an account or log in as a pet shelter.</h1>;
+  }
 }
 export default CreatePet;
