@@ -60,37 +60,37 @@ function ShelterDetails() {
       }
     };
 
-    const fetchReviewData = async () => {
-      setLoadingReviews(true);
-      if (shelter) {
-        try {
-          var myHeaders = new Headers();
-          myHeaders.append(
-            "Authorization",
-            `Bearer ${localStorage.getItem("access")}`
-          );
+    // const fetchReviewData = async () => {
+    //   setLoadingReviews(true);
+    //   if (shelter) {
+    //     try {
+    //       var myHeaders = new Headers();
+    //       myHeaders.append(
+    //         "Authorization",
+    //         `Bearer ${localStorage.getItem("access")}`
+    //       );
 
-          const requestOptions = {
-            method: "GET",
-            headers: myHeaders,
-          };
+    //       const requestOptions = {
+    //         method: "GET",
+    //         headers: myHeaders,
+    //       };
 
-          const response = await fetch(
-            `http://localhost:8000/shelter/${id}/review/`,
-            requestOptions
-          );
-          const result = await response.json();
-          setReviews(result.results);
-          setLoadingReviews(false);
-        } catch (error) {
-          setLoadingReviews(false);
-          console.error("Error getting reviews:", error);
-        }
-      }
-    };
+    //       const response = await fetch(
+    //         `http://localhost:8000/shelter/${id}/review/`,
+    //         requestOptions
+    //       );
+    //       const result = await response.json();
+    //       setReviews(result.results);
+    //       setLoadingReviews(false);
+    //     } catch (error) {
+    //       setLoadingReviews(false);
+    //       console.error("Error getting reviews:", error);
+    //     }
+    //   }
+    // };
 
     fetchPetData();
-    fetchReviewData();
+    // fetchReviewData();
   }, [shelter]);
 
   useEffect(() => {
@@ -233,7 +233,7 @@ function ShelterDetails() {
             {pets?.length > 3 && (
               <div className="petListingCard moreAvailable">
                 <p className="moreAvailableText">{`+${
-                  pets.length - 3
+                  pets?.length - 3
                 } more pets available`}</p>
 
                 <button className="btn" onClick={navigateMorePets}>

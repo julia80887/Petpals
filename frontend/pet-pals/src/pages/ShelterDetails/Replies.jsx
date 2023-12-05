@@ -5,7 +5,7 @@ import StarSVG from "../../assets/svgs/Star.svg";
 import { useNavigate } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-function Replies({ shelterID, review, reviewID }) {
+function Replies({ shelterID, review, clicked, setClicked }) {
   const [replies, setReplies] = useState([]);
   const [replyDetails, setReplyDetails] = useState({});
   const [loadingReplies, setLoadingReplies] = useState(true);
@@ -15,6 +15,7 @@ function Replies({ shelterID, review, reviewID }) {
 
   useEffect(() => {
     const fetchReplyDetails = async () => {
+      setRepliesCurrentPage(1);
       const myHeaders = new Headers();
       myHeaders.append(
         "Authorization",
@@ -28,12 +29,13 @@ function Replies({ shelterID, review, reviewID }) {
         };
 
         const response = await fetch(
-          `http://localhost:8000/shelter/${shelterID}/review/${reviewID}/`,
+          `http://localhost:8000/shelter/${shelterID}/review/${review.id}/`,
           requestOptions
         );
 
         const result = await response.json();
-        console.log("Review ", reviewID, " replies:  ", result.results);
+        //console.log("Review ", reviewID, " replies:  ", result.results);
+        console.log("Review ", review.id, " replies:  ", result.results);
         setReplies(result.results);
         setTotalPages(
           Math.ceil(
@@ -42,6 +44,9 @@ function Replies({ shelterID, review, reviewID }) {
           )
         );
         setLoadingReplies(false);
+        if (clicked) {
+          setClicked();
+        }
       } catch (error) {
         setLoadingReplies(false);
         console.error(
@@ -54,7 +59,7 @@ function Replies({ shelterID, review, reviewID }) {
     if (review) {
       fetchReplyDetails();
     }
-  }, [review]);
+  }, [review, clicked]);
 
   useEffect(() => {
     const fetchReplyDetails = async (reply) => {
@@ -115,14 +120,14 @@ function Replies({ shelterID, review, reviewID }) {
       };
 
       const response = await fetch(
-        `http://localhost:8000/shelter/${shelterID}/review/${reviewID}/?page=${
+        `http://localhost:8000/shelter/${shelterID}/review/${review.id}/?page=${
           repliesCurrentPage + 1
         }`,
         requestOptions
       );
 
       const result = await response.json();
-      console.log("Review ", reviewID, " replies:  ", result.results);
+      console.log("Review ", review.id, " replies:  ", result.results);
       setReplies((prevData) => [...prevData, ...result.results]);
       setRepliesCurrentPage(repliesCurrentPage + 1);
       setLoadingReplies(false);
@@ -134,6 +139,11 @@ function Replies({ shelterID, review, reviewID }) {
       );
     }
   };
+
+  useEffect(() => {
+    console.log("Current: ", repliesCurrentPage);
+    console.log("Total: ", totalPages);
+  }, [repliesCurrentPage, totalPages]);
 
   return (
     <>

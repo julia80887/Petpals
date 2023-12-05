@@ -10,6 +10,7 @@ import ShelterAccountMenu from "./ShelterAccountMenu";
 import LoggedOutAccountMenu from "./LoggedOut";
 import SeekerAccountMenu from "./SeekerAccountMenu";
 import { LoginContext } from "../../contexts/LoginContext";
+import { Link } from "react-router-dom";
 
 const Layout = () => {
   const [showDropdown, setShowDropdown] = useState(false);
