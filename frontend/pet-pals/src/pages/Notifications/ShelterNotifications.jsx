@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { ChatModal } from "../../components/Modal";
 import "./style.css";
+import CloseIcon from "../../assets/svgs/CloseIcon.svg";
 
 const ShelterNotifications = () => {
   const navigate = useNavigate();
@@ -10,6 +11,8 @@ const ShelterNotifications = () => {
   const [notificationDetails, setNotificationDetails] = useState({});
   const [totalPages, setTotalPages] = useState(1);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [chatSender, setChatSender] = useState();
+  const [renderPage, setRenderPage] = useState(true);
 
   //Modal Hooks
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -60,7 +63,7 @@ const ShelterNotifications = () => {
               Number(result.pagination_details["page_size"])
           )
         );
-
+        setRenderPage(false);
         setLoading(false);
       } catch (error) {
         setLoading(false);
@@ -68,11 +71,13 @@ const ShelterNotifications = () => {
       }
     };
 
-    fetchData();
-  }, [query]);
+    if (renderPage) {
+      fetchData();
+    }
+  }, [query, renderPage]);
 
   useEffect(() => {
-    if (notifications.length > 0) {
+    if (notifications?.length > 0) {
       const fetchNotificationDetails = async (notification) => {
         console.log("Current notification: ", notification);
         const petIdMatch = notification.link.match(
@@ -111,9 +116,11 @@ const ShelterNotifications = () => {
               `http://localhost:8000/seeker/${notificationDetail.seeker}/`,
               requestOptions
             );
-            notificationDetail = await response.json();
+            const senderDetail = await response.json();
 
-            console.log("Third call: ", notificationDetail);
+            console.log("Third call: ", senderDetail);
+
+            setChatSender(senderDetail);
           }
 
           setNotificationDetails((prevDetails) => ({
@@ -128,8 +135,9 @@ const ShelterNotifications = () => {
         }
       };
 
-      notifications.forEach((notification) => {
+      notifications?.forEach((notification) => {
         fetchNotificationDetails(notification);
+        readNotification(notification);
       });
     }
   }, [notifications]);
@@ -137,7 +145,7 @@ const ShelterNotifications = () => {
   const handleNotificationClick = (notification) => {
     if (notification.notification_type === "new_pet") {
       navigate(`${notification.link}`);
-    } else if (notification.notification_type === "application_status") {
+    } else if (notification.notification_type === "new_application") {
       const applicationIdMatch = notification.link.match(
         /\/applications\/(\d+)\/$/
       );
@@ -146,8 +154,62 @@ const ShelterNotifications = () => {
         const applicationId = applicationIdMatch[1];
         navigate(`/applications/${applicationId}/`);
       }
-    } else {
-      //Change chat boolean modal to true
+    }
+  };
+
+  const readNotification = async (notification) => {
+    console.log("Updating Notification ...", notification.id);
+    const formData = new FormData();
+    formData.append("read", true);
+
+    try {
+      const myHeaders = new Headers();
+      myHeaders.append(
+        "Authorization",
+        `Bearer ${localStorage.getItem("access")}`
+      );
+      const requestOptions = {
+        method: "PATCH",
+        headers: myHeaders,
+        body: formData,
+      };
+      const response = await fetch(
+        `http://localhost:8000/notifications/${notification.id}/`,
+        requestOptions
+      );
+      console.log("working");
+      console.log(response);
+      // <Link to={`/notifications`} />;
+    } catch (error) {
+      console.error(
+        `Error fetching details for notification ${notification.id}:`,
+        error
+      );
+    }
+  };
+
+  const handleDeleteNotification = async (notificationID) => {
+    console.log("Deleting Notification ...", notificationID);
+    try {
+      const myHeaders = new Headers();
+      myHeaders.append(
+        "Authorization",
+        `Bearer ${localStorage.getItem("access")}`
+      );
+      const requestOptions = {
+        method: "DELETE",
+        headers: myHeaders,
+      };
+      const response = await fetch(
+        `http://localhost:8000/notifications/${notificationID}/`,
+        requestOptions
+      );
+      setRenderPage(true);
+    } catch (error) {
+      console.error(
+        `Error fetching details for notification ${notificationID}:`,
+        error
+      );
     }
   };
 
@@ -168,77 +230,78 @@ const ShelterNotifications = () => {
           <div className="notificationsContainer">
             <h1 className="pageHeading">Notifications</h1>
 
-            {notifications.length === 0 ? (
+            {notifications?.length === 0 ? (
               <p>No notifications available.</p>
             ) : (
               <div className="notificationGrid">
-                {notifications.map((notification) => (
+                {notifications?.map((notification, index) => (
                   <div
-                    key={notification.id}
-                    className="notification"
-                    onClick={
-                      notification.notification_type === "new_message"
-                        ? () => handleOpenModal(notification)
-                        : () => handleNotificationClick(notification)
-                    }
+                    key={index}
+                    style={{ display: "flex", flexDirection: "row" }}
                   >
-                    <div className="notificationPic">
-                      {notification.notification_type === "new_message" ? (
-                        <img
-                          id="imgProfile"
-                          src={
-                            notificationDetails[notification.id]?.user
-                              ?.profile_photo
-                          }
-                          alt="Profile"
-                        />
-                      ) : (
-                        <img
-                          id="imgProfile"
-                          src={
-                            notificationDetails[notification.id]?.profile_photo
-                          }
-                          alt="Profile"
-                        />
-                      )}
-                    </div>
+                    <div
+                      key={notification.id}
+                      className="notification"
+                      onClick={
+                        notification.notification_type === "new_message"
+                          ? () => handleOpenModal(notification)
+                          : () => handleNotificationClick(notification)
+                      }
+                    >
+                      <div className="notificationPic">
+                        {notification.notification_type === "new_message" ? (
+                          <img
+                            id="imgProfile"
+                            src={chatSender?.user?.profile_photo}
+                            alt="Profile"
+                          />
+                        ) : (
+                          <img
+                            id="imgProfile"
+                            src={
+                              notificationDetails[notification.id]
+                                ?.profile_photo
+                            }
+                            alt="Profile"
+                          />
+                        )}
+                      </div>
 
-                    <div className="notificationText">
-                      {notification.notification_type === "new_application" ? (
-                        <>
-                          <h5 className="notificationHeading">
-                            New application for{" "}
-                            {notificationDetails[notification.id]?.name ||
-                              "this pet"}{" "}
-                          </h5>
-                          <p>{formatDate(notification.date_created)}</p>
-                        </>
-                      ) : notification.notification_type ===
-                        "application_status" ? (
-                        <>
-                          <h5>Your application has been accepted</h5>
-                          <p>{formatDate(notification.date_created)}</p>
-                        </>
-                      ) : notification.notification_type === "review" ? (
-                        // RECEIVED A REVIEW
-                        <>
-                          <h5>
-                            You received a review from{" "}
-                            {notificationDetails[notification.id]?.username ||
-                              "this user"}{" "}
-                          </h5>
-                          <p>{formatDate(notification.date_created)}</p>
-                        </>
-                      ) : (
-                        <>
-                          <h5>
-                            You received a review from{" "}
-                            {notificationDetails[notification.id]?.user
-                              ?.username || "this user"}{" "}
-                          </h5>
-                          <p>{formatDate(notification.date_created)}</p>
-                        </>
-                      )}
+                      <div className="notificationText">
+                        {notification.notification_type ===
+                        "new_application" ? (
+                          <>
+                            <h5 className="notificationHeading">
+                              New application for{" "}
+                              {notificationDetails[notification.id]?.name ||
+                                "this pet"}{" "}
+                            </h5>
+                            <p>{formatDate(notification.date_created)}</p>
+                          </>
+                        ) : notification.notification_type === "review" ? (
+                          <>
+                            <h5>
+                              You received a review from{" "}
+                              {chatSender?.username || "this user"}{" "}
+                            </h5>
+                            <p>{formatDate(notification.date_created)}</p>
+                          </>
+                        ) : (
+                          <>
+                            <h5>
+                              New message from{" "}
+                              {chatSender?.user?.username || "this user"}{" "}
+                            </h5>
+                            <p>{formatDate(notification.date_created)}</p>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                    <div
+                      className="closeIcon"
+                      onClick={() => handleDeleteNotification(notification.id)}
+                    >
+                      <img src={CloseIcon} />
                     </div>
                   </div>
                 ))}
@@ -286,6 +349,7 @@ const ShelterNotifications = () => {
         open={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         chatDetail={modalChatDetail}
+        currentUser={"shelter"}
       />
     </>
   );

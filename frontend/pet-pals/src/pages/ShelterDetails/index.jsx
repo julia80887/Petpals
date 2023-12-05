@@ -39,6 +39,7 @@ function ShelterDetails() {
 
   useEffect(() => {
     const fetchPetData = async () => {
+      setLoadingPets(true);
       if (shelter && shelter.shelter_name) {
         try {
           const requestOptions = {
@@ -53,6 +54,7 @@ function ShelterDetails() {
           setPets(result.results);
           setLoadingPets(false);
         } catch (error) {
+          setLoadingPets(false);
           console.error("Error:", error);
         }
       }
