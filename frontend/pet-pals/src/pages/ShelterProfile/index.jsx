@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom"; // Import useParams from react-router-dom
+import { Link, useParams, useNavigate } from "react-router-dom"; // Import useParams from react-router-dom
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.css";
 import "./style.css";
 // import "react-select/dist/react-select.css";
 
 function ShelterProfile() {
+  const navigate = useNavigate();
+  const shelter_user = localStorage.getItem("shelter_name") || "";
+  const seeker_user = localStorage.getItem("firstname") || "";
+  const user_id = localStorage.getItem("id") || "";
   // boolean variable to represent that an error was found when validating fields
   let errorFound = false;
   const [profilePic, setProfilePic] = useState("");
@@ -77,7 +81,7 @@ function ShelterProfile() {
     }
 
     const phoneRegex = /^\d{10,15}$/;
-    if (!phoneRegex.test(phoneNumber)) {
+    if (!phoneRegex.test(phoneNumber) && phoneNumber != "") {
       setErrorJson((prevValues) => ({
         ...prevValues,
         phoneNumber:
@@ -134,15 +138,12 @@ function ShelterProfile() {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const myHeaders = new Headers();
-        myHeaders.append(
-          "Authorization",
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAxNTk0ODcyLCJpYXQiOjE3MDE1MDg0NzIsImp0aSI6IjNhODNkZTA3NzY4MzQ2NjBhNzk2MWYzNDNkYjUwYTZlIiwidXNlcl9pZCI6MjN9.VwxBg2eCxFZrc-AH0oDS2wmqIofFUzmxoEMMpG7JIY0"
-        );
 
         const requestOptions = {
           method: "GET",
-          headers: myHeaders,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access")}`,
+          },
         };
 
         const response = await fetch(
@@ -151,7 +152,10 @@ function ShelterProfile() {
         );
         const result = await response.json();
         // set all form values to the values from backend
-        setProfilePic(result.user.profile_photo);
+        // if (result["detail"] == "Not found.") {
+          setProfilePic(result.user.profile_photo);
+
+        
 
         setFormValues({
           user: {
@@ -160,19 +164,19 @@ function ShelterProfile() {
             password: "", // password cannot be changed
             // split address given by backend into 5 different address fields
             inputAddress: result.user.address
-              ? (result.user.address.split(",")[0]).trim()
+              ? result.user.address.split(",")[0].trim()
               : "",
             inputAddress2: result.user.address
-              ? (result.user.address.split(",")[1]).trim()
+              ? result.user.address.split(",")[1].trim()
               : "",
             inputCity: result.user.address
-              ? (result.user.address.split(",")[2]).trim()
+              ? result.user.address.split(",")[2].trim()
               : "",
             inputState: result.user.address
-              ? (result.user.address.split(",")[3]).trim()
+              ? result.user.address.split(",")[3].trim()
               : "",
             postalCode: result.user.address
-              ? (result.user.address.split(",")[4]).trim()
+              ? result.user.address.split(",")[4].trim()
               : "",
             phoneNumber: result.user.phone_number || "",
           },
@@ -246,7 +250,7 @@ function ShelterProfile() {
       event.target.inputAddress.value !== "" &&
       event.target.inputAddress2.value !== "" &&
       event.target.inputCity.value !== "" &&
-      event.target.postalCode.value !== "" && 
+      event.target.postalCode.value !== "" &&
       event.target.inputState.value !== ""
         ? event.target.inputAddress.value +
           "," +
@@ -274,9 +278,8 @@ function ShelterProfile() {
       );
     }
 
-
     formData.append("user.address", full_address);
-    
+
     formData.append(
       "user.email",
       event.target.email ? event.target.email.value : null
@@ -304,8 +307,7 @@ function ShelterProfile() {
       const requestOptions = {
         method: "PUT",
         headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAxNTg5ODc3LCJpYXQiOjE3MDE1MDM0NzcsImp0aSI6IjU5MWVhZTdmODQxMDQzZGFhNDE2NDgzYjBkNDUwODg1IiwidXNlcl9pZCI6MjJ9.v5UK5TJTx8wS0-LVBQgeS1NXuDbDdc2n23beO0FbcxM",
+          Authorization: `Bearer ${localStorage.getItem("access")}`,
         },
         body: formData, // Use the FormData object directly as the body
       };
@@ -318,6 +320,9 @@ function ShelterProfile() {
         .then((data) => {
           setProfilePic(data?.data?.user?.profile_photo);
           console.log("RESPONSE: ", data);
+        //   if (data['message'] == 'Successfully updated.') {
+        //     navigate(`/pet/${pet_id}/`);
+        // }
         })
         .finally(() => setLoading(false));
     } catch (error) {
@@ -327,43 +332,48 @@ function ShelterProfile() {
     }
   }
 
-
-
   function handleDeleteAccount(event) {
     event.preventDefault();
     // get rid of all previous errors
     setErrorJson(() => ({}));
-  
+
     // Confirm with the user before proceeding with deletion
     const userConfirmed = window.confirm(
       "Are you sure you want to delete your account? This action cannot be undone."
     );
-  
+
     if (!userConfirmed) {
       // If the user cancels, do nothing
       console.log("Account deletion cancelled.");
       return;
     }
-  
+
     const fetchData = async () => {
       try {
         setLoading(true);
         const requestOptions = {
           method: "DELETE",
           headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAxNTg5ODc3LCJpYXQiOjE3MDE1MDM0NzcsImp0aSI6IjU5MWVhZTdmODQxMDQzZGFhNDE2NDgzYjBkNDUwODg1IiwidXNlcl9pZCI6MjJ9.v5UK5TJTx8wS0-LVBQgeS1NXuDbDdc2n23beO0FbcxM",
+            Authorization: `Bearer ${localStorage.getItem("access")}`,
           },
         };
-  
+
         const response = await fetch(
           `http://localhost:8000/shelter/${shelter_id}/`,
           requestOptions
         );
-  
+
         if (response.ok) {
           // Account deleted successfully
           console.log("Account deleted successfully!");
+          localStorage.removeItem('access');
+          localStorage.removeItem('custom_user');
+          localStorage.removeItem('shelter_name');
+          localStorage.removeItem('id');
+          localStorage.removeItem('profile_photo');
+          localStorage.removeItem('length');
+          localStorage.removeItem('username');
+          navigate(`/shelter/login/`);
         } else {
           // Handle errors during deletion
           console.error("Error:", response.statusText);
@@ -375,325 +385,334 @@ function ShelterProfile() {
         setLoading(false);
       }
     };
-  
+
     fetchData();
   }
 
-
-
-
-
-  return (
-    <>
-      {loading ? (
-        <p>Loading.....</p>
-      ) : (
-        <div className="allData">
-          <h1>Your Shelter Profile</h1>
-          <div className="container">
-            <form
-              className="createPetForm"
-              style={{ backgroundColor: "white" }}
-              onSubmit={handle_submit}
-            >
-              <div className="imgPlacement">
-                <div className="frame form-group">
-                  <img
-                    src={
-                      profilePic
-                        ? profilePic
-                        : "http://localhost:8000/media/default.jpg"
-                    }
-                    alt="Shelter"
-                  />
-                </div>
-              </div>
-
-              <div className="form-group row">
-                <label
-                  htmlFor="fileInput"
-                  className="col-sm-4 col-form-label labelLeft"
+  if (formValues.shelterName != "") {
+    if (seeker_user == "" && shelter_user != "" && user_id == shelter_id) {
+      return (
+        <>
+          {loading ? (
+            <p>Loading.....</p>
+          ) : (
+            <div className="allData">
+              <h1>Your Shelter Profile</h1>
+              <div className="container">
+                <form
+                  className="createPetForm"
+                  style={{ backgroundColor: "white" }}
+                  onSubmit={handle_submit}
                 >
-                  Photo
-                </label>
-                <div className="col-sm-8">
-                  <input
-                    type="file"
-                    className="form-control"
-                    id="fileInput"
-                    disabled={!isEditMode}
-                    onChange={handleInputChange}
-                    // defaultValue={formValues.user.fileInput}
-                  />
-                </div>
-              </div>
+                  <div className="imgPlacement">
+                    <div className="frame form-group">
+                      <img
+                        src={
+                          profilePic
+                            ? profilePic
+                            : "http://localhost:8000/media/default.jpg"
+                        }
+                        alt="Shelter"
+                      />
+                    </div>
+                  </div>
 
-              <div className="form-group row">
-                <label
-                  htmlFor="shelterName"
-                  className="col-sm-4 col-form-label labelLeft"
-                >
-                  Shelter Name
-                </label>
-                <div className="col-sm-8">
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="shelterName"
-                    defaultValue={formValues.shelterName} // Replace with the actual value
-                    disabled={!isEditMode}
-                    onChange={handleNameChange}
-                  />
-                  <p className="error">{errorJson.shelterName || " "}</p>
-                </div>
-                {/* {error && <p className="error">{error}</p>} */}
-              </div>
+                  <div className="form-group row">
+                    <label
+                      htmlFor="fileInput"
+                      className="col-sm-4 col-form-label labelLeft"
+                    >
+                      Photo
+                    </label>
+                    <div className="col-sm-8">
+                      <input
+                        type="file"
+                        className="form-control"
+                        id="fileInput"
+                        disabled={!isEditMode}
+                        onChange={handleInputChange}
+                        // defaultValue={formValues.user.fileInput}
+                      />
+                    </div>
+                  </div>
 
-              <div className="form-group row">
-                <label
-                  htmlFor="input"
-                  className="col-sm-4 col-form-label labelLeft"
-                >
-                  Email
-                </label>
-                <div className="col-sm-8">
-                  <input
-                    type="email"
-                    className="form-control"
-                    id="email"
-                    defaultValue={formValues.user.email}
-                    disabled={!isEditMode}
-                    onChange={handleInputChange}
-                  />
-                  <p className="error">{errorJson.email || " "}</p>
-                </div>
-              </div>
+                  <div className="form-group row">
+                    <label
+                      htmlFor="shelterName"
+                      className="col-sm-4 col-form-label labelLeft"
+                    >
+                      Shelter Name
+                    </label>
+                    <div className="col-sm-8">
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="shelterName"
+                        defaultValue={formValues.shelterName} // Replace with the actual value
+                        disabled={!isEditMode}
+                        onChange={handleNameChange}
+                      />
+                      <p className="error">{errorJson.shelterName || " "}</p>
+                    </div>
+                    {/* {error && <p className="error">{error}</p>} */}
+                  </div>
 
-              <div className="form-group row">
-                <label
-                  htmlFor="password"
-                  className="col-sm-4 col-form-label labelLeft"
-                >
-                  Password
-                </label>
-                <div className="col-sm-8">
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="password"
-                    defaultValue={formValues.user.password}
-                    disabled
-                    onChange={handleInputChange}
-                    style={isEditMode ? { cursor: "not-allowed" } : {}}
-                  />
-                </div>
-              </div>
+                  <div className="form-group row">
+                    <label
+                      htmlFor="input"
+                      className="col-sm-4 col-form-label labelLeft"
+                    >
+                      Email
+                    </label>
+                    <div className="col-sm-8">
+                      <input
+                        type="email"
+                        className="form-control"
+                        id="email"
+                        defaultValue={formValues.user.email}
+                        disabled={!isEditMode}
+                        onChange={handleInputChange}
+                      />
+                      <p className="error">{errorJson.email || " "}</p>
+                    </div>
+                  </div>
 
-              <div className="form-group row">
-                <label
-                  htmlFor="inputAddress"
-                  className="col-sm-4 col-form-label labelLeft"
-                >
-                  Address
-                </label>
-                <div className="col-sm-8">
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="inputAddress"
-                    defaultValue={formValues.user.inputAddress}
-                    disabled={!isEditMode}
-                    onChange={handleInputChange}
-                  />
-                </div>
-              </div>
+                  <div className="form-group row">
+                    <label
+                      htmlFor="password"
+                      className="col-sm-4 col-form-label labelLeft"
+                    >
+                      Password
+                    </label>
+                    <div className="col-sm-8">
+                      <input
+                        type="password"
+                        className="form-control"
+                        id="password"
+                        defaultValue={formValues.user.password}
+                        disabled
+                        onChange={handleInputChange}
+                        style={isEditMode ? { cursor: "not-allowed" } : {}}
+                      />
+                    </div>
+                  </div>
 
-              <div className="form-group row">
-                <label
-                  htmlFor="inputAddress2"
-                  className="col-sm-4 col-form-label labelLeft emptyLabel"
-                ></label>
-                <div className="col-sm-8">
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="inputAddress2"
-                    defaultValue={formValues.user.inputAddress2}
-                    disabled={!isEditMode}
-                    onChange={handleInputChange}
-                  />
-                </div>
-              </div>
+                  <div className="form-group row">
+                    <label
+                      htmlFor="inputAddress"
+                      className="col-sm-4 col-form-label labelLeft"
+                    >
+                      Address
+                    </label>
+                    <div className="col-sm-8">
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="inputAddress"
+                        defaultValue={formValues.user.inputAddress}
+                        disabled={!isEditMode}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                  </div>
 
-              <div className="form-group row">
-                <label
-                  htmlFor="inputCity"
-                  className="col-sm-4 col-form-label labelLeft emptyLabel"
-                ></label>
-                <div className="col-sm-8">
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="inputCity"
-                    defaultValue={formValues.user.inputCity}
-                    disabled={!isEditMode}
-                    onChange={handleInputChange}
-                  />
-                </div>
+                  <div className="form-group row">
+                    <label
+                      htmlFor="inputAddress2"
+                      className="col-sm-4 col-form-label labelLeft emptyLabel"
+                    ></label>
+                    <div className="col-sm-8">
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="inputAddress2"
+                        defaultValue={formValues.user.inputAddress2}
+                        disabled={!isEditMode}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                  </div>
 
-                <label
-                  htmlFor="inputState"
-                  className="col-sm-4 col-form-label labelLeft"
-                >
-                  Province
-                </label>
-                {/* <div className="" style={{display: "flex", alignItems: "center"}}> */}
-                {/* <select
+                  <div className="form-group row">
+                    <label
+                      htmlFor="inputCity"
+                      className="col-sm-4 col-form-label labelLeft emptyLabel"
+                    ></label>
+                    <div className="col-sm-8">
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="inputCity"
+                        defaultValue={formValues.user.inputCity}
+                        disabled={!isEditMode}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+
+                    <label
+                      htmlFor="inputState"
+                      className="col-sm-4 col-form-label labelLeft"
+                    >
+                      Province
+                    </label>
+                    {/* <div className="" style={{display: "flex", alignItems: "center"}}> */}
+                    {/* <select
                 id="inputState"
                 className="form-control"
                 value={profileInfo.address ? profileInfo.address.split(', ')[3] : ""}
                 disabled
               > */}
-                <div className="col-sm-4">
-                  <select
-                    id="inputState"
-                    onChange={handleSelectChange}
-                    defaultValue={formValues.user.inputState}
-                    disabled={!isEditMode}
-                    style={{
-                      backgroundColor: !isEditMode ? "#E9ECEF" : "#FAFAFA",
-                      borderRadius: "100px",
-                      padding: "12px",
-                      display: "flex",
-                      textAlign: "left",
-                      alignItems: "flex-start",
-                      whiteSpace: "nowrap",
-                      width: "100%",
-                      opacity: "1",
-                      border: "1px solid #dee2e6",
-                      fontSize: "14px",
-                      color: "#ffffff",
-                      height: "46.33px",
+                    <div className="col-sm-4">
+                      <select
+                        id="inputState"
+                        onChange={handleSelectChange}
+                        defaultValue={formValues.user.inputState}
+                        disabled={!isEditMode}
+                        style={{
+                          backgroundColor: !isEditMode ? "#E9ECEF" : "#FAFAFA",
+                          borderRadius: "100px",
+                          padding: "12px",
+                          display: "flex",
+                          textAlign: "left",
+                          alignItems: "flex-start",
+                          whiteSpace: "nowrap",
+                          width: "100%",
+                          opacity: "1",
+                          border: "1px solid #dee2e6",
+                          fontSize: "14px",
+                          color: "#ffffff",
+                          height: "46.33px",
 
-                      marginBottom: "10px",
-                      marginTop: "10px",
-                      fontFamily: "Open Sans",
-                      color: "#000000",
-                      //   }),
-                    }}
+                          marginBottom: "10px",
+                          marginTop: "10px",
+                          fontFamily: "Open Sans",
+                          color: "#000000",
+                          //   }),
+                        }}
+                      >
+                        {[...provinces].map((p) =>
+                          formValues.user.inputValue == { p } ? (
+                            <option key={p} value={p} selectedOption>
+                              {p}
+                            </option>
+                          ) : (
+                            <option key={p} value={p}>
+                              {p}
+                            </option>
+                          )
+                        )}
+                      </select>
+                    </div>
+                    <div className="col-sm-4">
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="postalCode"
+                        defaultValue={formValues.user.postalCode}
+                        disabled={!isEditMode}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                    <div className="errorBox">
+                      <p className="error">{errorJson.postalCode || ""}</p>
+                    </div>
+                  </div>
+
+                  <div className="form-group row">
+                    <label
+                      htmlFor="phoneNumber"
+                      className="col-sm-4 col-form-label labelLeft"
+                    >
+                      Phone Number
+                    </label>
+                    <div className="col-sm-8">
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="phoneNumber"
+                        defaultValue={formValues.user.phoneNumber}
+                        disabled={!isEditMode}
+                        onChange={handleInputChange}
+                      />
+                      <p className="error">{errorJson.phoneNumber || ""}</p>
+                    </div>
+                  </div>
+
+                  <div className="form-group row">
+                    <label
+                      htmlFor="missionStatement"
+                      className="col-sm-4 col-form-label labelLeft"
+                    >
+                      Mission Statement
+                    </label>
+                    <div className="col-sm-8">
+                      <input
+                        type="textarea"
+                        className="form-control"
+                        id="missionStatement"
+                        defaultValue={formValues.missionStatement}
+                        disabled={!isEditMode}
+                        onChange={handleNameChange}
+                        style={{
+                          height: "200px",
+                          borderRadius: "70px",
+                          paddingBottom: "100px",
+                          whiteSpace: "normal",
+                        }}
+                      />
+                      {/* <p className="error">{errorJson.mi || ""}</p> */}
+                    </div>
+                  </div>
+
+                  <div
+                    className="twoButtonPositions"
+                    style={{ display: "flex", flexDirection: "row" }}
                   >
-                    {[...provinces].map((p) =>
-                      formValues.user.inputValue == { p } ? (
-                        <option key={p} value={p} selectedOption>
-                          {p}
-                        </option>
-                      ) : (
-                        <option key={p} value={p}>
-                          {p}
-                        </option>
-                      )
-                    )}
-                  </select>
-                </div>
-                <div className="col-sm-4">
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="postalCode"
-                    defaultValue={formValues.user.postalCode}
-                    disabled={!isEditMode}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div className="errorBox">
-                  <p className="error">{errorJson.postalCode || ""}</p>
-                </div>
-              </div>
+                    <div className="form-group row">
+                      <div className="col-sm-6 buttonCenter">
+                        <button
+                          type={!isEditMode ? "submit" : "button"}
+                          className="backButton form-control"
+                          onClick={() => setIsEditMode(!isEditMode)}
+                        >
+                          {isEditMode ? "Save" : "Edit"}
+                        </button>
+                      </div>
 
-              <div className="form-group row">
-                <label
-                  htmlFor="phoneNumber"
-                  className="col-sm-4 col-form-label labelLeft"
-                >
-                  Phone Number
-                </label>
-                <div className="col-sm-8">
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="phoneNumber"
-                    defaultValue={formValues.user.phoneNumber}
-                    disabled={!isEditMode}
-                    onChange={handleInputChange}
-                  />
-                  <p className="error">{errorJson.phoneNumber || ""}</p>
-                </div>
-              </div>
+                      <div className="col-sm-6 buttonCenter">
+                        <button
+                          type="button"
+                          className="backButton form-control"
+                          onClick={handleDeleteAccount}
+                          style={{ whiteSpace: "nowrap", width: "fit-content" }}
+                        >
+                          Delete Account
+                        </button>
+                      </div>
 
-              <div className="form-group row">
-                <label
-                  htmlFor="missionStatement"
-                  className="col-sm-4 col-form-label labelLeft"
-                >
-                  Mission Statement
-                </label>
-                <div className="col-sm-8">
-                  <input
-                    type="textarea"
-                    className="form-control"
-                    id="missionStatement"
-                    defaultValue={formValues.missionStatement}
-                    disabled={!isEditMode}
-                    onChange={handleNameChange}
-                    style={{"height": "200px", "borderRadius": "70px", 
-                    "paddingBottom": "100px", "whiteSpace": "normal"}}
-                  />
-                  {/* <p className="error">{errorJson.mi || ""}</p> */}
-                </div>
-              </div>
-
-              <div className="twoButtonPositions" style={{display: "flex", flexDirection: "row"}}>
-                <div className="form-group row">
-                  <div className="col-sm-6 buttonCenter">
-                    <button
-                      type={!isEditMode ? "submit" : "button"}
-                      className="backButton form-control"
-                      onClick={() => setIsEditMode(!isEditMode)}
-                    >
-                      {isEditMode ? "Save" : "Edit"}
-                    </button>
+                      <div className="col-sm-6 buttonCenter">
+                        <Link
+                          className="nextButton form-control"
+                          to={`/`}
+                          style={{ textDecoration: "none" }}
+                        >
+                          Home
+                        </Link>
+                      </div>
+                    </div>
                   </div>
-
-                  <div className="col-sm-6 buttonCenter">
-                    <button
-                      type="button"
-                      className="backButton form-control"
-                      onClick={handleDeleteAccount}
-                      style={{ whiteSpace: "nowrap", width: "fit-content" }}
-                    >
-                      Delete Account
-                    </button>
-                  </div>
-
-                  <div className="col-sm-6 buttonCenter">
-                    <Link
-                      className="nextButton form-control"
-                      to={`/`}
-                      style={{ textDecoration: "none" }}
-                    >
-                      Home
-                    </Link>
-                  </div>
-                </div>
+                </form>
               </div>
-
-
-            </form>
-          </div>
-        </div>
-      )}
-    </>
-  );
+            </div>
+          )}
+        </>
+      );
+    } else {
+      return <h1>You do not have permission to edit this shelter profile.</h1>;
+    }
+  } else {
+    return <h1>This shelter does not exist.</h1>;
+  }
 }
 
 export default ShelterProfile;
