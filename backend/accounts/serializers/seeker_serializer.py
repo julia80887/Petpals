@@ -68,7 +68,7 @@ class PetSeekerRetrieveSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PetSeeker
-        fields = ['firstname','lastname', 'user', 'id']
+        fields = ['firstname','lastname', 'user', 'id', 'other_notification','dog_notification', 'cat_notification']
 
 class CustomUserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
