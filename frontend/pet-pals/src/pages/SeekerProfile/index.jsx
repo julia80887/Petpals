@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom"; // Import useParams from react-router-dom
+import { Link, useParams, useNavigate } from "react-router-dom"; // Import useParams from react-router-dom
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.css";
 import "./style.css";
 // import "react-select/dist/react-select.css";
 
 function SeekerProfile() {
+  const navigate = useNavigate();
+  const shelter_user = localStorage.getItem("shelter_name") || "";
+  const seeker_user = localStorage.getItem("firstname") || "";
+  const user_id = localStorage.getItem("id") || "";
   // boolean variable to represent that an error was found when validating fields
   let errorFound = false;
   const [profilePic, setProfilePic] = useState("");
@@ -18,6 +22,7 @@ function SeekerProfile() {
   // getting shelter id from the url
   const { seeker_id } = useParams();
   // used to store form values
+  const [details, setDetails] = useState("");
   const [formValues, setFormValues] = useState({
     user: {
       phoneNumber: "",
@@ -27,6 +32,7 @@ function SeekerProfile() {
     },
     firstName: "",
     lastName: "",
+    id: "",
   });
   // used to store provinces for select dropdown
   const provinces = [
@@ -80,7 +86,7 @@ function SeekerProfile() {
     }
 
     const phoneRegex = /^\d{10,15}$/;
-    if (!phoneRegex.test(phoneNumber)) {
+    if (!phoneRegex.test(phoneNumber) && phoneNumber != "") {
       setErrorJson((prevValues) => ({
         ...prevValues,
         phoneNumber:
@@ -137,15 +143,12 @@ function SeekerProfile() {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const myHeaders = new Headers();
-        myHeaders.append(
-          "Authorization",
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAxNTg2MDYwLCJpYXQiOjE3MDE0OTk2NjAsImp0aSI6IjJkMzk2YjNmZWZmYzQ3ZTNhMWJmNTAxOWYwYWY4NGI0IiwidXNlcl9pZCI6MX0._pZ055CwfaUk-SJpg1TSQGZpJw5EcGy9X5IOdtPbdAU"
-        );
 
         const requestOptions = {
           method: "GET",
-          headers: myHeaders,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access")}`,
+          },
         };
 
         const response = await fetch(
@@ -153,9 +156,11 @@ function SeekerProfile() {
           requestOptions
         );
         const result = await response.json();
+        console.log(result);
+        setDetails(result);
+
         // set all form values to the values from backend
         setProfilePic(result.user.profile_photo);
-
         setFormValues({
           user: {
             fileInput: "",
@@ -181,7 +186,9 @@ function SeekerProfile() {
           },
           lastName: result.lastname,
           firstName: result.firstname,
+          id: result.id,
         });
+
         setLoading(false);
       } catch (error) {
         setLoading(false);
@@ -309,8 +316,7 @@ function SeekerProfile() {
       const requestOptions = {
         method: "PUT",
         headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAxNTg2MDYwLCJpYXQiOjE3MDE0OTk2NjAsImp0aSI6IjJkMzk2YjNmZWZmYzQ3ZTNhMWJmNTAxOWYwYWY4NGI0IiwidXNlcl9pZCI6MX0._pZ055CwfaUk-SJpg1TSQGZpJw5EcGy9X5IOdtPbdAU",
+          Authorization: `Bearer ${localStorage.getItem("access")}`,
         },
         body: formData, // Use the FormData object directly as the body
       };
@@ -354,8 +360,7 @@ function SeekerProfile() {
         const requestOptions = {
           method: "DELETE",
           headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAxNTg2MDYwLCJpYXQiOjE3MDE0OTk2NjAsImp0aSI6IjJkMzk2YjNmZWZmYzQ3ZTNhMWJmNTAxOWYwYWY4NGI0IiwidXNlcl9pZCI6MX0._pZ055CwfaUk-SJpg1TSQGZpJw5EcGy9X5IOdtPbdAU",
+            Authorization: `Bearer ${localStorage.getItem("access")}`,
           },
         };
 
@@ -367,6 +372,14 @@ function SeekerProfile() {
         if (response.ok) {
           // Account deleted successfully
           console.log("Account deleted successfully!");
+          localStorage.removeItem('access');
+          localStorage.removeItem('custom_user');
+          localStorage.removeItem('firstname');
+          localStorage.removeItem('id');
+          localStorage.removeItem('last_name');
+          localStorage.removeItem('profile_photo');
+          localStorage.removeItem('length');
+          navigate(`/seeker/login/`);
         } else {
           // Handle errors during deletion
           console.error("Error:", response.statusText);
@@ -382,272 +395,291 @@ function SeekerProfile() {
     fetchData();
   }
 
-  return (
-    <>
-      {loading ? (
-        <p>Loading.....</p>
-      ) : (
-        <div>
-          <h1>Update Profile Information</h1>
-          <div className="container">
-            <form
-              className="createPetForm"
-              style={{ backgroundColor: "white" }}
-              onSubmit={handle_submit}
-            >
-              <div className="imgPlacement">
-                <div className="frame form-group">
-                  <img
-                    src={
-                      profilePic
-                        ? profilePic
-                        : "http://localhost:8000/media/default.jpg"
-                    }
-                    alt="Shelter"
-                  />
-                </div>
-              </div>
+  // {loading ? (
+  //   <p>Loading.....</p>
+  // ) : (
 
-              <div className="form-group row">
-                <label
-                  htmlFor="fileInput"
-                  className="col-sm-4 col-form-label labelLeft"
+  if (loading) {
+    <p>Loading.....</p>;
+  } else {
+    console.log(formValues.firstName);
+    console.log(details.detail);
+    if (
+      (formValues.firstName == "" &&
+        details.detail ==
+          "You do not have permission to perform this action.") ||
+      formValues.firstName != ""
+    ) {
+      if (
+        (seeker_user != "" && user_id == formValues.id) ||
+        (shelter_user != "" &&
+          seeker_user == "" &&
+          details.detail !=
+            "You do not have permission to perform this action.")
+      ) {
+        return (
+          <>
+            <div>
+              <h1>{formValues.firstName}'s Profile</h1>
+              <div className="container">
+                <form
+                  className="createPetForm"
+                  style={{ backgroundColor: "white" }}
+                  onSubmit={handle_submit}
                 >
-                  Photo
-                </label>
-                <div className="col-sm-8">
-                  <input
-                    type="file"
-                    className="form-control"
-                    id="fileInput"
-                    disabled={!isEditMode}
-                    onChange={handleInputChange}
-                    // defaultValue={formValues.user.fileInput}
-                  />
-                </div>
-              </div>
+                  <div className="imgPlacement">
+                    <div className="frame form-group">
+                      <img
+                        src={
+                          profilePic
+                            ? profilePic
+                            : "http://localhost:8000/media/default.jpg"
+                        }
+                        alt="Shelter"
+                      />
+                    </div>
+                  </div>
 
-              <div className="form-group row">
-                <label
-                  htmlFor="firstName"
-                  className="col-sm-4 col-form-label labelLeft"
-                >
-                  First Name
-                </label>
-                <div className="col-sm-8">
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="firstName"
-                    defaultValue={formValues.firstName} // Replace with the actual value
-                    disabled={!isEditMode}
-                    onChange={handleNameChange}
-                  />
-                  <p className="error">{errorJson.firstName || " "}</p>
-                </div>
-              </div>
-              <div className="form-group row">
-                <label
-                  htmlFor="lastName"
-                  className="col-sm-4 col-form-label labelLeft"
-                >
-                  Last Name
-                </label>
-                <div className="col-sm-8">
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="lastName"
-                    defaultValue={formValues.lastName} // Replace with the actual value
-                    disabled={!isEditMode}
-                    onChange={handleNameChange}
-                  />
-                  <p className="error">{errorJson.lastName || " "}</p>
-                </div>
-              </div>
+                  <div className="form-group row">
+                    <label
+                      htmlFor="fileInput"
+                      className="col-sm-4 col-form-label labelLeft"
+                    >
+                      Photo
+                    </label>
+                    <div className="col-sm-8">
+                      <input
+                        type="file"
+                        className="form-control"
+                        id="fileInput"
+                        disabled={!isEditMode}
+                        onChange={handleInputChange}
+                        // defaultValue={formValues.user.fileInput}
+                      />
+                    </div>
+                  </div>
 
-              <div className="form-group row">
-                <label
-                  htmlFor="email"
-                  className="col-sm-4 col-form-label labelLeft"
-                >
-                  Email
-                </label>
-                <div className="col-sm-8">
-                  <input
-                    type="email"
-                    className="form-control"
-                    id="email"
-                    defaultValue={formValues.user.email}
-                    disabled={!isEditMode}
-                    onChange={handleInputChange}
-                  />
-                  <p className="error">{errorJson.email || " "}</p>
-                </div>
-              </div>
+                  <div className="form-group row">
+                    <label
+                      htmlFor="firstName"
+                      className="col-sm-4 col-form-label labelLeft"
+                    >
+                      First Name
+                    </label>
+                    <div className="col-sm-8">
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="firstName"
+                        defaultValue={formValues.firstName} // Replace with the actual value
+                        disabled={!isEditMode}
+                        onChange={handleNameChange}
+                      />
+                      <p className="error">{errorJson.firstName || " "}</p>
+                    </div>
+                  </div>
+                  <div className="form-group row">
+                    <label
+                      htmlFor="lastName"
+                      className="col-sm-4 col-form-label labelLeft"
+                    >
+                      Last Name
+                    </label>
+                    <div className="col-sm-8">
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="lastName"
+                        defaultValue={formValues.lastName} // Replace with the actual value
+                        disabled={!isEditMode}
+                        onChange={handleNameChange}
+                      />
+                      <p className="error">{errorJson.lastName || " "}</p>
+                    </div>
+                  </div>
 
-              <div className="form-group row">
-                <label
-                  htmlFor="password"
-                  className="col-sm-4 col-form-label labelLeft"
-                >
-                  Password
-                </label>
-                <div className="col-sm-8">
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="password"
-                    defaultValue={formValues.user.password}
-                    disabled
-                    onChange={handleInputChange}
-                    style={isEditMode ? { cursor: "not-allowed" } : {}}
-                  />
-                </div>
-              </div>
+                  <div className="form-group row">
+                    <label
+                      htmlFor="email"
+                      className="col-sm-4 col-form-label labelLeft"
+                    >
+                      Email
+                    </label>
+                    <div className="col-sm-8">
+                      <input
+                        type="email"
+                        className="form-control"
+                        id="email"
+                        defaultValue={formValues.user.email}
+                        disabled={!isEditMode}
+                        onChange={handleInputChange}
+                      />
+                      <p className="error">{errorJson.email || " "}</p>
+                    </div>
+                  </div>
 
-              <div className="form-group row">
-                <label
-                  htmlFor="inputAddress"
-                  className="col-sm-4 col-form-label labelLeft"
-                >
-                  Address
-                </label>
-                <div className="col-sm-8">
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="inputAddress"
-                    defaultValue={formValues.user.inputAddress}
-                    disabled={!isEditMode}
-                    onChange={handleInputChange}
-                  />
-                </div>
-              </div>
+                  <div className="form-group row">
+                    <label
+                      htmlFor="password"
+                      className="col-sm-4 col-form-label labelLeft"
+                    >
+                      Password
+                    </label>
+                    <div className="col-sm-8">
+                      <input
+                        type="password"
+                        className="form-control"
+                        id="password"
+                        defaultValue={formValues.user.password}
+                        disabled
+                        onChange={handleInputChange}
+                        style={isEditMode ? { cursor: "not-allowed" } : {}}
+                      />
+                    </div>
+                  </div>
 
-              <div className="form-group row">
-                <label
-                  htmlFor="inputAddress2"
-                  className="col-sm-4 col-form-label labelLeft emptyLabel"
-                ></label>
-                <div className="col-sm-8">
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="inputAddress2"
-                    defaultValue={formValues.user.inputAddress2}
-                    disabled={!isEditMode}
-                    onChange={handleInputChange}
-                  />
-                </div>
-              </div>
+                  <div className="form-group row">
+                    <label
+                      htmlFor="inputAddress"
+                      className="col-sm-4 col-form-label labelLeft"
+                    >
+                      Address
+                    </label>
+                    <div className="col-sm-8">
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="inputAddress"
+                        defaultValue={formValues.user.inputAddress}
+                        disabled={!isEditMode}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                  </div>
 
-              <div className="form-group row">
-                <label
-                  htmlFor="inputCity"
-                  className="col-sm-4 col-form-label labelLeft emptyLabel"
-                ></label>
-                <div className="col-sm-8">
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="inputCity"
-                    defaultValue={formValues.user.inputCity}
-                    disabled={!isEditMode}
-                    onChange={handleInputChange}
-                  />
-                </div>
+                  <div className="form-group row">
+                    <label
+                      htmlFor="inputAddress2"
+                      className="col-sm-4 col-form-label labelLeft emptyLabel"
+                    ></label>
+                    <div className="col-sm-8">
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="inputAddress2"
+                        defaultValue={formValues.user.inputAddress2}
+                        disabled={!isEditMode}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                  </div>
 
-                <label
-                  htmlFor="inputState"
-                  className="col-sm-4 col-form-label labelLeft"
-                >
-                  Province
-                </label>
-                {/* <div className="" style={{display: "flex", alignItems: "center"}}> */}
-                {/* <select
+                  <div className="form-group row">
+                    <label
+                      htmlFor="inputCity"
+                      className="col-sm-4 col-form-label labelLeft emptyLabel"
+                    ></label>
+                    <div className="col-sm-8">
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="inputCity"
+                        defaultValue={formValues.user.inputCity}
+                        disabled={!isEditMode}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+
+                    <label
+                      htmlFor="inputState"
+                      className="col-sm-4 col-form-label labelLeft"
+                    >
+                      Province
+                    </label>
+                    {/* <div className="" style={{display: "flex", alignItems: "center"}}> */}
+                    {/* <select
                 id="inputState"
                 className="form-control"
                 value={profileInfo.address ? profileInfo.address.split(', ')[3] : ""}
                 disabled
               > */}
-                <div className="col-sm-4">
-                  <select
-                    id="inputState"
-                    onChange={handleSelectChange}
-                    defaultValue={formValues.user.inputState}
-                    disabled={!isEditMode}
-                    style={{
-                      backgroundColor: !isEditMode ? "#E9ECEF" : "#FAFAFA",
-                      borderRadius: "100px",
-                      padding: "12px",
-                      display: "flex",
-                      textAlign: "left",
-                      alignItems: "flex-start",
-                      whiteSpace: "nowrap",
-                      width: "100%",
-                      opacity: "1",
-                      border: "1px solid #dee2e6",
-                      fontSize: "14px",
-                      color: "#ffffff",
-                      height: "46.33px",
+                    <div className="col-sm-4">
+                      <select
+                        id="inputState"
+                        onChange={handleSelectChange}
+                        defaultValue={formValues.user.inputState}
+                        disabled={!isEditMode}
+                        style={{
+                          backgroundColor: !isEditMode ? "#E9ECEF" : "#FAFAFA",
+                          borderRadius: "100px",
+                          padding: "12px",
+                          display: "flex",
+                          textAlign: "left",
+                          alignItems: "flex-start",
+                          whiteSpace: "nowrap",
+                          width: "100%",
+                          opacity: "1",
+                          border: "1px solid #dee2e6",
+                          fontSize: "14px",
+                          color: "#ffffff",
+                          height: "46.33px",
 
-                      marginBottom: "10px",
-                      marginTop: "10px",
-                      fontFamily: "Open Sans",
-                      color: "#000000",
-                      //   }),
-                    }}
-                  >
-                    {[...provinces].map((p) =>
-                      formValues.user.inputValue == { p } ? (
-                        <option key={p} value={p} selectedOption>
-                          {p}
-                        </option>
-                      ) : (
-                        <option key={p} value={p}>
-                          {p}
-                        </option>
-                      )
-                    )}
-                  </select>
-                </div>
-                <div className="col-sm-4">
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="postalCode"
-                    defaultValue={formValues.user.postalCode}
-                    disabled={!isEditMode}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div className="errorBox">
-                  <p className="error">{errorJson.postalCode || ""}</p>
-                </div>
-              </div>
+                          marginBottom: "10px",
+                          marginTop: "10px",
+                          fontFamily: "Open Sans",
+                          color: "#000000",
+                          //   }),
+                        }}
+                      >
+                        {[...provinces].map((p) =>
+                          formValues.user.inputValue == { p } ? (
+                            <option key={p} value={p} selectedOption>
+                              {p}
+                            </option>
+                          ) : (
+                            <option key={p} value={p}>
+                              {p}
+                            </option>
+                          )
+                        )}
+                      </select>
+                    </div>
+                    <div className="col-sm-4">
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="postalCode"
+                        defaultValue={formValues.user.postalCode}
+                        disabled={!isEditMode}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                    <div className="errorBox">
+                      <p className="error">{errorJson.postalCode || ""}</p>
+                    </div>
+                  </div>
 
-              <div className="form-group row">
-                <label
-                  htmlFor="phoneNumber"
-                  className="col-sm-4 col-form-label labelLeft"
-                >
-                  Phone Number
-                </label>
-                <div className="col-sm-8">
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="phoneNumber"
-                    defaultValue={formValues.user.phoneNumber}
-                    disabled={!isEditMode}
-                    onChange={handleInputChange}
-                  />
-                  <p className="error">{errorJson.phoneNumber || ""}</p>
-                </div>
-              </div>
+                  <div className="form-group row">
+                    <label
+                      htmlFor="phoneNumber"
+                      className="col-sm-4 col-form-label labelLeft"
+                    >
+                      Phone Number
+                    </label>
+                    <div className="col-sm-8">
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="phoneNumber"
+                        defaultValue={formValues.user.phoneNumber}
+                        disabled={!isEditMode}
+                        onChange={handleInputChange}
+                      />
+                      <p className="error">{errorJson.phoneNumber || ""}</p>
+                    </div>
+                  </div>
 
-              {/* <div className="form-group row">
+                  {/* <div className="form-group row">
             <label htmlFor="flexCheckChecked" className="col-sm-4 col-form-label labelLeft">
               Preferences
             </label>
@@ -761,48 +793,62 @@ function SeekerProfile() {
             </div>
           </div> */}
 
-              <div className="twoButtonPositions" style={{display: "flex", flexDirection: "row"}}>
-                <div className="form-group row">
-                  <div className="col-sm-6 buttonCenter">
-                    <button
-                      type={!isEditMode ? "submit" : "button"}
-                      className="backButton form-control"
-                      onClick={() => setIsEditMode(!isEditMode)}
-                    >
-                      {isEditMode ? "Save" : "Edit"}
-                    </button>
-                  </div>
+                  <div
+                    className="twoButtonPositions"
+                    style={{ display: "flex", flexDirection: "row" }}
+                  >
+                    <div className="form-group row">
+                      {shelter_user == "" ? (
+                        <div className="col-sm-6 buttonCenter">
+                          <button
+                            type={!isEditMode ? "submit" : "button"}
+                            className="backButton form-control"
+                            onClick={() => setIsEditMode(!isEditMode)}
+                          >
+                            {isEditMode ? "Save" : "Edit"}
+                          </button>
+                        </div>
+                      ) : null}
 
-                  <div className="col-sm-6 buttonCenter">
-                    <button
-                      type="button"
-                      className="backButton form-control"
-                      onClick={handleDeleteAccount}
-                      style={{ whiteSpace: "nowrap", width: "fit-content" }}
-                    >
-                      Delete Account
-                    </button>
-                  </div>
+                      {shelter_user == "" ? (
+                        <div className="col-sm-6 buttonCenter">
+                          <button
+                            type="button"
+                            className="backButton form-control"
+                            onClick={handleDeleteAccount}
+                            style={{
+                              whiteSpace: "nowrap",
+                              width: "fit-content",
+                            }}
+                          >
+                            Delete Account
+                          </button>
+                        </div>
+                      ) : null}
 
-                  <div className="col-sm-6 buttonCenter">
-                    <Link
-                      className="nextButton form-control"
-                      to={`/`}
-                      style={{ textDecoration: "none" }}
-                    >
-                      Home
-                    </Link>
+                      <div className="col-sm-6 buttonCenter">
+                        <Link
+                          className="nextButton form-control"
+                          to={`/`}
+                          style={{ textDecoration: "none" }}
+                        >
+                          Home
+                        </Link>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                </form>
               </div>
-              
-            </form>
-          </div>
-        </div>
-      )}
-      ;
-    </>
-  );
+            </div>
+          </>
+        );
+      } else {
+        return <h1>You cannot perform this action.</h1>;
+      }
+    } else {
+      return <h1>You cannot perform this action.</h1>;
+    }
+  }
 }
 
 export default SeekerProfile;

@@ -18,15 +18,12 @@ function Applications() {
     const {page} = query;
     const fetchData = async () => {
       try {
-        const myHeaders = new Headers();
-        myHeaders.append(
-          "Authorization",
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAxMzc3NDgxLCJpYXQiOjE3MDEyOTEwODEsImp0aSI6IjlhODI5YTgwYWU0MTQ1YmI5YmI3MjIyOGI3Nzg5N2E4IiwidXNlcl9pZCI6MX0.sURzBmTNIDxQT3lcsb8etUeOW2j48Grg4OtEgiSpIeg"
-        );
 
         const requestOptions = {
           method: "GET",
-          headers: myHeaders,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('access')}`,
+          },
         };
 
         const response = await fetch(
@@ -50,15 +47,12 @@ function Applications() {
     // Fetch pet details for each application
     const fetchPetDetails = async (petId) => {
       try {
-        const myHeaders = new Headers();
-        myHeaders.append(
-          "Authorization",
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAxMzc3NDgxLCJpYXQiOjE3MDEyOTEwODEsImp0aSI6IjlhODI5YTgwYWU0MTQ1YmI5YmI3MjIyOGI3Nzg5N2E4IiwidXNlcl9pZCI6MX0.sURzBmTNIDxQT3lcsb8etUeOW2j48Grg4OtEgiSpIeg"
-        );
 
         const requestOptions = {
           method: "GET",
-          headers: myHeaders,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('access')}`,
+          },
         };
 
         const response = await fetch(
@@ -90,15 +84,12 @@ function Applications() {
     // Fetch shelter details for each application
     const fetchShelterDetails = async (shelterId) => {
       try {
-        const myHeaders = new Headers();
-        myHeaders.append(
-          "Authorization",
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAxMzc3NDgxLCJpYXQiOjE3MDEyOTEwODEsImp0aSI6IjlhODI5YTgwYWU0MTQ1YmI5YmI3MjIyOGI3Nzg5N2E4IiwidXNlcl9pZCI6MX0.sURzBmTNIDxQT3lcsb8etUeOW2j48Grg4OtEgiSpIeg"
-        );
 
         const requestOptions = {
           method: "GET",
-          headers: myHeaders,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('access')}`,
+          },
         };
 
         const response = await fetch(
@@ -176,20 +167,6 @@ function Applications() {
             );
           })}
         </div>
-
-        {/* <div className="pagination">
-          {currentPage > 1 && (
-            <button onClick={() => setCurrentPage((prevPage) => prevPage - 1)}>
-              Previous
-            </button>
-          )}
-          <span>{`${currentPage} of ${totalPages}`}</span>
-          {currentPage < totalPages && (
-            <button onClick={() => setCurrentPage((prevPage) => prevPage + 1)}>
-              Next
-            </button>
-          )}
-        </div> */}
         <p className="pagination">
         { query.page > 1 && query.page <= totalPages
           ? <button className="paginationButton" onClick={() => setSearchParams({...query, page: query.page - 1})}>Previous</button>
@@ -200,7 +177,7 @@ function Applications() {
         </p>
         {query.page <= totalPages ?
         <p className="totalPages">Page {query.page} out of {totalPages}.</p>
-        : <p className="totalPages">Page does not exist.</p>}
+        : <p className="totalPages">You currently have no applications.</p>}
       </div>
     </div>
   );
