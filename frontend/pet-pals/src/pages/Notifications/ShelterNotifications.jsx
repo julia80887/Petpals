@@ -143,18 +143,19 @@ const ShelterNotifications = () => {
   }, [notifications]);
 
   const handleNotificationClick = (notification) => {
-    if (notification.notification_type === "new_pet") {
-      navigate(`${notification.link}`);
-    } else if (notification.notification_type === "new_application") {
-      const applicationIdMatch = notification.link.match(
-        /\/applications\/(\d+)\/$/
-      );
+    navigate(`${notification.link}`);
+    // if (notification.notification_type === "new_pet") {
+    //   navigate(`${notification.link}`);
+    // } else if (notification.notification_type === "new_application") {
+    //   const applicationIdMatch = notification.link.match(
+    //     /\/applications\/(\d+)\/$/
+    //   );
 
-      if (applicationIdMatch) {
-        const applicationId = applicationIdMatch[1];
-        navigate(`/applications/${applicationId}/`);
-      }
-    }
+    //   if (applicationIdMatch) {
+    //     const applicationId = applicationIdMatch[1];
+    //     navigate(`/applications/${applicationId}/`);
+    //   }
+    // }
   };
 
   const readNotification = async (notification) => {
