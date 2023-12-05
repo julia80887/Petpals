@@ -174,7 +174,6 @@ class NotificationRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
         instance.delete()
         return Response({'message': 'Successfully deleted.'}, status=status.HTTP_204_NO_CONTENT)
 
-
     def perform_update(self, serializer):
         serializer.save(read=True)
         return Response(serializer.data)

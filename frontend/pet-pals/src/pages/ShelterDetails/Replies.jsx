@@ -149,7 +149,7 @@ function Replies({ shelterID, review, reviewID }) {
         ) : replies.length === 0 ? (
           <p>No replies available.</p>
         ) : (
-          <div className="reviewContainer">
+          <div className="replyContainer">
             {replies.map((reply, index) => (
               <div
                 key={index}
