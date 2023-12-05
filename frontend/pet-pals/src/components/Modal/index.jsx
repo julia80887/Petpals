@@ -4,10 +4,11 @@ import "./style.css";
 import { useState } from "react";
 import CloseIcon from "../../assets/svgs/CloseIcon.svg";
 
-function ChatModal({ open, onClose, chatDetail }) {
+function ChatModal({ open, onClose, chatDetail, currentUser }) {
   const [chatMessages, setChatMessages] = useState();
   const [loading, setLoading] = useState(true);
-  const [currentUser, setCurrentUser] = useState("seeker");
+  const [loadingUser, setLoadingUser] = useState(true);
+  const [sender, setSenderUser] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
@@ -50,6 +51,48 @@ function ChatModal({ open, onClose, chatDetail }) {
 
     fetchData();
   }, [chatDetail]);
+
+  useEffect(() => {
+    const fetchSender = async () => {
+      setLoadingUser(true);
+
+      let endpoint_link = null;
+      if (currentUser === "seeker") {
+        endpoint_link = `/shelter/${chatDetail?.shelter}/`;
+        console.log("Endpoint Link: ", endpoint_link);
+      } else {
+        endpoint_link = `/seeker/${chatDetail?.seeker}/`;
+        console.log("Endpoint Link: ", endpoint_link);
+      }
+      try {
+        var myHeaders = new Headers();
+        myHeaders.append(
+          "Authorization",
+          `Bearer ${localStorage.getItem("access")}`
+        );
+
+        var requestOptions = {
+          method: "GET",
+          headers: myHeaders,
+        };
+
+        const response = await fetch(
+          `http://localhost:8000${endpoint_link}`,
+          requestOptions
+        );
+        const result = await response.json();
+        console.log("SENDER: ", result);
+        setSenderUser(result);
+        setLoadingUser(false);
+      } catch (error) {
+        setLoadingUser(false);
+        console.error("Error fetching chat messages:", error);
+      }
+    };
+    if (currentUser && chatDetail) {
+      fetchSender();
+    }
+  }, [currentUser, chatDetail]);
 
   useEffect(() => {
     console.log(currentPage);
@@ -120,10 +163,10 @@ function ChatModal({ open, onClose, chatDetail }) {
               <div className="chatUserInfo">
                 <img
                   id="imgProfile"
-                  src={chatDetail?.user?.profile_photo}
+                  src={sender?.user?.profile_photo}
                   alt="Profile"
                 />
-                <h5>{chatDetail?.shelter_name}</h5>
+                <h5>{sender?.shelter_name || sender?.user?.username}</h5>
               </div>
               <div className="closeIcon" onClick={onClose}>
                 <img src={CloseIcon} />
@@ -132,14 +175,14 @@ function ChatModal({ open, onClose, chatDetail }) {
             <div className="chatContent" onScroll={handleScroll}>
               {chatMessages?.map((message, index) => (
                 <div key={index}>
-                  {message.sender_type === "shelter" ? (
+                  {message.sender_type === currentUser ? (
                     <div className="right">
-                      <div className="shelterText">
+                      <div className="userText">
                         <p>{message.content}</p>
                       </div>
                     </div>
                   ) : (
-                    <div className="userText">
+                    <div className="receiverText">
                       <p>{message.content}</p>
                     </div>
                   )}

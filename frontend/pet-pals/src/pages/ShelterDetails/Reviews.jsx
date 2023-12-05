@@ -5,6 +5,8 @@ import StarSVG from "../../assets/svgs/Star.svg";
 import { useNavigate } from "react-router-dom";
 import Replies from "./Replies";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { ChatModal } from "./Modal";
+import { ReviewModal } from "./ReviewModal";
 
 function Reviews({ shelter, shelterID }) {
   const [reviews, setReviews] = useState([]);
@@ -14,11 +16,50 @@ function Reviews({ shelter, shelterID }) {
   const [loadingReviews, setLoadingReviews] = useState(true);
   const [totalPages, setTotalPages] = useState(1);
   const [reviewCurrentPage, setReviewCurrentPage] = useState(1);
+  const [clicked, setClicked] = useState(false);
   const navigate = useNavigate();
+  const [reviewClicked, setReviewClicked] = useState(false);
+
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // const openModal = () => {
+  //   setIsModalOpen(true);
+  // };
+
+  const [isModalOpen, setIsModalOpen] = useState({});
+
+  const openModal = (reviewID) => {
+    setIsModalOpen((prev) => ({
+      ...prev,
+      [reviewID]: true,
+    }));
+  };
+
+  const closeModal = (reviewID) => {
+    setIsModalOpen((prev) => ({
+      ...prev,
+      [reviewID]: false,
+    }));
+  };
+
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    //const chatDetail = notificationDetails[notification.id];
+    // Set the chatDetail for the modal
+    //setModalChatDetail(chatDetail);
+    setIsReviewModalOpen(true);
+  };
+
+  useEffect(() => {
+    console.log("CURRENT PAGE: ", reviewCurrentPage);
+    console.log(" TOTAL PAGES:", totalPages);
+  }, [reviewCurrentPage, totalPages]);
 
   useEffect(() => {
     const fetchReviewData = async () => {
       setLoadingReviews(true);
+      setReviewCurrentPage(1);
       try {
         if (shelter) {
           const myHeaders = new Headers();
@@ -36,7 +77,9 @@ function Reviews({ shelter, shelterID }) {
             `http://localhost:8000/shelter/${shelterID}/review/`,
             requestOptions
           );
+
           const result = await response.json();
+          console.log("REACHED: ", result.results);
           console.log("Shelter Reviews:", result.results);
           setReviews(result.results);
           setTotalPages(
@@ -46,6 +89,10 @@ function Reviews({ shelter, shelterID }) {
             )
           );
           setLoadingReviews(false);
+
+          if (reviewClicked) {
+            setReviewClicked(false);
+          }
         }
       } catch (error) {
         setLoadingReviews(false);
@@ -56,7 +103,7 @@ function Reviews({ shelter, shelterID }) {
     if (shelter) {
       fetchReviewData();
     }
-  }, [shelter]);
+  }, [shelter, reviewClicked]);
 
   useEffect(() => {
     const fetchReviewDetails = async (review) => {
@@ -135,6 +182,7 @@ function Reviews({ shelter, shelterID }) {
       );
       const result = await response.json();
       console.log("Shelter Reviews:", result.results);
+      console.log("REACHED 1: ", result.results);
       setReviews((prevData) => [...prevData, ...result.results]);
       setReviewCurrentPage(reviewCurrentPage + 1);
       setLoadingReviews(false);
@@ -148,16 +196,16 @@ function Reviews({ shelter, shelterID }) {
     console.log("Reviews: ", reviews);
   }, [reviews]);
 
-  const calculateAverageRating = () => {
-    const totalReviews = reviews.length;
-    let totalStars = 0;
+  // const calculateAverageRating = () => {
+  //   const totalReviews = reviews.length;
+  //   let totalStars = 0;
 
-    reviews?.forEach((review) => {
-      totalStars += parseInt(review.rating);
-    });
+  //   reviews?.forEach((review) => {
+  //     totalStars += parseInt(review.rating);
+  //   });
 
-    return (totalStars / totalReviews).toFixed(1);
-  };
+  //   return (totalStars / totalReviews).toFixed(1);
+  // };
 
   return (
     <>
@@ -176,20 +224,26 @@ function Reviews({ shelter, shelterID }) {
           <div className="reviewContainer">
             <div className="reviewHeading">
               <div className="reviewTitleAndStar">
-                <img
-                  src={StarSVG}
-                  style={{ width: "40px", height: "40px" }}
-                  alt="Star"
-                />
-                <h2 className="reviewHeader">
+                {/* <h2 className="reviewHeader">
                   {calculateAverageRating()} - {reviews.length} Reviews
-                </h2>
+                </h2> */}
+                <h2 className="reviewHeader">Reviews</h2>
+                <button onClick={() => handleOpenModal()}>
+                  Leave a Review
+                </button>
+
+                <ReviewModal
+                  open={isReviewModalOpen}
+                  onClose={() => setIsReviewModalOpen(false)}
+                  shelterID={shelterID}
+                  setClicked={() => setReviewClicked(true)}
+                />
               </div>
             </div>
             <div>
               {reviews?.map((review, index) => (
                 <div
-                  key={index}
+                  key={review.id}
                   className="review"
                   style={{ justifyContent: "flex-start" }}
                 >
@@ -208,6 +262,15 @@ function Reviews({ shelter, shelterID }) {
                         {formatDate(review.creation_time)}
                       </h4>
                     </div>
+                    <div className="rating">
+                      <img
+                        src={StarSVG}
+                        style={{ width: "40px", height: "40px" }}
+                        alt="Star"
+                      />
+                      <p>{review.rating}</p>
+                    </div>
+
                     <p>{review.content}</p>
                     <button onClick={() => toggleReplies(review)}>
                       {showReply[review.id] ? "Hide Replies" : "View Replies"}
@@ -217,6 +280,10 @@ function Reviews({ shelter, shelterID }) {
                         shelterID={shelterID}
                         review={review}
                         reviewID={review.id}
+                        clicked={clicked}
+                        setClicked={() =>
+                          setClicked((prevClicked) => !prevClicked)
+                        }
                       />
                     ) : null}
                   </div>
@@ -229,9 +296,17 @@ function Reviews({ shelter, shelterID }) {
                       role="button"
                       style={{ height: "fit-content", width: "100%" }}
                       id={`openModalButton${index + 1}`}
+                      onClick={() => openModal(review.id)}
                     >
                       Reply
                     </button>
+                    <ChatModal
+                      open={isModalOpen[review.id] || false}
+                      onClose={() => closeModal(review.id)}
+                      review={review}
+                      shelterID={shelterID}
+                      setClicked={() => setClicked(true)}
+                    />
                   </div>
                 </div>
               ))}
