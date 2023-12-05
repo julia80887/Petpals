@@ -20,7 +20,7 @@ function ChatModal({ open, onClose, chatDetail }) {
         var myHeaders = new Headers();
         myHeaders.append(
           "Authorization",
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAxNjA0OTMxLCJpYXQiOjE3MDE1MTg1MzEsImp0aSI6IjQ3M2UyMDA0MDBkZTQwYTE5NTg3Nzc2NGVhNzYwNmFiIiwidXNlcl9pZCI6MX0.SWNxB0c7qcNWQ2JPgTEAJ9DJTTZr7g9SFaT8or0aXzY"
+          `Bearer ${localStorage.getItem("access")}`
         );
 
         var requestOptions = {
@@ -70,7 +70,7 @@ function ChatModal({ open, onClose, chatDetail }) {
         const myHeaders = new Headers();
         myHeaders.append(
           "Authorization",
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAxNjA0OTMxLCJpYXQiOjE3MDE1MTg1MzEsImp0aSI6IjQ3M2UyMDA0MDBkZTQwYTE5NTg3Nzc2NGVhNzYwNmFiIiwidXNlcl9pZCI6MX0.SWNxB0c7qcNWQ2JPgTEAJ9DJTTZr7g9SFaT8or0aXzY"
+          `Bearer ${localStorage.getItem("access")}`
         );
 
         const requestOptions = {
@@ -133,14 +133,14 @@ function ChatModal({ open, onClose, chatDetail }) {
               {chatMessages?.map((message, index) => (
                 <div key={index}>
                   {message.sender_type === "shelter" ? (
-                    <div className="shelterText">
-                      <p>{message.content}</p>
-                    </div>
-                  ) : (
                     <div className="right">
-                      <div className="userText">
+                      <div className="shelterText">
                         <p>{message.content}</p>
                       </div>
+                    </div>
+                  ) : (
+                    <div className="userText">
+                      <p>{message.content}</p>
                     </div>
                   )}
                 </div>

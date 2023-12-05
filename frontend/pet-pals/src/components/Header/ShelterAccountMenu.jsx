@@ -11,20 +11,19 @@ import Tooltip from "@mui/material/Tooltip";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
-import PetsIcon from '@mui/icons-material/Pets';
-import { useNavigate } from 'react-router-dom';
+import PetsIcon from "@mui/icons-material/Pets";
+import { useNavigate } from "react-router-dom";
 
-import { LoginContext } from '../../contexts/LoginContext';
+import { LoginContext } from "../../contexts/LoginContext";
 
 export default function ShelterAccountMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
   const navigate = useNavigate();
   const open = Boolean(anchorEl);
   const { currentUser, setCurrentUser } = useContext(LoginContext);
-  const shelter_name = localStorage.getItem('shelter_name');
-  const id = localStorage.getItem('id');
-  const profile_photo = localStorage.getItem('profile_photo');
-
+  const shelter_name = localStorage.getItem("shelter_name");
+  const id = localStorage.getItem("id");
+  const profile_photo = localStorage.getItem("profile_photo");
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -34,24 +33,19 @@ export default function ShelterAccountMenu() {
   };
 
   function handleLogout() {
-    localStorage.removeItem('access');
-    localStorage.removeItem('shelter_name');
-    localStorage.removeItem('id');
-    localStorage.removeItem('profile_photo');
+    localStorage.removeItem("access");
+    localStorage.removeItem("username");
+    localStorage.removeItem("shelter_name");
+    localStorage.removeItem("id");
+    localStorage.removeItem("profile_photo");
     setCurrentUser({});
-    navigate('/');
-
+    navigate("/");
   }
-  function handleProfile() {
-
-  }
+  function handleProfile() {}
   function handlePets() {
-    navigate('/pets/');
-
+    navigate("/pets/");
   }
-  function handleNotifications() {
-
-  }
+  function handleNotifications() {}
 
   return (
     <React.Fragment>
@@ -108,8 +102,7 @@ export default function ShelterAccountMenu() {
         <Divider />
         <MenuItem onClick={handlePets}>
           <ListItemIcon>
-            <PetsIcon fontSize="medium" color="brown">
-            </PetsIcon>
+            <PetsIcon fontSize="medium" color="brown"></PetsIcon>
           </ListItemIcon>
           My Pets
         </MenuItem>
