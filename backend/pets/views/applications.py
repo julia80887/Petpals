@@ -25,10 +25,11 @@ from django.contrib.contenttypes.models import ContentType
 from chats.models.messages import Message
 from django.utils import timezone
 
+
 class CustomPageNumberPagination(PageNumberPagination):
-    page_size = 2  # Set the default page size
+    page_size = 10  # Set the default page size
     page_size_query_param = 'page_size'
-    max_page_size = 2  # Set the maximum allowed page size
+    max_page_size = 10  # Set the maximum allowed page size
 
     def get_paginated_response(self, data):
         return Response({
@@ -56,7 +57,6 @@ class CreateApplicationView(ListCreateAPIView):
         shelter = get_object_or_404(PetShelter, user=user)
         pet = get_object_or_404(Pet, id=self.kwargs['pet_pk'])
         return Application.objects.filter(pet=pet, shelter=shelter)
-
 
     def create(self, request, *args, **kwargs):
         user = self.request.user
@@ -220,8 +220,6 @@ class ApplicationDetailView(RetrieveUpdateAPIView):
             return Response(response_data, status=status.HTTP_400_BAD_REQUEST)
 
 
-
-
 class ListAllApplicationView(ListAPIView):
     serializer_class = ListApplicationSerializer
     permission_classes = [IsAuthenticated]
@@ -268,6 +266,7 @@ class ListAllApplicationView(ListAPIView):
         #     queryset = queryset.filter(application_status=application_status)
 
         # return queryset
+
 
 class ListEveryApplicationForUserView(ListAPIView):
     serializer_class = ListApplicationSerializer

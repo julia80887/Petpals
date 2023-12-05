@@ -11,6 +11,8 @@ function ChatModal({ open, onClose, chatDetail, currentUser }) {
   const [sender, setSenderUser] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [inputValue, setInputValue] = useState("");
+  const [renderPage, setRenderPage] = useState(true);
 
   //CAREFUL WITH CHATDETAIL
   useEffect(() => {
@@ -42,15 +44,17 @@ function ChatModal({ open, onClose, chatDetail, currentUser }) {
               Number(result.pagination_details["page_size"])
           )
         );
+        setRenderPage(false);
         setLoading(false);
       } catch (error) {
         setLoading(false);
         console.error("Error fetching chat messages:", error);
       }
     };
-
-    fetchData();
-  }, [chatDetail]);
+    if (renderPage) {
+      fetchData();
+    }
+  }, [chatDetail, renderPage]);
 
   useEffect(() => {
     const fetchSender = async () => {
@@ -142,6 +146,46 @@ function ChatModal({ open, onClose, chatDetail, currentUser }) {
     }
   };
 
+  const handleSendButtonClick = async () => {
+    try {
+      const myHeaders = new Headers();
+      myHeaders.append(
+        "Authorization",
+        `Bearer ${localStorage.getItem("access")}`
+      );
+      myHeaders.append("Content-Type", "application/json");
+
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: JSON.stringify({
+          content: inputValue,
+          message_type: "Comment",
+        }),
+      };
+
+      const response = await fetch(
+        `http://localhost:8000/pet/applications/chat/${chatDetail.id}/message/`,
+        requestOptions
+      );
+
+      // Assuming your API returns the new message in the response
+      const newMessage = await response.json();
+      console.log("New Message:", newMessage.data.content);
+
+      // Clear the input field
+      setInputValue("");
+      setRenderPage(true);
+      // Add your logic for handling the new message
+    } catch (error) {
+      console.error("Error sending message:", error);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
   return (
     <>
       {loading ? (
@@ -190,8 +234,14 @@ function ChatModal({ open, onClose, chatDetail, currentUser }) {
               ))}
             </div>
             <div className="bottomBar inputText">
-              <input className="chatInput inputMessage" />
-              <button className="sendButton">Send</button>
+              <input
+                className="chatInput inputMessage"
+                value={inputValue}
+                onChange={handleInputChange}
+              />
+              <button onClick={handleSendButtonClick} className="sendButton">
+                Send
+              </button>
             </div>
           </div>
         </Modal>

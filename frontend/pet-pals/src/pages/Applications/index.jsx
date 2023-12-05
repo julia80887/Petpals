@@ -17,8 +17,11 @@ function Applications() {
   const [applicationChat, setApplicationChat] = useState([]);
 
   const handleOpenModal = (application_id) => {
-    console.log(applicationChat[application_id])
-    console.log(applicationChat[application_id].results[0])
+    console.log("Applicaiton information: ", applicationChat[application_id]);
+    console.log(
+      "Applicaiton information: ",
+      applicationChat[application_id].results[0]
+    );
     const chatDetail = applicationChat[application_id].results[0];
     // Set the chatDetail for the modal
     setModalChatDetail(chatDetail);
@@ -68,7 +71,7 @@ function Applications() {
   useEffect(() => {
     const fetchData = async () => {
       applications.forEach(async (application) => {
-        console.log(application.id)
+        console.log(application.id);
         try {
           const requestOptions = {
             method: "GET",
@@ -81,8 +84,8 @@ function Applications() {
             requestOptions
           );
           const result = await response.json();
-          console.log(result.results[0])
-          
+          console.log("Chat retrieval for application: ", result);
+
           setApplicationChat((prevValues) => ({
             ...prevValues,
             [application.id]: result, // Fix: Use 'result' instead of 'applicationChat[application.id]'
@@ -93,8 +96,7 @@ function Applications() {
       });
     };
     fetchData();
-  }, [applications])
-
+  }, [applications]);
 
   useEffect(() => {
     // Fetch pet details for each application
@@ -264,7 +266,7 @@ function Applications() {
         open={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         chatDetail={modalChatDetail}
-        currentUser="seeker"
+        currentUser={"seeker"}
       />
     </>
   );
