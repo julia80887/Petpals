@@ -78,9 +78,11 @@ class PetListCreateView(ListCreateAPIView):
         elif color:
             queryset = queryset.filter(color=color)
 
-        size = self.request.query_params.get('size')
-        if size:
-            queryset = queryset.filter(weight__lte=size)
+        lt_size = self.request.query_params.get('lt_size')
+        gt_size = self.request.query_params.get('gt_size')
+        if lt_size and gt_size:
+            queryset = queryset.filter(weight__lte=lt_size).filter(weight__gte=gt_size)
+
 
         pet_type = self.request.query_params.get(
             'type')  # Look into case sensitivity

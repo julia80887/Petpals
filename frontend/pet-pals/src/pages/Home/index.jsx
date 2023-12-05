@@ -36,11 +36,12 @@ function Home() {
     const shelter = searchParams.get("shelter") ?? "";
     const gender = searchParams.get("gender") ?? "";
     const color = searchParams.get("color") ?? "";
-    const size = searchParams.get("size") ?? "";
+    const lt_size = searchParams.get("lt_size") ?? "";
+    const gt_size = searchParams.get("gt_size") ?? "";
     const status = searchParams.get("status") ?? "";
     const order_by = searchParams.get("order_by") ?? "name";
 
-    return { page, type, shelter, gender, color, size, status, order_by };
+    return { page, type, shelter, gender, color, lt_size, gt_size, status, order_by };
   }, [searchParams]);
 
   useEffect(() => {
@@ -81,14 +82,14 @@ function Home() {
         const requestOptions = {
           method: "GET",
         };
-        const { page, type, shelter, gender, color, size, status, order_by } =
+        const { page, type, shelter, gender, color, lt_size, gt_size, status, order_by } =
           query;
 
         let response = null;
 
         if (retrievalType === "Pets") {
           response = await fetch(
-            `http://localhost:8000/pet/?page=${page}&shelter=${shelter}&gender=${gender}&color=${color}&size=${size}&type=${type}&order_by=${order_by}&status=${status}`,
+            `http://localhost:8000/pet/?page=${page}&shelter=${shelter}&gender=${gender}&color=${color}&lt_size=${lt_size}&gt_size=${gt_size}&type=${type}&order_by=${order_by}&status=${status}`,
             requestOptions
           );
 

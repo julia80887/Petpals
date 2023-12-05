@@ -447,8 +447,7 @@ function EditDeletePet() {
                   </div>
                   <div className="col-sm-3">
                     <select className="form-control" id="weightInput1" required>
-                      <option>kg</option>
-                      <option>lb</option>
+                      <option>lbs</option>
                     </select>
                   </div>
                 </div>

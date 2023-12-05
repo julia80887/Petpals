@@ -287,7 +287,7 @@ const ShelterManagement = () => {
                 margin: "30px",
               }}
               text={"+ Add a new pet"}
-              handleClick={() => alert("clicked!")}
+              handleClick={() => navigate(`/pet/`)}
             />
             <div className="petListingGrid">
               {pets &&
@@ -338,7 +338,7 @@ const ShelterManagement = () => {
                       </a> */}
                         <MainButton
                           text={"Edit Profile"}
-                          handleClick={() => alert("clicked!")}
+                          handleClick={() => navigate(`/pet/${pet.id}/edit/`)}
                         />
                       </div>
                     </div>

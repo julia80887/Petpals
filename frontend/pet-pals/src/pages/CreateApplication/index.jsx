@@ -542,7 +542,7 @@ function CreateApplication() {
           <>
             <div className="mainContainer">
               <h1 className="question">
-                Are you ready to adopt your next pet?
+                Are you ready to adopt {petDetails.name}?
               </h1>
               <h2>1. Personal Information</h2>
               <div className="container">
@@ -744,6 +744,7 @@ function CreateApplication() {
                         id="postalCode"
                         value={firstPageFormValues.postalCode}
                         onChange={handleInputChange}
+                        placeholder="Postal Code"
                         required
                       />
                       <p className="error">{errorJson.postalCode || ""}</p>
@@ -1026,12 +1027,12 @@ function CreateApplication() {
                         value={thirdPageFormValues.dailyRoutine}
                         onChange={handleInputChange}
                         placeholder="How much time can you dedicate to the 
-                      pet's care and exercise? Specify work hours, exercise, etc."
+                      pet's care and exercise?"
                         style={{
                           height: "100px",
                           borderRadius: "70px",
                           paddingBottom: "60px",
-                          whiteSpace: "normal",
+                          whiteSpace: "pre-line",
                         }}
                         required
                       />
@@ -1052,7 +1053,7 @@ function CreateApplication() {
                         id="expenses"
                         value={thirdPageFormValues.expenses}
                         onChange={handleInputChange}
-                        placeholder="Are you prepared for potential pet-related expenses (veterinary care, food, grooming, etc.)?"
+                        placeholder="Are you prepared for potential pet-related expenses?"
                         style={{
                           height: "100px",
                           borderRadius: "70px",

@@ -41,7 +41,9 @@ export default function ShelterAccountMenu() {
     setCurrentUser({});
     navigate("/");
   }
-  function handleProfile() {}
+  function handleProfile() {
+    navigate(`/profile/shelter/${localStorage.getItem("id")}`);
+  }
   function handlePets() {
     navigate("/pets/");
   }

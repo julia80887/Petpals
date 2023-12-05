@@ -120,7 +120,7 @@ function ChatModal({ open, onClose, chatDetail }) {
               <div className="chatUserInfo">
                 <img
                   id="imgProfile"
-                  src={chatDetail?.user.profile_photo}
+                  src={chatDetail?.user?.profile_photo}
                   alt="Profile"
                 />
                 <h5>{chatDetail?.shelter_name}</h5>

@@ -123,7 +123,7 @@ function ViewEditApplication() {
     };
 
     fetchData();
-  }, [pet_id, application_id]);
+  }, [petDetails, pet_id, application_id]);
 
   //   function setFormStatus(st, event){
   //     setStatus({status: st});
@@ -182,15 +182,17 @@ function ViewEditApplication() {
   console.log(formValues);
   if (loading) {
     return <p>Loading...</p>;
-  }
-
-  if ((shelter_user != "" && petDetails.shelter && user_id == petDetails.shelter.id) ||
-   (seeker_user != "" && formValues && formValues.app_seeker == user_id)) {
+  } else {
+    console.log(seeker_user);
+    console.log(formValues.app_seeker);
+    // add formValues back in????
+  if ((shelter_user != "" && petDetails.shelter && user_id == petDetails.shelter.id && formValues) ||
+   (seeker_user != ""  && formValues && formValues.app_seeker == user_id )) { 
   if (formValues.name != undefined) {
     return (
       <>
         <div className="mainContainer">
-          <h1 className="question">Pet Application</h1>
+          <h1 className="question">Pet Application for {petDetails.name}</h1>
           <div className="container">
             <form
               className="createPetForm"
@@ -652,6 +654,7 @@ function ViewEditApplication() {
 } else {
     return <h1>You cannot access this application.</h1>;
 }
+  }
 }
 
 export default ViewEditApplication;

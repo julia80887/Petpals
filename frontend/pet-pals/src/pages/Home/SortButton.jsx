@@ -33,7 +33,8 @@ const Dropdown = ({ setParams, query }) => {
       shelter: query.shelter,
       gender: query.gender,
       color: query.color,
-      size: query.size,
+      lt_size: query.lt_size,
+      gt_size: query.gt_size,
       status: query.status,
       order_by: sortByValue,
     });
