@@ -275,6 +275,23 @@ p.noMoreText {
   margin-top: 50px;
 }
 
+.replyContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  width: fit-content;
+  height: 50%;
+  max-width: 1182px;
+  align-self: center;
+  margin-top: 50px;
+  height: 400px;
+}
+
 .reviewerName {
   font-family: Open Sans;
   font-weight: 500;
@@ -374,6 +391,10 @@ p.noMoreText {
   }
 
   .reviewContainer {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .replyContainer {
     grid-template-columns: repeat(1, 1fr);
   }
 

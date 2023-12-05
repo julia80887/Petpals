@@ -39,6 +39,7 @@ function ShelterDetails() {
 
   useEffect(() => {
     const fetchPetData = async () => {
+      setLoadingPets(true);
       if (shelter && shelter.shelter_name) {
         try {
           const requestOptions = {
@@ -46,13 +47,14 @@ function ShelterDetails() {
           };
           const shelterNameURL = encodeURIComponent(shelter.shelter_name);
           const response = await fetch(
-            `http://localhost:8000/pet/?shelter=${shelterNameURL}`,
+            `http://localhost:8000/pet/?shelter=${shelterNameURL}&page=1&gender=&color=&size=&type=&order_by=&status=`,
             requestOptions
           );
           const result = await response.json();
           setPets(result.results);
           setLoadingPets(false);
         } catch (error) {
+          setLoadingPets(false);
           console.error("Error:", error);
         }
       }
@@ -200,7 +202,7 @@ function ShelterDetails() {
                             ))}
                         </div> */}
           <div className="petListingGrid">
-            {pets.length > 0 &&
+            {pets?.length > 0 &&
               pets.map(
                 (pet, index) =>
                   index < 3 && (
@@ -228,7 +230,7 @@ function ShelterDetails() {
                     </div>
                   )
               )}
-            {pets.length > 3 && (
+            {pets?.length > 3 && (
               <div className="petListingCard moreAvailable">
                 <p className="moreAvailableText">{`+${
                   pets.length - 3
@@ -240,7 +242,7 @@ function ShelterDetails() {
               </div>
             )}
 
-            {pets.length <= 3 && (
+            {pets?.length <= 3 && (
               <div className="petListingCard noMore">
                 <p className="noMoreText">No more pets available.</p>
               </div>

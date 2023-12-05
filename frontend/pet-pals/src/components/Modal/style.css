@@ -102,14 +102,7 @@
   margin-bottom: 20px;
 }
 
-.textBody {
-  margin-bottom: 40px;
-}
-p {
-  margin: 0px;
-}
-
-.shelterText {
+.receiverText {
   background-color: #ecebea;
   width: fit-content;
   height: fit-content;
@@ -120,6 +113,13 @@ p {
   justify-content: center;
   align-items: center;
   margin-bottom: 20px;
+}
+
+.textBody {
+  margin-bottom: 40px;
+}
+p {
+  margin: 0px;
 }
 
 .right {
