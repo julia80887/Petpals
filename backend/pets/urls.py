@@ -3,7 +3,7 @@ from django.urls import path
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .views.pets import PetListCreateView, PetDetailView, PetImageCreateView, PetImageDeleteView
-from .views.applications import CreateApplicationView, ApplicationDetailView, ListAllApplicationView
+from .views.applications import CreateApplicationView, ApplicationDetailView, ListAllApplicationView, ListEveryApplicationForUserView
 from .views.applications import CreateChatMessageView, MessageListAPIView, CreateChatListView, ChatDetailView
 
 app_name = 'pet'
@@ -25,5 +25,6 @@ urlpatterns = [
     path('applications/chat/<int:chat_pk>/',
          MessageListAPIView.as_view(), name='list-message'),
     path('<int:pet_pk>/image/', PetImageCreateView.as_view()),
-    path('<int:pet_pk>/image/<int:image_pk>/', PetImageDeleteView.as_view())
+    path('<int:pet_pk>/image/<int:image_pk>/', PetImageDeleteView.as_view()),
+    path('applications/all/', ListEveryApplicationForUserView.as_view())
 ]

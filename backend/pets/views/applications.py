@@ -269,6 +269,52 @@ class ListAllApplicationView(ListAPIView):
 
         # return queryset
 
+class ListEveryApplicationForUserView(ListAPIView):
+    serializer_class = ListApplicationSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        seeker = PetSeeker.objects.filter(user=user).first()
+        shelter = PetShelter.objects.filter(user=user).first()
+
+        if shelter:
+            # Shelter can only view their own applications
+            # pet = get_object_or_404(Pet, id=self.kwargs['pet_pk'], shelter=shelter)
+            return Application.objects.filter(shelter=shelter)
+        elif seeker:
+            # Pet Seeker can only view their own applications
+            return Application.objects.filter(seeker=seeker)
+        else:
+            # For any other user type, return an empty queryset
+            return Application.objects.none()
+
+    def filter_queryset(self, queryset):
+        # Filter applications by status
+        application_status = self.request.query_params.get(
+            'application_status', None)
+        if application_status:
+            queryset = queryset.filter(application_status=application_status)
+
+    # # Order by creation_time and last_update_time
+    #     order_by = self.request.query_params.get('order_by', None)
+
+    #     if order_by == "Creation":
+    #         queryset = queryset.order_by('creation_time')
+    #     elif order_by == "Update":
+    #         queryset = queryset.order_by('last_update_time')
+    #         # Default ordering if no specific order is requested
+    #     queryset = queryset.order_by('creation_time', 'last_update_time')
+
+        return queryset
+
+        # Filter applications by status
+        # application_status = self.request.query_params.get('application_status', None)
+        # if application_status:
+        #     queryset = queryset.filter(application_status=application_status)
+
+        # return queryset
+
 
 # Chats
 

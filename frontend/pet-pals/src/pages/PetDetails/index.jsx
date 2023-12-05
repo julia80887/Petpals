@@ -43,15 +43,17 @@ function PetDetails() {
           },
         };
         const response = await fetch(
-          `http://localhost:8000/pet/applications/`,
+          `http://localhost:8000/pet/applications/all/`,
           requestOptions
         );
         const result = await response.json();
         // if (petDetails["detail"] == "Not found.") {
         //   navigate(`/`);
         // }
-        setAppsForUser([result.results]);
-        console.log(appsForUser);
+
+        // pagination??????
+        setAppsForUser([result]);
+        console.log(result);
 
         console.log(result);
         setLoadingPets(false);
@@ -149,6 +151,9 @@ function PetDetails() {
     ));
   }
 
+  if (loadingShelter || loadingPets) {
+    <p>Loading.....</p>
+  } else {
   if (petDetails && shelterDetails) {
     return (
       <>
@@ -180,7 +185,6 @@ function PetDetails() {
                     >
                       <Tab label="General Info" {...a11yProps(0)} />
                       <Tab label="Status" {...a11yProps(1)} />
-                      <Tab label="Images" {...a11yProps(2)} />
                       {/* </Tabs> */}
                       {/* <CustomTabPanel className="tab" id="generalTab" value={value} index={0}>
                   General Info
@@ -217,7 +221,7 @@ function PetDetails() {
                         {petDetails.breed} · {petDetails.city},{" "}
                         {petDetails.province}
                       </p>
-                      <p className="specsLine">{petDetails.gender} · Medium</p>
+                      <p className="specsLine">{petDetails.gender} · {petDetails.weight} lbs</p>
                       <p className="specsLine">
                         <span className="specLabels">Birthday: </span>
                         {petDetails.date_of_birth}
@@ -268,23 +272,10 @@ function PetDetails() {
                   </div>
                 </CustomTabPanel>
 
-                <CustomTabPanel
-                  className="tab"
-                  id="generalTab"
-                  value={value}
-                  index={2}
-                >
-                  <div className="textContainer" id="petImages">
-                    <img
-                      src="../assets/pictures/rufus2.jpg"
-                      id="dogPic"
-                      alt="No pictures"
-                    />
-                  </div>
-                </CustomTabPanel>
+
 
                 {petDetails.status !== "Adopted" ? (
-                  <div>
+                  <div style={{width: "100%"}}>
                     {shelter_user == "" && (
                       <div className="formContainer">
                         {!exists ? (
@@ -339,6 +330,7 @@ function PetDetails() {
       </>
     );
   }
+}
 }
 
 export default PetDetails;

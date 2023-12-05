@@ -21,6 +21,7 @@ import CreatePet from "./pages/CreatePet";
 import EditDeletePet from "./pages/EditDeletePet";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import ShelterManage from "./pages/ShelterManage";
+import Guidance from "./pages/Guidance";
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
@@ -65,6 +66,10 @@ function App() {
               <Route
                 path="profile/seeker/:seeker_id/"
                 element={<SeekerProfile />}
+              />
+              <Route
+                path="pet/guidance/"
+                element={<Guidance />}
               />
               <Route path="*" element={<NotFound />} />
             </Route>

@@ -12,7 +12,7 @@ import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import PetsIcon from "@mui/icons-material/Pets";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import FeedIcon from "@mui/icons-material/Feed";
 
 import { LoginContext } from "../../contexts/LoginContext";
@@ -41,8 +41,16 @@ export default function ShelterAccountMenu() {
     setCurrentUser({});
     navigate("/");
   }
-  function handleApplication() {}
-  function handleNotifications() {}
+  function handleApplication() {
+    navigate(`/pet/applications/`);
+  }
+  function handleProfile() {
+    navigate(`/profile/seeker/${localStorage.getItem("id")}`);
+  }
+
+  // function handleNotifications() {
+  //   navigate(`/notifications/`);
+  // }
 
   return (
     <React.Fragment>
@@ -96,9 +104,9 @@ export default function ShelterAccountMenu() {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={handleClose}>
-          <Avatar fontSize="small" src={currentUser.profile_photo} /> Edit
-          Profile
+        <MenuItem onClick={handleProfile}>
+          <Avatar fontSize="small" src={currentUser.profile_photo} />
+            Edit Profile
         </MenuItem>
         <Divider />
         <MenuItem onClick={handleApplication}>

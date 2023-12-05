@@ -267,6 +267,7 @@ function CreatePet() {
                     id="weight"
                     value={formValues.weight}
                     onChange={handleInputChange}
+                    placeholder="Must be in lbs"
                     required
                   />
                   <p className="error">{errorJson.weight || ""}</p>

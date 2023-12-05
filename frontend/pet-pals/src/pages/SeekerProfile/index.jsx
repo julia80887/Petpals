@@ -33,6 +33,9 @@ function SeekerProfile() {
     firstName: "",
     lastName: "",
     id: "",
+    cat_notification: "",
+    dog_notification: "",
+    other_notification: ""
   });
   // used to store provinces for select dropdown
   const provinces = [
@@ -184,6 +187,8 @@ function SeekerProfile() {
               : "",
             phoneNumber: result.user.phone_number || "",
           },
+          cat_notification: result.cat_notification,
+          dog_notification: result.dog_notification,
           lastName: result.lastname,
           firstName: result.firstname,
           id: result.id,
@@ -230,6 +235,7 @@ function SeekerProfile() {
     }
   };
 
+
   // event listener for when select in the form is edited
   const handleSelectChange = (selectedOption) => {
     if (validateForm) {
@@ -241,6 +247,15 @@ function SeekerProfile() {
         },
       }));
     }
+  };
+
+  const handleCheckBoxChange = (e) => {
+    // Toggle the value of dog_notification
+    let checkbox = e.target.id
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [checkbox]:  e.target.checked, // Replace "someValue" with the desired value when checked
+    }));
   };
 
   // event listener for when a user hits submit on the form
@@ -273,6 +288,9 @@ function SeekerProfile() {
     // Append shelter_name
     formData.append("firstname", event.target.firstName.value);
     formData.append("lastname", event.target.lastName.value);
+    formData.append("cat_notification", event.target.cat_notification.checked);
+    formData.append("dog_notification", event.target.dog_notification.checked);
+    formData.append("other_notification", event.target.other_notification.checked);
 
     // Append user data
     if (event.target.fileInput.files[0]) {
@@ -372,13 +390,13 @@ function SeekerProfile() {
         if (response.ok) {
           // Account deleted successfully
           console.log("Account deleted successfully!");
-          localStorage.removeItem('access');
-          localStorage.removeItem('custom_user');
-          localStorage.removeItem('firstname');
-          localStorage.removeItem('id');
-          localStorage.removeItem('last_name');
-          localStorage.removeItem('profile_photo');
-          localStorage.removeItem('length');
+          localStorage.removeItem("access");
+          localStorage.removeItem("custom_user");
+          localStorage.removeItem("firstname");
+          localStorage.removeItem("id");
+          localStorage.removeItem("last_name");
+          localStorage.removeItem("profile_photo");
+          localStorage.removeItem("length");
           navigate(`/seeker/login/`);
         } else {
           // Handle errors during deletion
@@ -679,119 +697,85 @@ function SeekerProfile() {
                     </div>
                   </div>
 
-                  {/* <div className="form-group row">
-            <label htmlFor="flexCheckChecked" className="col-sm-4 col-form-label labelLeft">
-              Preferences
-            </label>
+                  <div className="form-group row">
+                    <label
+                      htmlFor="flexCheckChecked"
+                      className="col-sm-4 col-form-label labelLeft"
+                    >
+                      Preferences
+                    </label>
 
-            <div className="col-sm-8 left">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                value=""
-                id="flexCheckChecked"
-              />
-              <label className="form-check-label" htmlFor="flexCheckChecked">
-                New Pet Listings
-              </label>
-            </div>
-          </div>
+                  </div>
 
-          <div id="subRadios">
-            <div className="form-group row">
-              <label className="col-sm-4 col-form-label labelLeft emptyLabel"></label>
-              <div className="col-sm-8 left">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="flexRadioDefault"
-                  id="flexRadioDefault1"
-                />
-                <label className="form-check-label" htmlFor="flexRadioDefault1">
-                  Cats
-                </label>
-              </div>
-            </div>
+                  <div id="subRadios">
+                    <div className="form-group row">
+                      <label className="col-sm-4 col-form-label labelLeft emptyLabel"></label>
+                      <div className="col-sm-8 left">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          name="flexRadioDefault"
+                          id="cat_notification"
+                          onChange={handleCheckBoxChange}
+                          // checked={formValues.cat_notification != ""}
+                          // value={formValues.cat_notification != ""}
+                          disabled={!isEditMode}
+                          checked={formValues.cat_notification != ""}
+                        />
+                        <label
+                          className="form-check-label"
+                          htmlFor="cat_notification"
+                        >
+                          Cats
+                        </label>
+                      </div>
+                    </div>
 
-            <div className="form-group row">
-              <label className="col-sm-4 col-form-label labelLeft emptyLabel"></label>
-              <div className="col-sm-8 left">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="flexRadioDefault"
-                  id="flexRadioDefault2"
-                />
-                <label className="form-check-label" htmlFor="flexRadioDefault2">
-                  Dogs
-                </label>
-              </div>
-            </div>
+                    <div className="form-group row">
+                      <label className="col-sm-4 col-form-label labelLeft emptyLabel"></label>
+                      <div className="col-sm-8 left">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          name="flexRadioDefault"
+                          id="dog_notification"
+                          onChange={handleCheckBoxChange}
+                          // value={formValues.dog_notification != ""}
+                          disabled={!isEditMode}
+                          checked={formValues.dog_notification != ""}
+                          // checked={formValues.dog_notification != ""}
+                        />
+                        <label
+                          className="form-check-label"
+                          htmlFor="dog_notification"
+                        >
+                          Dogs
+                        </label>
+                      </div>
+                    </div>
 
-            <div className="form-group row">
-              <label className="col-sm-4 col-form-label labelLeft emptyLabel"></label>
-              <div className="col-sm-8 left">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="flexRadioDefault"
-                  id="allRadio"
-                />
-                <label
-                  className="form-check-label"
-                  htmlFor="allRadio"
-                  id="allText"
-                >
-                  All
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div className="form-group row">
-            <label className="col-sm-4 col-form-label labelLeft emptyLabel"></label>
-            <div className="col-sm-8 left">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                value=""
-                id="flexCheckChecked22"
-              />
-              <label className="form-check-label" htmlFor="flexCheckChecked22">
-                Chat Messages
-              </label>
-            </div>
-          </div>
-
-          <div className="form-group row">
-            <label className="col-sm-4 col-form-label labelLeft emptyLabel"></label>
-            <div className="col-sm-8 left">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                value=""
-                id="flexCheckChecked1"
-              />
-              <label className="form-check-label" htmlFor="flexCheckChecked1">
-                Application Status
-              </label>
-            </div>
-          </div>
-
-          <div className="form-group row">
-            <label className="col-sm-4 col-form-label labelLeft emptyLabel"></label>
-            <div className="col-sm-8 left">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                value=""
-                id="flexCheckChecked2"
-              />
-              <label className="form-check-label" htmlFor="flexCheckChecked2">
-                Changes to Application
-              </label>
-            </div>
-          </div> */}
+                    <div className="form-group row">
+                      <label className="col-sm-4 col-form-label labelLeft emptyLabel"></label>
+                      <div className="col-sm-8 left">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          name="flexRadioDefault"
+                          id="other_notification"
+                          onChange={handleCheckBoxChange}
+                          checked={formValues.other_notification != ""}
+                          // value={formValues.other_notification != ""}
+                          disabled={!isEditMode}
+                        />
+                        <label
+                          className="form-check-label"
+                          htmlFor="other_notification"
+                        >
+                          Other
+                        </label>
+                      </div>
+                    </div>
+                  </div>
 
                   <div
                     className="twoButtonPositions"
