@@ -6,6 +6,7 @@ import "./style.css";
 import Application from "./application";
 import { LoginContext } from "../../contexts/LoginContext";
 import MainButton from "../../components/Button";
+import { ChatModal } from "../../components/Modal";
 
 const ShelterManagement = () => {
   const navigate = useNavigate();
@@ -349,7 +350,11 @@ const ShelterManagement = () => {
                       {applicationDetails &&
                       applicationDetails[pet.id]?.length > 0 ? (
                         applicationDetails[pet.id].map((application, index) => (
-                          <Application application={application} key={index} />
+                          <Application
+                            pet={pet}
+                            application={application}
+                            key={index}
+                          />
                         ))
                       ) : (
                         <p>No applications for {pet.name}</p>
