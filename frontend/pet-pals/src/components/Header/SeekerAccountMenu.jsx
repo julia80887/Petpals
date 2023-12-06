@@ -44,6 +44,9 @@ export default function ShelterAccountMenu() {
   function handleApplication() {
     navigate(`/pet/applications/`);
   }
+  function handleGuidance() {
+    navigate(`/pet/guidance/`);
+  }
   function handleProfile() {
     navigate(`/profile/seeker/${localStorage.getItem("id")}`);
   }
@@ -116,6 +119,13 @@ export default function ShelterAccountMenu() {
           My Applications
         </MenuItem>
 
+        <Divider />
+        <MenuItem onClick={handleGuidance}>
+          <ListItemIcon>
+            <FeedIcon fontSize="medium" color="brown"></FeedIcon>
+          </ListItemIcon>
+          Adoption Guidance
+        </MenuItem>
         <Divider />
         <MenuItem onClick={handleLogout}>
           <ListItemIcon>

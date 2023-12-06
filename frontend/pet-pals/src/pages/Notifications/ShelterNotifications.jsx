@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { ChatModal } from "../../components/Modal";
 import "./style.css";
 import CloseIcon from "../../assets/svgs/CloseIcon.svg";
+import FilterButton from "./FilterButton";
 
 const ShelterNotifications = () => {
   const navigate = useNavigate();
@@ -25,18 +26,19 @@ const ShelterNotifications = () => {
     setIsModalOpen(true);
   };
 
-  const query = useMemo(
-    () => ({
-      page: parseInt(searchParams.get("page") ?? 1),
-    }),
-    [searchParams]
-  );
+  const query = useMemo(() => {
+    const page = parseInt(searchParams.get("page") ?? 1);
+    const read = searchParams.get("read") ?? "";
+
+    setRenderPage(true);
+    return { page, read };
+  }, [searchParams]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const { page } = query;
+        const { page, read } = query;
 
         const myHeaders = new Headers();
         myHeaders.append(
@@ -50,7 +52,7 @@ const ShelterNotifications = () => {
         };
 
         const response = await fetch(
-          `http://localhost:8000/notifications/?page=${page}`,
+          `http://localhost:8000/notifications/?page=${page}&read=${read}`,
           requestOptions
         );
         const result = await response.json();
@@ -229,8 +231,13 @@ const ShelterNotifications = () => {
       ) : (
         <div className="notificationContent">
           <div className="notificationsContainer">
-            <h1 className="pageHeading">Notifications</h1>
-
+          <div className="applicationHeader" style={{display: "flex", gap: "20px", alignItems: "center"}}>
+            <h1 className="pageHeadingApp">Notifications</h1>
+            <FilterButton
+            setParams={setSearchParams}
+            query={query}
+          />
+          </div>
             {notifications?.length === 0 ? (
               <p>No notifications available.</p>
             ) : (
@@ -298,11 +305,14 @@ const ShelterNotifications = () => {
                         )}
                       </div>
                     </div>
+                    <div className="btn" style={{width: "50px", height: "auto", borderTopRightRadius: "10px",
+                  borderTopLeftRadius: "0px", borderBottomRightRadius: "10px", borderBottomLeftRadius: "0px",}}>
                     <div
                       className="closeIcon"
                       onClick={() => handleDeleteNotification(notification.id)}
                     >
                       <img src={CloseIcon} />
+                    </div>
                     </div>
                   </div>
                 ))}

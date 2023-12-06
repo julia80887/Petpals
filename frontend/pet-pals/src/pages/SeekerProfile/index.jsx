@@ -437,9 +437,9 @@ function SeekerProfile() {
       ) {
         return (
           <>
-            <div>
+            <div className="mainContainer">
               <h1>{formValues.firstName}'s Profile</h1>
-              <div className="container">
+              <div className="containerSeeker">
                 <form
                   className="createPetForm"
                   style={{ backgroundColor: "white" }}
@@ -447,7 +447,7 @@ function SeekerProfile() {
                 >
                   <div className="imgPlacement">
                     <div className="frame form-group">
-                      <img
+                      <img style={{width: "auto%", height: "auto"}}
                         src={
                           profilePic
                             ? profilePic
@@ -781,7 +781,7 @@ function SeekerProfile() {
                     className="twoButtonPositions"
                     style={{ display: "flex", flexDirection: "row" }}
                   >
-                    <div className="form-group row">
+                    <div className="editButtons">
                       {shelter_user == "" ? (
                         <div className="col-sm-6 buttonCenter">
                           <button

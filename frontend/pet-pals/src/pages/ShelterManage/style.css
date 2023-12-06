@@ -22,6 +22,7 @@ body {
   border-width: 20px;
   border-color: #000;
   margin: 30px;
+  max-width: 90vw;
 }
 
 .pageContent {
@@ -71,7 +72,8 @@ body {
 .applications {
   display: flex;
   flex-direction: column;
-  min-width: 400px;
+  /* min-width: 400px; */
+  min-width: 30vw;
   width: fit-content;
   height: 450px;
   align-items: center;
@@ -87,7 +89,8 @@ body {
 .shelterProfileCard {
   display: flex;
   flex-direction: row;
-  min-width: 965px;
+  /* min-width: 965px; */
+  min-width: 55vw;
   width: fit-content;
   height: 450px;
   align-items: center;
@@ -211,14 +214,27 @@ body {
   }
 }
 
+.addingPet {
+  padding-left: 40px;
+
+}
+
+@media (max-width: 700px) {
+  .addingPet {
+    padding-left: 0px;
+
+}
+ }
+
 @media (max-width: 1150px) {
-  main {
+  .mainContainer {
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin: 0px;
     margin-top: 15px;
     height: fit-content;
+    max-width: 100vw;
   }
   .petGroup {
     flex-direction: column;
@@ -238,9 +254,9 @@ body {
     overflow: hidden;
   }
 
-  .applicationCard {
+  .applications {
     width: 95%;
-    height: fit-content;
+    height: 400px;
     justify-content: center;
     margin: 10px;
   }

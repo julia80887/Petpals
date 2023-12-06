@@ -177,3 +177,28 @@ html {
     background-color: #77a0ca;
     color: white;
   }
+
+  #login {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .inputNEW {
+    gap: 10px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 25%;
+  }
+
+
+  /* .buttons {
+    flex-direction: row;
+  }
+
+  @media (max-width: 480px) {
+    .buttons {
+      flex-direction: column;
+    }
+  } */

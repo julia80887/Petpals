@@ -11,8 +11,6 @@ function CreatePet() {
   const navigate = useNavigate();
   const shelter_user = localStorage.getItem("shelter_name") || "";
   const seeker_user = localStorage.getItem("firstname") || "";
-  
-
 
   const [formValues, setFormValues] = useState({
     name: "",
@@ -176,7 +174,7 @@ function CreatePet() {
       formData.append("pet_type", formValues.pet_type);
       formData.append("gender", formValues.gender);
       formData.append("breed", formValues.breed);
-      formData.append("color", (formValues.color).toLowerCase());
+      formData.append("color", formValues.color.toLowerCase());
       formData.append("date_of_birth", final_birthdate);
       formData.append("medical_history", formValues.medical_history);
       formData.append("behavior", formValues.behavior);
@@ -212,8 +210,8 @@ function CreatePet() {
           .then((response) => response.json())
           .then((data) => {
             console.log(data);
-            if (data['message'] == 'Pet successfully created.') {
-                navigate(`/pet/${data['pet_id']}/`);
+            if (data["message"] == "Pet successfully created.") {
+              navigate(`/pet/${data["pet_id"]}/`);
             }
           });
         // navigate(`/pet/${pet_id}/`);
@@ -229,7 +227,7 @@ function CreatePet() {
       <>
         <div className="mainContainer">
           <h1>Create Your Pet</h1>
-          <div className="container">
+          <div className="containerNEW">
             <form
               className="createPetForm"
               style={{ backgroundColor: "white" }}
@@ -586,12 +584,11 @@ function CreatePet() {
               <div className="twoButtonPositions">
                 <div className="form-group row">
                   <div className="col-sm-6" id="buttonCenter">
-                    <a
-                      href="ShelterManage.html" // replace with shelter management endpoint
-                      className="backButton form-control"
-                    >
-                      Back
-                    </a>
+                    {/* <button className="btn btn-primary backButton"> */}
+                      <Link className="btn btn-primary backButton" to={`/pets/`} style={{textDecoration: "none"}}>
+                        Back
+                      </Link>
+                    {/* </button> */}
                   </div>
                   <div className="col-sm-6" id="buttonCenter">
                     <button
@@ -609,7 +606,12 @@ function CreatePet() {
       </>
     );
   } else {
-    return <h1>You cannot create a pet. Please create an account or log in as a pet shelter.</h1>;
+    return (
+      <h1>
+        You cannot create a pet. Please create an account or log in as a pet
+        shelter.
+      </h1>
+    );
   }
 }
 export default CreatePet;

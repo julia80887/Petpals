@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { ChatModal } from "../../components/Modal";
 import "./style.css";
 import CloseIcon from "../../assets/svgs/CloseIcon.svg";
+import FilterButton from "./FilterButton";
 
 const SeekerNotifications = () => {
   const navigate = useNavigate();
@@ -26,18 +27,20 @@ const SeekerNotifications = () => {
     setIsModalOpen(true);
   };
 
-  const query = useMemo(
-    () => ({
-      page: parseInt(searchParams.get("page") ?? 1),
-    }),
-    [searchParams]
-  );
+  const query = useMemo(() => {
+    const page = parseInt(searchParams.get("page") ?? 1);
+    const read = searchParams.get("read") ?? "";
+
+    setRenderPage(true);
+    return { page, read };
+  }, [searchParams]);
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const { page } = query;
+        const { page, read } = query;
 
         const myHeaders = new Headers();
         myHeaders.append(
@@ -51,12 +54,14 @@ const SeekerNotifications = () => {
         };
 
         const response = await fetch(
-          `http://localhost:8000/notifications/?page=${page}`,
+          // `http://localhost:8000/notifications/?page=${page}&read=${read}`,
+          `http://localhost:8000/notifications/?page=${page}&read=${read}`,
           requestOptions
         );
         const result = await response.json();
 
         console.log("First call: ", result);
+        console.log(read);
         setNotifications(result.results);
 
         setTotalPages(
@@ -79,7 +84,7 @@ const SeekerNotifications = () => {
   }, [query, renderPage]);
 
   useEffect(() => {
-    if (notifications.length > 0) {
+    if (notifications?.length > 0) {
       const fetchNotificationDetails = async (notification) => {
         const petIdMatch = notification.link.match(
           /\/pet\/(\d+)\/applications\/\d+\/$/
@@ -217,13 +222,19 @@ const SeekerNotifications = () => {
       ) : (
         <div className="notificationContent">
           <div className="notificationsContainer">
-            <h1 className="pageHeading">Notifications</h1>
+          <div className="applicationHeader" style={{display: "flex", gap: "20px", alignItems: "center"}}>
+            <h1 className="pageHeadingApp">Notifications</h1>
+            <FilterButton
+            setParams={setSearchParams}
+            query={query}
+          />
+          </div>
 
-            {notifications.length === 0 ? (
+            {notifications?.length === 0 ? (
               <p>No notifications available.</p>
             ) : (
               <div className="notificationGrid">
-                {notifications.map((notification) => (
+                {notifications?.map((notification) => (
                   <div style={{ display: "flex", flexDirection: "row" }}>
                     <div
                       key={notification.id}
@@ -235,6 +246,7 @@ const SeekerNotifications = () => {
                       }
                     >
                       <div className="notificationPic">
+                      
                         {notification.notification_type === "new_message" ? (
                           <img
                             id="imgProfile"
@@ -281,17 +293,20 @@ const SeekerNotifications = () => {
                         )}
                       </div>
                     </div>
+                    <div className="btn" style={{width: "50px", height: "auto", borderTopRightRadius: "10px",
+                  borderTopLeftRadius: "0px", borderBottomRightRadius: "10px", borderBottomLeftRadius: "0px",}}>
                     <div
                       className="closeIcon"
                       onClick={() => handleDeleteNotification(notification.id)}
                     >
                       <img src={CloseIcon} />
                     </div>
+                    </div>
                   </div>
                 ))}
                 <div className="pagination">
                   <div className="paginationButtonContainer">
-                    {query.page > 1 && query.page <= totalPages ? (
+                    {query.page > 1 && query.page <= totalPages && notifications ? (
                       <button
                         className="paginationButton"
                         onClick={() => {
@@ -304,7 +319,7 @@ const SeekerNotifications = () => {
                     ) : (
                       <></>
                     )}
-                    {query.page < totalPages ? (
+                    {query.page < totalPages && notifications ? (
                       <button
                         className="paginationButton"
                         onClick={() => {
@@ -318,13 +333,15 @@ const SeekerNotifications = () => {
                       <></>
                     )}
                   </div>
-                  {query.page <= totalPages ? (
+                  {!notifications ? (
+                    <p className="totalPages">No notifications available.</p>
+                  ) : query.page <= totalPages ? (
                     <p className="totalPages">
                       Page {query.page} out of {totalPages}.
                     </p>
-                  ) : (
-                    <p className="totalPages">Page does not exist.</p>
-                  )}
+                  ) : 
+                  <p className="totalPages">Page does not exist.</p>
+                  }
                 </div>
               </div>
             )}

@@ -224,9 +224,9 @@ function Home() {
         next={fetchMore}
         hasMore={currentPage < totalPages} // Replace with a condition based on your data source
         loader={<p>Loading...</p>}
-        endMessage={<p>That's all of the pets!</p>}
+        endMessage={<h1>That's all of the pets!</h1>}
       >
-        <div className="mainContainer">
+        <div className="mainContainer" style={{marginTop: "0px"}}>
           <FilterBar
             setParams={_setSearchParams}
             retrieveShelter={() => setRetrievalType("Shelters")}

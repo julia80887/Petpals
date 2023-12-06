@@ -14,22 +14,10 @@ const Guidance = () => {
 
 
   return (
-    <div>
+    <div className="mainContainer" style={{marginTop: "50px"}}>
       <main>
         <h1 className="question">Are you ready to bring your pet home?</h1>
-        <div className="container">
-          <img
-            src="../assets/pictures/rufus2.jpg"
-            style={{
-              width: "20vw",
-              height: "20vw",
-              minWidth: "175px",
-              minHeight: "175px",
-              marginTop: "20px",
-              borderRadius: "10px",
-            }}
-            alt="Rufus"
-          />
+        <div className="containerNEW">
           <div className="adoptionProcess">
             <h2>The Adoption Process</h2>
 
