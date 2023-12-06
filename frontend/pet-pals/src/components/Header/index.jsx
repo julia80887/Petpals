@@ -77,7 +77,7 @@ const Layout = () => {
               <p className="name">Hello, {firstname}</p>
             ) : null}
 
-            {shouldDisplayIcons && notificationsArray.length > 0 ? (
+            {shouldDisplayIcons && notificationsArray?.length > 0 ? (
               <a onClick={() => handleNotificationClick()}>
                 <img
                   src={HasNotification}

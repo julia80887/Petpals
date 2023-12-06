@@ -272,8 +272,7 @@ function CreatePet() {
                 </div>
                 <div className="col-sm-3">
                   <select className="form-control" id="weightInput1" required>
-                    <option>kg</option>
-                    <option>lb</option>
+                    <option defaultValue>lbs</option>
                   </select>
                 </div>
               </div>
@@ -295,7 +294,7 @@ function CreatePet() {
                   >
                     {[...sex].map((p) =>
                       formValues.gender == { p } ? (
-                        <option key={p} value={p} selectedOption>
+                        <option key={p} value={p} defaultValue>
                           {p}
                         </option>
                       ) : (
@@ -319,13 +318,14 @@ function CreatePet() {
                   <select
                     className="form-control"
                     value={formValues.pet_type}
+                    // defaultValue="Dog"
                     onChange={handleInputChange}
                     id="pet_type"
                     required
                   >
                     {[...petTypes].map((p) =>
                       formValues.pet_type == { p } ? (
-                        <option key={p} value={p} selectedOption>
+                        <option key={p} value={p} defaultValue>
                           {p}
                         </option>
                       ) : (
