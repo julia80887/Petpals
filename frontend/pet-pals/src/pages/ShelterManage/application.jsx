@@ -66,7 +66,7 @@ const Application = ({ pet, application }) => {
 
   return (
     <>
-      {modalChatDetail && (
+      {/* {modalChatDetail && ( */}
         <div key={application.id} className="applicationCard">
           <div className="applicationCardContents">
             <div className="application">
@@ -95,12 +95,14 @@ const Application = ({ pet, application }) => {
               >
                 View Application
               </a> */}
-                <Link to={`/profile/seeker/${application.seeker.id}/`}>
-                  View Application
-                </Link>
-                <Link to={`/pet/${pet.id}/applications/${application.id}/`}>
-                  View Application
-                </Link>
+                <MainButton text="View User Profile" handleClick={() => navigate(`/profile/seeker/${application.seeker.id}/`)}>
+                {/* <Link to={`/pet/${pet.id}/applications/${application.id}/`}>
+                </Link> */}
+                </MainButton>
+                <MainButton text="View Application" handleClick={() => navigate(`/pet/${pet.id}/applications/${application.id}/`)}>
+                {/* <Link to={`/pet/${pet.id}/applications/${application.id}/`}>
+                </Link> */}
+                </MainButton>
 
                 {/* <button
                 className="btn"
@@ -124,7 +126,7 @@ const Application = ({ pet, application }) => {
             </div>
           </div>
         </div>
-      )}
+      {/* )} */}
     </>
   );
 };

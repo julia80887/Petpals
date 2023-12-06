@@ -389,13 +389,19 @@ function ShelterProfile() {
     fetchData();
   }
 
-  if (formValues.shelterName != "") {
+  // if(seeker_user == "" && shelter_user == "") {
+  //   return <h1>You do not have permission to edit this shelter profile.</h1>
+  // }
+
+  if (loading) {
+    return <p>Loading.....</p>
+  } else {
+  if ((seeker_user != "" || shelter_user != "")) {
+    if (formValues.shelterName != "") {
     if (seeker_user == "" && shelter_user != "" && user_id == shelter_id) {
       return (
         <>
-          {loading ? (
-            <p>Loading.....</p>
-          ) : (
+
             <div className="mainContainer">
               <h1>Your Shelter Profile</h1>
               <div className="containerNEW">
@@ -704,7 +710,7 @@ function ShelterProfile() {
                 </form>
               </div>
             </div>
-          )}
+          
         </>
       );
     } else {
@@ -713,6 +719,10 @@ function ShelterProfile() {
   } else {
     return <h1>This shelter does not exist.</h1>;
   }
+} else {
+  return <h1>You do not have permission to edit this shelter profile.</h1>;
+}
+}
 }
 
 export default ShelterProfile;

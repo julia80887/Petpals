@@ -218,7 +218,7 @@ function Home() {
       {/* MOVE TO ITS OWN COMPONENT */}
       {/* THE FILTER BAR AT THE TOP OF THE PAGE */}
       <InfiniteScroll
-        dataLength={petListings.length}
+        dataLength={petListings?.length}
         next={fetchMore}
         hasMore={currentPage < totalPages} // Replace with a condition based on your data source
         loader={<p>Loading...</p>}
@@ -245,7 +245,7 @@ function Home() {
             </div>
 
             <div className="profileGrid">
-              {retrievalType === "Pets" && petListings.length > 0 ? (
+              {retrievalType === "Pets" && petListings?.length > 0 ? (
                 petListings.map((pet) => (
                   <div
                     key={pet.id}

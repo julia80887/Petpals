@@ -165,7 +165,7 @@ function ViewEditApplication() {
             console.log(data);
             if (data['message'] == 'Application status was successfully updated.') {
                 if (shelter_user != "") {
-
+                    navigate(`/pets/`);
                 } else {
                     navigate(`/pet/applications/`);
                 }

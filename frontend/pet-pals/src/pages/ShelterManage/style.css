@@ -257,11 +257,11 @@ body {
   .applications {
     width: 95%;
     height: 400px;
-    justify-content: center;
+    /* justify-content: center; */
     margin: 10px;
   }
   .application {
-    width: 100%;
+    width: 60vw;
   }
   .applicationInfo {
     align-items: flex-start;

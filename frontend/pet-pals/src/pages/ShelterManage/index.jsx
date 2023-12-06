@@ -118,6 +118,7 @@ const ShelterManagement = () => {
             ...prevDetails,
             [pet.id]: result.results,
           }));
+          console.log(applicationDetails)
           setTotalPages(
             Math.ceil(
               Number(result.pagination_details["count"]) /
@@ -256,6 +257,8 @@ const ShelterManagement = () => {
     }
   };
 
+  console.log(applicationDetails)
+
   return (
     <>
       <InfiniteScroll
@@ -321,7 +324,7 @@ const ShelterManagement = () => {
                           </p>
                           <p className="cardTextSubHeading">
                             <span className="shelterSpecLabels">Weight: </span>{" "}
-                            {pet.weight} kg
+                            {pet.weight} lbs
                           </p>
                           <p className="cardTextSubHeading">
                             <span className="shelterSpecLabels">Gender: </span>{" "}
