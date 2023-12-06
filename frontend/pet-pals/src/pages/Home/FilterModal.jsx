@@ -12,6 +12,7 @@ function FilterModal({
   setParams,
   query,
   completeShelterList,
+  reinitializePage,
 }) {
   const [chatMessages, setChatMessages] = useState();
   const [loading, setLoading] = useState(true);
@@ -66,9 +67,16 @@ function FilterModal({
   const clearAllFilters = () => {
     setFilterDict({});
     setParams({
-      page: 1,
+      type: "",
+      shelter: "",
+      gender: "",
+      color: "",
+      lt_size: "",
+      gt_size: "",
+      status: "",
       order_by: "name",
     });
+    reinitializePage();
     onClose();
   };
 
@@ -88,7 +96,8 @@ function FilterModal({
     setFilterDict((prevFilterDict) => ({ ...prevFilterDict, [key]: value }));
   };
 
-  function setSize(gt, lt) {
+  function setSize(gt, lt, sizeId) {
+    reinitializePage();
     setParams({
       type: query.type,
       shelter: query.shelter,
@@ -96,9 +105,22 @@ function FilterModal({
       color: query.color,
       lt_size: lt,
       gt_size: gt,
-      order_by: query.order_by,
       status: query.status,
+      order_by: query.order_by,
     });
+    // updateFilterDict("lt_size", lt);
+    // updateFilterDict("gt_size", gt);
+
+    const sizeButtons = document.querySelectorAll(".sizeButton");
+    sizeButtons.forEach((button) => {
+      button.classList.remove("selectedTab");
+    });
+
+    // Add the "selectedTab" class to the clicked size button
+    const clickedButton = document.getElementById(sizeId);
+    if (clickedButton) {
+      clickedButton.classList.add("selectedTab");
+    }
   }
 
   useEffect(() => {
@@ -106,6 +128,7 @@ function FilterModal({
   }, [filterDict]);
 
   const showPets = () => {
+    reinitializePage();
     if (Object.keys(filterDict).length === 0) {
       // If filterDict is empty, setParams with the original query values
       setParams({
@@ -115,11 +138,12 @@ function FilterModal({
         color: query.color,
         lt_size: query.lt_size,
         gt_size: query.gt_size,
-        order_by: query.order_by,
         status: query.status,
+        order_by: query.order_by,
       });
     } else {
       // If filterDict is not empty, update the params with filterDict values
+      reinitializePage();
       setParams({
         type: filterDict.type || query.type,
         shelter: filterDict.shelter || query.shelter,
@@ -127,8 +151,8 @@ function FilterModal({
         color: filterDict.color || query.color,
         lt_size: filterDict.lt_size || query.lt_size,
         gt_size: filterDict.gt_size || query.gt_size,
-        order_by: filterDict.order_by || query.order_by,
         status: filterDict.status || query.status,
+        order_by: filterDict.order_by || query.order_by,
       });
     }
 
@@ -190,28 +214,28 @@ function FilterModal({
                 <div
                   className="sizeButton"
                   id="small"
-                  onClick={() => setSize(0, 25)}
+                  onClick={() => setSize(0, 25, "small")}
                 >
                   Small <span>(0-25 lbs)</span>
                 </div>
                 <div
                   className="sizeButton"
                   id="medium"
-                  onClick={() => setSize(26, 60)}
+                  onClick={() => setSize(26, 60, "medium")}
                 >
                   Medium <span>(26-60 lbs)</span>
                 </div>
                 <div
                   className="sizeButton"
                   id="large"
-                  onClick={() => setSize(61, 100)}
+                  onClick={() => setSize(61, 100, "large")}
                 >
                   Large <span>(61-100 lbs)</span>
                 </div>
                 <div
                   className="sizeButton"
                   id="xlarge"
-                  onClick={() => setSize(101, 1000)}
+                  onClick={() => setSize(101, 1000, "xlarge")}
                 >
                   Extra Large <span>(101 lbs or more)</span>
                 </div>

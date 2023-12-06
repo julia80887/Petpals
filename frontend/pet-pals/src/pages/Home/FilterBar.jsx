@@ -5,9 +5,16 @@ import CatSVG from "../../assets/svgs/Cat.svg";
 import OtherAnimalsSVG from "../../assets/svgs/otherAnimals.svg";
 import ShelterSVG from "../../assets/svgs/animalShelter.svg";
 
-function FilterBar({ setParams, retrieveShelter, retrievePet, query }) {
+function FilterBar({
+  setParams,
+  retrieveShelter,
+  retrievePet,
+  query,
+  reinitializePage,
+}) {
   const handleClick = (text) => {
     // setParams({ type: text });
+    reinitializePage();
 
     setParams({
       type: text,
