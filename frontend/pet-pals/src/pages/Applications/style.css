@@ -27,8 +27,13 @@ p {
     justify-content: flex-start;
     text-align: center;
   }
+  .filteringButtons {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
   
-  .pageHeading {
+  .pageHeadingApp {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -37,8 +42,8 @@ p {
     color: #0854a0;
     font-size: 40px;
     font-weight: 600;
-    margin-top: 40px;
-    margin-bottom: 40px;
+     margin-top: 40px; 
+     margin-bottom: 40px; 
     text-align: center;
   }
   
@@ -62,7 +67,7 @@ p {
     align-items: center;
   }
   
-  .notification {
+  .newApp {
     display: flex;
     padding: 20px;
     /* border-bottom: 1px solid #77a0ca; */
@@ -76,12 +81,12 @@ p {
     width: 40vw;
   }
   
-  .notification:hover {
+  .newApp:hover {
     transform: scale(1.02);
     filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.25));
   }
   
-  .notification h5 {
+  .newApp h5 {
     color: #000;
     font-family: Nunito Sans;
     font-size: 24px;
@@ -92,13 +97,15 @@ p {
     text-align: left;
   }
   
-  .notification p {
+  .newApp p {
     color: #000;
     font-family: Open Sans;
     font-size: 16px;
     font-style: normal;
     font-weight: 300;
   }
+
+
 
   .notificationText {
     display: flex;
@@ -180,6 +187,38 @@ p {
   
     .buttonPlacement {
       width: 100%;
+    }
+  }
+
+  @media(max-width: 760px) {
+    .filteringButtons {
+      display: flex;
+      flex-direction: row;
+      margin: 10px;
+      margin-bottom: 20px;
+    }
+    .applicationHeader {
+      display: flex;
+      flex-direction: column;
+    }
+    .pageHeadingApp {
+      margin-bottom: 0px;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  @media(max-width: 450px) {
+    .newApp {
+      display: flex;
+      flex-direction: column;
+    }
+    .notificationText {
+      align-items: center;
+    }
+    .notificationText h5 {
+      display: flex;
+      text-align: center;
     }
   }
   

@@ -263,12 +263,13 @@ const ShelterManagement = () => {
         next={fetchMorePets}
         hasMore={mainCurrentPage < mainTotalPages} // Replace with a condition based on your data source
         loader={<p>Loading...</p>}
-        endMessage={<p>That's all of your pets!</p>}
+        endMessage={<h1>That's all of your pets!</h1>}
       >
-        <main className="shelterManageMain">
-          <h1 className="pageHeading">Your Pet Listings</h1>
-          <div className="pageContent">
-            {/* <a
+        <div className="mainContainer">
+          <div className="shelterManageMain">
+            <h1 className="pageHeading">Your Pet Listings</h1>
+            <div className="pageContent">
+              {/* <a
               className="btn"
               style={{
                 width: "fit-content",
@@ -281,90 +282,95 @@ const ShelterManagement = () => {
             >
               + Add a new pet
             </a> */}
-            <MainButton
-              style={{
-                display: "flex",
-                justifySelf: "flex-start",
-                margin: "30px",
-              }}
-              text={"+ Add a new pet"}
-              handleClick={() => navigate(`/pet/`)}
-            />
-            <div className="petListingGrid">
-              {pets &&
-                pets.map((pet, index) => (
-                  <div key={index} className="petGroup">
-                    <div className="shelterProfileCard">
-                      <div className="shelterProfilePic">
-                        <img
-                          src={pet.profile_photo}
-                          style={{
-                            borderRadius: "10px",
-                          }}
-                        />
-                      </div>
-                      <div className="shelterProfileCardContents">
-                        <p className="cardTextSubHeading">
-                          <span className="shelterSpecLabels">Name: </span>{" "}
-                          {pet.name}
-                        </p>
-                        <p className="cardTextSubHeading">
-                          <span className="shelterSpecLabels">Breed: </span>{" "}
-                          {pet.breed}
-                        </p>
-                        <p className="cardTextSubHeading">
-                          <span className="shelterSpecLabels">Age: </span>{" "}
-                          {pet.date_of_birth}
-                        </p>
-                        <p className="cardTextSubHeading">
-                          <span className="shelterSpecLabels">Weight: </span>{" "}
-                          {pet.weight} kg
-                        </p>
-                        <p className="cardTextSubHeading">
-                          <span className="shelterSpecLabels">Gender: </span>{" "}
-                          {pet.gender}
-                        </p>
-                        <p className="cardTextSubHeading">
-                          <span className="shelterSpecLabels">Status: </span>{" "}
-                          {pet.status}
-                        </p>
-                        <p className="cardTextSubHeading">
-                          <span className="shelterSpecLabels">
-                            Description:{" "}
-                          </span>{" "}
-                          {pet.about}
-                        </p>
-                        {/* <a className="btn" href="UpdatePet.html" role="button">
+              <div className="addingPet"
+              >
+                <MainButton
+                  style={{
+                    display: "flex",
+                    justifySelf: "flex-start"
+                  }}
+                  text={"+ Add a new pet"}
+                  handleClick={() => navigate(`/pet/`)}
+                />
+              </div>
+              <div className="petListingGrid">
+                {pets &&
+                  pets.map((pet, index) => (
+                    <div key={index} className="petGroup">
+                      <div className="shelterProfileCard">
+                        <div className="shelterProfilePic">
+                          <img
+                            src={pet.profile_photo}
+                            style={{
+                              borderRadius: "10px",
+                            }}
+                          />
+                        </div>
+                        <div className="shelterProfileCardContents">
+                          <p className="cardTextSubHeading">
+                            <span className="shelterSpecLabels">Name: </span>{" "}
+                            {pet.name}
+                          </p>
+                          <p className="cardTextSubHeading">
+                            <span className="shelterSpecLabels">Breed: </span>{" "}
+                            {pet.breed}
+                          </p>
+                          <p className="cardTextSubHeading">
+                            <span className="shelterSpecLabels">Age: </span>{" "}
+                            {pet.date_of_birth}
+                          </p>
+                          <p className="cardTextSubHeading">
+                            <span className="shelterSpecLabels">Weight: </span>{" "}
+                            {pet.weight} kg
+                          </p>
+                          <p className="cardTextSubHeading">
+                            <span className="shelterSpecLabels">Gender: </span>{" "}
+                            {pet.gender}
+                          </p>
+                          <p className="cardTextSubHeading">
+                            <span className="shelterSpecLabels">Status: </span>{" "}
+                            {pet.status}
+                          </p>
+                          <p className="cardTextSubHeading">
+                            <span className="shelterSpecLabels">
+                              Description:{" "}
+                            </span>{" "}
+                            {pet.about}
+                          </p>
+                          {/* <a className="btn" href="UpdatePet.html" role="button">
                         Edit Profile
                       </a> */}
-                        <MainButton
-                          text={"Edit Profile"}
-                          handleClick={() => navigate(`/pet/${pet.id}/edit/`)}
-                        />
+                          <MainButton
+                            text={"Edit Profile"}
+                            handleClick={() => navigate(`/pet/${pet.id}/edit/`)}
+                          />
+                        </div>
+                      </div>
+                      <div
+                        className="applications"
+                        onScroll={(event) => handleScroll(event, pet.id)}
+                      >
+                        {applicationDetails &&
+                        applicationDetails[pet.id]?.length > 0 ? (
+                          applicationDetails[pet.id].map(
+                            (application, index) => (
+                              <Application
+                                pet={pet}
+                                application={application}
+                                key={index}
+                              />
+                            )
+                          )
+                        ) : (
+                          <p>No applications for {pet.name}</p>
+                        )}
                       </div>
                     </div>
-                    <div
-                      className="applications"
-                      onScroll={(event) => handleScroll(event, pet.id)}
-                    >
-                      {applicationDetails &&
-                      applicationDetails[pet.id]?.length > 0 ? (
-                        applicationDetails[pet.id].map((application, index) => (
-                          <Application
-                            pet={pet}
-                            application={application}
-                            key={index}
-                          />
-                        ))
-                      ) : (
-                        <p>No applications for {pet.name}</p>
-                      )}
-                    </div>
-                  </div>
-                ))}
+                  ))}
+              </div>
             </div>
           </div>
-        </main>
+        </div>
       </InfiniteScroll>
     </>
   );

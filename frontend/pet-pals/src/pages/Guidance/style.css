@@ -21,6 +21,10 @@ body {
     background-color: #ECEBEA;
 }
 
+/* .mainContainer {
+    overflow: scroll;
+} */
+
  .question {
     color: #0854A0;
     font-family: 'Chewy';
@@ -41,7 +45,7 @@ body {
     margin-bottom: 80px;
  }
 
- .container {
+ .containerNEW {
     background-color: #fff;
     height: fit-content;
     width: 80vw;

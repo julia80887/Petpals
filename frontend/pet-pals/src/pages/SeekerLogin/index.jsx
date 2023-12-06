@@ -71,32 +71,34 @@ function SeekerLogin() {
   }
 
   return (
+    <div className="mainContainer" style={{marginTop: "50px"}}>
     <main>
-      <div className="topnav">
+      <div className="topnav" >
         <Link to="/seeker/login/" className="active">
           Pet Seekers
         </Link>
         <Link to="/shelter/login/">Pet Shelters</Link>
       </div>
       <div className="outerContainer">
-        <div className="container">
+      <div className="container" style={{paddingBottom: "20px", borderTopRightRadius: "0px", 
+      borderTopLeftRadius: "0px",}}>
           <div className="titles">
             <p className="subTitle">Welcome Back Pet Seeker!</p>
             <h1 className="mainTitle">Log In</h1>
           </div>
           <form id="login" onSubmit={handle_submit}>
-            <h2>Please enter your login information</h2>
-            <div className="input">
+            <h2 style={{marginTop: "0px"}}>Please enter your login information</h2>
+            <div className="inputNEW">
               <label htmlFor="username">Username: </label>
-              <input type="text" id="username" name="username" required />
+              <input className="descriptionInput" type="text" id="username" name="username" required />
             </div>
 
-            <div className="input">
+            <div className="inputNEW">
               <label htmlFor="password">Password: </label>
-              <input type="password" id="password" name="password" required />
+              <input className="descriptionInput" type="password" id="password" name="password" required />
             </div>
 
-            <div className="buttons">
+            <div className="buttons" style={{flexDirection: "row", justifyContent: "center", margin: "20px"}}>
               <button className="btn" type="submit">
                 Login
               </button>
@@ -135,6 +137,7 @@ function SeekerLogin() {
         </div>
       </div>
     </main>
+    </div>
   );
 }
 

@@ -14,7 +14,7 @@ function ChatModal({ open, onClose, chatDetail, currentUser }) {
   const [inputValue, setInputValue] = useState("");
   const [renderPage, setRenderPage] = useState(true);
 
-  //CAREFUL WITH CHATDETAIL
+  //CAREFUL WITH CHAT DETAIL
   useEffect(() => {
     console.log("Chat Detail: ", chatDetail);
     const fetchData = async () => {
@@ -216,6 +216,7 @@ function ChatModal({ open, onClose, chatDetail, currentUser }) {
                 <img src={CloseIcon} />
               </div>
             </div>
+            <div style={{overflow: "scroll"}}>
             <div className="chatContent" onScroll={handleScroll}>
               {chatMessages?.map((message, index) => (
                 <div key={index}>
@@ -232,6 +233,7 @@ function ChatModal({ open, onClose, chatDetail, currentUser }) {
                   )}
                 </div>
               ))}
+            </div>
             </div>
             <div className="bottomBar inputText">
               <input

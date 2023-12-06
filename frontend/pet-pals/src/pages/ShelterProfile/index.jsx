@@ -396,9 +396,9 @@ function ShelterProfile() {
           {loading ? (
             <p>Loading.....</p>
           ) : (
-            <div className="allData">
+            <div className="mainContainer">
               <h1>Your Shelter Profile</h1>
-              <div className="container">
+              <div className="containerNEW">
                 <form
                   className="createPetForm"
                   style={{ backgroundColor: "white" }}
@@ -668,7 +668,7 @@ function ShelterProfile() {
                     className="twoButtonPositions"
                     style={{ display: "flex", flexDirection: "row" }}
                   >
-                    <div className="form-group row">
+                    <div className="editButtons">
                       <div className="col-sm-6 buttonCenter">
                         <button
                           type={!isEditMode ? "submit" : "button"}

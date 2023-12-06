@@ -37,6 +37,11 @@ function CreateApplication() {
         setStep(step + 1);
       }
     }
+    if (step == 4) {
+      if (validateFormPage4()) {
+        handleSubmit(e);
+      }
+    }
   };
   const handlePrev = () => {
     if (step == 2) {
@@ -135,9 +140,9 @@ function CreateApplication() {
   }, [pet_id]);
 
   function handleSubmit(event) {
-    if (!validateFormPage4) {
-      return;
-    }
+    // if (!validateFormPage4) {
+    //   return;
+    // }
 
     event.preventDefault();
     // get rid of all previous errors
@@ -1211,7 +1216,7 @@ function CreateApplication() {
                   <form
                     className="createPetForm"
                     style={{ backgroundColor: "white" }}
-                    onSubmit={handleSubmit}
+                    onSubmit={handleNext}
                   >
                     <div className="form-group row">
                       <label

@@ -155,60 +155,70 @@ function SeekerSignUp() {
   }
 
   return (
-    <main>
-      <div className="topnav">
-        <Link to="/shelter/signup/">Pet Shelters</Link>
+    <div className="mainContainer" style={{ marginTop: "50px" }}>
+      <main>
+      <div className="topnav" style={{ width: "80vw", borderTopRightRadius: "10px", borderTopLeftRadius: "10px"}}>
         <Link to="/seeker/signup/" className="active">
           Pet Seekers
         </Link>
+        <Link to="/shelter/signup/">Pet Shelters</Link>
       </div>
 
       <div className="outerContainer">
-        <div className="container">
+      <div className="containerNEW" style={{paddingBottom: "30px", borderTopRightRadius: "0px", 
+      borderTopLeftRadius: "0px",}}>
           <div className="titles">
             <p className="subTitle">Join the family today!</p>
             <h1 className="mainTitle">Sign Up</h1>
           </div>
           <form id="signup" onSubmit={handle_submit}>
-            <h2>Please create your account below</h2>
+          <h2 style={{ marginTop: "0px" }}>
+              Please create your account below</h2>
 
-            <div className="input">
+            <div className="inputNEW">
               <label htmlFor="firstname">First Name: </label>
-              <input type="text" id="firstname" name="firstname" required />
+              <input className="descriptionInput" type="text" id="firstname" name="firstname" required />
               <p className="error">{errorJson.firstname || ""}</p>
             </div>
 
-            <div className="input">
+            <div className="inputNEW">
               <label htmlFor="lastname">Last Name: </label>
-              <input type="text" id="lastname" name="lastname" required />
+              <input className="descriptionInput" type="text" id="lastname" name="lastname" required />
               <p className="error">{errorJson.lastname || ""}</p>
             </div>
 
-            <div className="input">
+            <div className="inputNEW">
               <label htmlFor="email">Email: </label>
-              <input type="email" id="email" name="email" required />
+              <input className="descriptionInput" type="email" id="email" name="email" required />
               <p className="error">{errorJson.email || ""}</p>
             </div>
 
-            <div className="input">
+            <div className="inputNEW">
               <label htmlFor="username">Username: </label>
-              <input type="text" id="username" name="username" required />
+              <input className="descriptionInput" type="text" id="username" name="username" required />
               <p className="error">{errorJson.username || ""}</p>
             </div>
 
-            <div className="input">
+            <div className="inputNEW">
               <label htmlFor="password">Password: </label>
-              <input type="password" id="password" name="password" required />
+              <input className="descriptionInput" type="password" id="password" name="password" required />
               <p className="error">{errorJson.password || ""}</p>
             </div>
 
-            <div className="input">
+            <div className="inputNEW">
               <label htmlFor="password1">Confirm Password: </label>
-              <input type="password" id="password1" name="password1" required />
+              <input className="descriptionInput" type="password" id="password1" name="password1" required />
               <p className="error">{errorJson.password1}</p>
             </div>
 
-            <div className="buttons">
+            <div
+              className="buttons"
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                margin: "20px",
+              }}
+            >
               <button className="btn" type="submit">
                 Sign Up
               </button>
@@ -245,7 +255,8 @@ function SeekerSignUp() {
           </div>
         </div>
       </div>
-    </main>
+      </main>
+    </div>
   );
 }
 

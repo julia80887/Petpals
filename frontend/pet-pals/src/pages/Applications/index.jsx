@@ -3,6 +3,8 @@ import "./style.css";
 import DogSVG from "../../assets/svgs/Dog.svg";
 import { Link, useSearchParams } from "react-router-dom";
 import { ChatModal } from "../../components/Modal";
+import SortButton from "./SortButton";
+import FilterButton from "./FilterButton";
 
 function Applications() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -22,21 +24,31 @@ function Applications() {
       "Applicaiton information: ",
       applicationChat[application_id].results[0]
     );
-    const chatDetail = applicationChat[application_id].results[0];
-    // Set the chatDetail for the modal
-    setModalChatDetail(chatDetail);
-    setIsModalOpen(true);
+    if (applicationChat[application_id].results != []) {
+      const chatDetail = applicationChat[application_id].results[0];
+      // Set the chatDetail for the modal
+      setModalChatDetail(chatDetail);
+      setIsModalOpen(true);
+    }
   };
 
-  const query = useMemo(
-    () => ({
-      page: parseInt(searchParams.get("page") ?? 1),
-    }),
-    [searchParams]
-  );
+  const query = useMemo(() => {
+    const page = parseInt(searchParams.get("page") ?? 1);
+    const order_by = searchParams.get("order_by") ?? "";
+    const application_status = searchParams.get("application_status") ?? "";
+
+    return { page, order_by, application_status };
+  }, [searchParams]);
+
+  // const query = useMemo(
+  //   () => ({
+  //     page: parseInt(searchParams.get("page") ?? 1),
+  //     order_by: searchParams.get("order_by") ?? ""
+  //   }),
+  //   [searchParams]
+  // );
 
   useEffect(() => {
-    const { page } = query;
     const fetchData = async () => {
       try {
         const requestOptions = {
@@ -45,15 +57,17 @@ function Applications() {
             Authorization: `Bearer ${localStorage.getItem("access")}`,
           },
         };
+        const { page, order_by, application_status } = query;
 
         const response = await fetch(
-          `http://localhost:8000/pet/applications/?page=${page}`,
+          `http://localhost:8000/pet/applications/?page=${page}&order_by=${order_by}&application_status=${application_status}`,
           requestOptions
         );
         const result = await response.json();
 
-        console.log(result);
+        console.log("results" + result.results[0]);
         setApplications(result.results || []);
+        console.log(applications);
         setTotalPages(
           Math.ceil(
             Number(result.pagination_details["count"]) /
@@ -177,15 +191,23 @@ function Applications() {
     <>
       <div className="main">
         <div className="notificationsContainer">
-          <h1 className="pageHeading">My Applications</h1>
-
+        <div className="applicationHeader" style={{display: "flex", gap: "20px", alignItems: "center"}}>
+          <h1 className="pageHeadingApp">My Applications</h1>
+          <div className="filteringButtons">
+            <SortButton setParams={setSearchParams} query={query} />
+            <FilterButton
+            setParams={setSearchParams}
+            query={query}
+          />
+          </div>
+          </div>
           <div className="notificationGrid">
             {applications.map((application) => {
               const petId = application.pet;
               const petDetail = petDetails[petId] || {};
               const shelterId = application.shelter;
               const shelterDetail = shelterDetails[shelterId] || {};
-              const date = Date(application.publication_date);
+              const date = application.creation_time.split("T")[0];
 
               return (
                 <div className="rowBox" key={application.id}>
@@ -193,7 +215,7 @@ function Applications() {
                     to={`/pet/${petId}/applications/${application.id}`}
                     style={{ textDecoration: "none" }}
                   >
-                    <div className="notification">
+                    <div className="newApp">
                       <div className="notificationPic">
                         <img
                           src={DogSVG}
@@ -210,7 +232,8 @@ function Applications() {
                         <h5>
                           {petDetail.name} - {shelterDetail.shelter_name}
                         </h5>
-                        <p>{String(date).split("2023")[0]} 2023</p>
+                        {/* <p>{String(date).split("2023")[0]} 2023</p> */}
+                        <p>{date}</p>
                       </div>
                     </div>
                   </Link>

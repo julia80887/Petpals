@@ -48,3 +48,12 @@
   font-weight: 400;
   margin: 0px;
 }
+
+@media (max-width: 410px) {
+  .name {
+    font-size: 0px;
+  }
+  .filterContainer {
+    gap: 20px;
+  }
+}
