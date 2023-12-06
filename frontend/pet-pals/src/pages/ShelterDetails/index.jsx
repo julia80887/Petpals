@@ -15,6 +15,8 @@ function ShelterDetails() {
   const [loadingPets, setLoadingPets] = useState(true);
   const [loadingReviews, setLoadingReviews] = useState(true);
   const navigate = useNavigate();
+  const shelter_user = localStorage.getItem("shelter_name") || "";
+  const seeker_user = localStorage.getItem("firstname") || "";
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,6 +29,7 @@ function ShelterDetails() {
           requestOptions
         );
         const result = await response.json();
+        console.log(result);
         setShelter(result);
         setLoadingShelter(false);
       } catch (error) {
@@ -51,6 +54,7 @@ function ShelterDetails() {
             requestOptions
           );
           const result = await response.json();
+          console.log(result);
           setPets(result.results);
           setLoadingPets(false);
         } catch (error) {
@@ -94,7 +98,7 @@ function ShelterDetails() {
   }, [shelter]);
 
   useEffect(() => {
-    if (reviews.length > 0) {
+    if (reviews?.length > 0) {
       const fetchReviewDetails = async (review) => {
         const myHeaders = new Headers();
         myHeaders.append(
@@ -113,6 +117,9 @@ function ShelterDetails() {
             requestOptions
           );
           let reviewDetail = await response.json();
+          // if (!reviewDetail) {
+            return <><p>no.</p></>
+          // }
 
           setReviewDetails((prevDetails) => ({
             ...prevDetails,
@@ -146,13 +153,14 @@ function ShelterDetails() {
 
   return (
     <div className="allContent">
-      <div className="pageContent">
-        <div className="mainInfo">
+      <div className="pageContent" style={{alignItems: "center"}}>
+        <div className="mainInfo" style={{width: "90vw",  minWidth: "330px"}}>
           <h1 className="mainInfoHeading">{shelter.shelter_name}</h1>
           <img
             src={shelter.user && shelter.user.profile_photo}
             alt=""
             id="oliver"
+            style={{maxWidth: "700px", minWidth: "370px"}}
           />
           <div className="specs">
             <p>
@@ -201,7 +209,7 @@ function ShelterDetails() {
                                 )
                             ))}
                         </div> */}
-          <div className="petListingGrid">
+          <div className="petListingGridShelter" style={{flexDirection: "row"}}>
             {pets?.length > 0 &&
               pets.map(
                 (pet, index) =>
@@ -224,7 +232,8 @@ function ShelterDetails() {
                         <p className="cardTextSubHeading">{pet.distance}</p>
                       </div>
 
-                      <button className="btn" onClick={navigatePetDetail}>
+                      <button className="btn nextButton" onClick={navigatePetDetail}
+                      style={{width: "fit-content"}}>
                         View Full Profile
                       </button>
                     </div>
@@ -250,7 +259,9 @@ function ShelterDetails() {
           </div>
         </div>
       </div>
+      {seeker_user != "" || shelter_user != "" ? (
       <Reviews shelter={shelter} shelterID={id} />
+      ) : (<h3>Please log in to see reviews.</h3>)}
     </div>
   );
 }
