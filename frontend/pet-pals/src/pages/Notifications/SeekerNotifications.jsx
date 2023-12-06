@@ -148,17 +148,6 @@ const SeekerNotifications = () => {
 
   const handleNotificationClick = (notification) => {
     navigate(`${notification.link}`);
-    // if (notification.notification_type === "new_pet") {
-    //   navigate(`${notification.link}`);
-    // } else if (notification.notification_type === "application_status") {
-    //   const applicationIdMatch = notification.link.match(
-    //     /\/applications\/(\d+)\/$/
-    //   );
-    //   if (applicationIdMatch) {
-    //     const applicationId = applicationIdMatch[1];
-    //     navigate(`/applications/${applicationId}/`);
-    //   }
-    // }
   };
 
   const readNotification = async (notification) => {
@@ -320,9 +309,10 @@ const SeekerNotifications = () => {
                     {query.page > 1 && query.page <= totalPages && notifications ? (
                       <button
                         className="paginationButton"
-                        onClick={() =>
-                          {setSearchParams({ ...query, page: query.page - 1 })
-                          setRenderPage(true)}}
+                        onClick={() => {
+                          setSearchParams({ ...query, page: query.page - 1 });
+                          setRenderPage(true);
+                        }}
                       >
                         Previous
                       </button>
@@ -332,10 +322,10 @@ const SeekerNotifications = () => {
                     {query.page < totalPages && notifications ? (
                       <button
                         className="paginationButton"
-                        onClick={() =>
-                          {setSearchParams({ ...query, page: query.page + 1 })
-                          setRenderPage(true)}
-                        }
+                        onClick={() => {
+                          setSearchParams({ ...query, page: query.page + 1 });
+                          setRenderPage(true);
+                        }}
                       >
                         Next
                       </button>

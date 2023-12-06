@@ -52,6 +52,18 @@ function Home() {
   }, [searchParams]);
 
   useEffect(() => {
+    //setSearchParams on render
+    _setSearchParams({
+      type: query.type,
+      shelter: query.shelter,
+      gender: query.gender,
+      color: query.color,
+      lt_size: query.lt_size,
+      gt_size: query.gt_size,
+      status: query.status,
+      order_by: query.order_by,
+    });
+
     console.log("Logged in user: ", localStorage.getItem("shelter_name"));
     console.log("Logged in user: ", localStorage.getItem("id"));
 
