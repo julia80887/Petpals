@@ -143,7 +143,7 @@
   width: 700px;
   border-radius: 10px;
   flex-direction: column;
-  overflow: scroll;
+  /* overflow: scroll; */
   /* box-sizing: border-box; */
 }
 
@@ -185,6 +185,8 @@
 
 .modalBody {
   margin: 40px;
+  overflow: scroll;
+  height: 400px;
 }
 
 .modalSubHeading {

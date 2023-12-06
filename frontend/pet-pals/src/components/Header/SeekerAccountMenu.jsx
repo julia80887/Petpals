@@ -39,7 +39,9 @@ export default function ShelterAccountMenu() {
     localStorage.removeItem("id");
     localStorage.removeItem("profile_photo");
     setCurrentUser({});
-    navigate("/");
+    navigate(
+      "/?type=&shelter=&gender=&color=&lt_size=&gt_size=&status=&order_by=name"
+    );
   }
   function handleApplication() {
     navigate(`/pet/applications/`);
@@ -109,7 +111,7 @@ export default function ShelterAccountMenu() {
       >
         <MenuItem onClick={handleProfile}>
           <Avatar fontSize="small" src={currentUser.profile_photo} />
-            Edit Profile
+          Edit Profile
         </MenuItem>
         <Divider />
         <MenuItem onClick={handleApplication}>
