@@ -26,6 +26,9 @@ main {
 .allContent {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
 }
 
 .pageContent {
@@ -127,18 +130,21 @@ main {
   justify-content: center;
 }
 
-.petListingGrid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+.petListingGridShelter {
+  /* display: grid;
+  grid-template-columns: repeat(2, 1fr); */
+  display: flex;
+  
   height: 100%;
   /* width: 35vw; */
-  overflow-y: scroll;
-  overflow-x: hidden;
+  overflow-y: hidden;
+  overflow-x: scroll;
   padding: 30px;
   padding-top: 0px;
-  justify-content: center;
+  /* justify-content: center; */
   border-radius: 10px;
   gap: 1vw;
+  width: 100vw;
 }
 
 .petListingCard {
@@ -268,9 +274,9 @@ p.noMoreText {
   border-radius: 10px;
   overflow-y: scroll;
   overflow-x: hidden;
-  width: fit-content;
+  width: 90vw;
   height: 50%;
-  max-width: 1182px;
+  /* max-width: 1182px; */
   align-self: center;
   margin-top: 50px;
 }
@@ -470,4 +476,23 @@ p {
   border-radius: 20px;
   width: fit-content;
   height: fit-content;
+}
+
+.reviewBTNS {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+@media (max-width: 440px) {
+  .reviewTitleAndStar {
+    flex-direction: column;
+  }
+  .nextButton {
+    margin-top: 30px;
+    margin-left: 0px;
+  }
+  .reviewBTNS {
+    flex-direction: column;
+  }
 }

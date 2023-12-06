@@ -18,6 +18,8 @@ function CreateApplication() {
   // const { currentUser, setCurrentUser } = useContext(LoginContext);
   const shelter_user = localStorage.getItem("shelter_name") || "";
   const seeker_user = localStorage.getItem("firstname") || "";
+  const [appsForUser, setAppsForUser] = useState([]);
+  let exists = false;
 
   const handleNext = (e) => {
     e.preventDefault();
@@ -138,6 +140,41 @@ function CreateApplication() {
 
     fetchData();
   }, [pet_id]);
+
+  useEffect(() => {
+    if (petDetails) {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const requestOptions = {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access")}`,
+          },
+        };
+        const response = await fetch(
+          `http://localhost:8000/pet/applications/all/`,
+          requestOptions
+        );
+        const result = await response.json();
+        // if (petDetails["detail"] == "Not found.") {
+        //   navigate(`/`);
+        // }
+
+        // pagination??????
+        setAppsForUser([result]);
+        console.log(result);
+
+        console.log(result);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    fetchData();
+  }
+  }, []);
 
   function handleSubmit(event) {
     // if (!validateFormPage4) {
@@ -561,9 +598,22 @@ function CreateApplication() {
   //       }));
   //     }
   //   };
+
+  console.log(appsForUser)
+  console.log(appsForUser[0])
+
+
+
   if (loading) {
     return <p>Loading...</p>;
-  }
+  } else {
+    if (appsForUser[0].detail != "Given token not valid for any token type") {
+      appsForUser[0].map((item) => (
+        <div key={item.id}>
+          {item.pet == petDetails.id ? (exists = true) : null}
+        </div>
+      ));
+      }
 
   if (petDetails["detail"] == "Not found.") {
     return <h1>This Pet does not exist.</h1>;
@@ -572,6 +622,7 @@ function CreateApplication() {
     console.log(shelter_user);
     console.log(localStorage);
     if (seeker_user != "") {
+      if (!exists) {
       switch (step) {
         case 1:
           return (
@@ -1330,11 +1381,19 @@ function CreateApplication() {
     } else {
       return (
         <h1>
-          You cannot make an application. Please create an account or log in as
-          a pet seeker.
+          You already have an application for this pet.
         </h1>
       );
     }
+  } else {
+    return (
+      <h1>
+        You cannot make an application. Please create an account or log in as
+        a pet seeker.
+      </h1>
+    );
   }
+  }
+}
 }
 export default CreateApplication;

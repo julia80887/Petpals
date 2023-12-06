@@ -21,6 +21,11 @@ function SeekerLogin() {
     login_user(data);
   }
 
+  const handleButtonClick = () => {
+    // Use the navigate function to redirect to '/'
+    navigate("/");
+  };
+
   function handle_submit(event) {
     let data = new FormData(event.target);
     data.set("username", event.target.username.value || "");
@@ -102,9 +107,9 @@ function SeekerLogin() {
               <button className="btn" type="submit">
                 Login
               </button>
-              <a href="Index.html" className="btn" role="button">
+              <button className="btn" onClick={handleButtonClick}>
                 Cancel
-              </a>
+              </button>
             </div>
             <p className="error">{error}</p>
           </form>

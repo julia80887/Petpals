@@ -23,6 +23,11 @@ function ShelterLogin() {
     login_user(data);
   }
 
+  const handleButtonClick = () => {
+    // Use the navigate function to redirect to '/'
+    navigate("/");
+  };
+
   function handle_submit(event) {
     let data = new FormData(event.target);
 
@@ -108,9 +113,9 @@ function ShelterLogin() {
               <button className="btn" type="submit">
                 Login
               </button>
-              <a href="Index.html" className="btn" role="button">
+              <button className="btn" onClick={handleButtonClick}>
                 Cancel
-              </a>
+              </button>
             </div>
             <p className="error">{error}</p>
           </form>

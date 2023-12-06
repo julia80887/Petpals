@@ -295,12 +295,12 @@ const SeekerNotifications = () => {
                     </div>
                     <div className="btn" style={{width: "50px", height: "auto", borderTopRightRadius: "10px",
                   borderTopLeftRadius: "0px", borderBottomRightRadius: "10px", borderBottomLeftRadius: "0px",}}>
-                    <div
+                    <button
                       className="closeIcon"
                       onClick={() => handleDeleteNotification(notification.id)}
                     >
                       <img src={CloseIcon} />
-                    </div>
+                    </button>
                     </div>
                   </div>
                 ))}
