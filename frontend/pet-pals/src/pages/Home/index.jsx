@@ -98,7 +98,6 @@ function Home() {
           method: "GET",
         };
         const {
-          page,
           type,
           shelter,
           gender,
@@ -113,7 +112,7 @@ function Home() {
 
         if (retrievalType === "Pets") {
           response = await fetch(
-            `http://localhost:8000/pet/?page=${currentPage}&shelter=${shelter}&gender=${gender}&color=${color}&lt_size=${lt_size}&gt_size=${gt_size}&type=${type}&order_by=${order_by}&status=${status}`,
+            `http://localhost:8000/pet/?page=${currentPage}&shelter=${shelter}&gender=${gender}&color=${color}&lt_size=${lt_size}&gt_size=${gt_size}&type=${type}&status=${status}&order_by=${order_by}`,
             requestOptions
           );
 
@@ -156,7 +155,6 @@ function Home() {
         method: "GET",
       };
       const {
-        page,
         type,
         shelter,
         gender,
@@ -173,7 +171,7 @@ function Home() {
         response = await fetch(
           `http://localhost:8000/pet/?page=${
             currentPage + 1
-          }&shelter=${shelter}&gender=${gender}&color=${color}&lt_size=${lt_size}&gt_size=${gt_size}&type=${type}&order_by=${order_by}&status=${status}`,
+          }&shelter=${shelter}&gender=${gender}&color=${color}&lt_size=${lt_size}&gt_size=${gt_size}&type=${type}&status=${status}&order_by=${order_by}`,
           requestOptions
         );
 
@@ -232,11 +230,16 @@ function Home() {
             retrieveShelter={() => setRetrievalType("Shelters")}
             retrievePet={() => setRetrievalType("Pets")}
             query={query}
+            reinitializePage={() => setCurrentPage(1)}
           />
           <div className="internalContainer">
             <div className="buttonContainer">
               <FilterButton showFilter={() => setShowFilterModal(true)} />
-              <SortButton setParams={_setSearchParams} query={query} />
+              <SortButton
+                setParams={_setSearchParams}
+                query={query}
+                reinitializePage={() => setCurrentPage(1)}
+              />
             </div>
 
             <div className="profileGrid">
@@ -308,6 +311,7 @@ function Home() {
             setParams={_setSearchParams}
             query={query}
             completeShelterList={completeShelterList}
+            reinitializePage={() => setCurrentPage(1)}
           />
         )}
       </InfiniteScroll>

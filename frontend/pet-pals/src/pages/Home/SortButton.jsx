@@ -1,9 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./style.css";
 
-const Dropdown = ({ setParams, query }) => {
-  const [selectedOption, setSelectedOption] = useState("Name");
+const Dropdown = ({ setParams, query, reinitializePage }) => {
+  const [selectedOption, setSelectedOption] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
+
+  useEffect(() => {
+    let defaultValue;
+
+    switch (query.order_by) {
+      case "name":
+        defaultValue = "Name";
+        break;
+      case "publication_date":
+        defaultValue = "Date";
+        break;
+      case "date_of_birth":
+        defaultValue = "Age";
+        break;
+      case "weight":
+        defaultValue = "Size";
+        break;
+      default:
+        defaultValue = "Name"; // Default to 'Name'
+    }
+
+    setSelectedOption(defaultValue);
+  }, []);
 
   const updateSelectedOption = (option) => {
     let sortByValue;
@@ -27,6 +50,7 @@ const Dropdown = ({ setParams, query }) => {
     }
 
     setSelectedOption(option);
+    reinitializePage();
     setParams({
       type: query.type,
       shelter: query.shelter,
