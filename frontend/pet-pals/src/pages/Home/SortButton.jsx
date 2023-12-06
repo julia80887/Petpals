@@ -28,7 +28,6 @@ const Dropdown = ({ setParams, query }) => {
 
     setSelectedOption(option);
     setParams({
-      page: query.page,
       type: query.type,
       shelter: query.shelter,
       gender: query.gender,

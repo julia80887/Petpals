@@ -10,7 +10,6 @@ function FilterBar({ setParams, retrieveShelter, retrievePet, query }) {
     // setParams({ type: text });
 
     setParams({
-      page: query.page,
       type: text,
       shelter: query.shelter,
       gender: query.gender,
