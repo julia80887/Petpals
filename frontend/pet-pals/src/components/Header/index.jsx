@@ -63,12 +63,12 @@ const Layout = () => {
     return (
       <>
         <div className="headerBar">
-          <a style={{ textDecoration: "none" }}>
+          <Link to={"/"} style={{ textDecoration: "none" }}>
             <div className="logo">
               <img src={PetPalsLogo} alt="Pet Pals Logo" />
               <h1 id="logoHeading">PetPals</h1>
             </div>
-          </a>
+          </Link>
 
           <div className="accountSection">
             {shelter_name ? (
