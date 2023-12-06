@@ -23,10 +23,10 @@ from notifications.views import CreateNotificationsView
 
 
 class CustomPageNumberPagination(PageNumberPagination):
-    page_size = 10  # Set the default page size
+    page_size = 5  # Set the default page size
     page_size_query_param = 'page_size'
     # Allow clients to override the page size via query parameter
-    max_page_size = 10  # Set the maximum allowed page size
+    max_page_size = 5  # Set the maximum allowed page size
 
     def get_paginated_response(self, data):
         return Response({
@@ -81,8 +81,8 @@ class PetListCreateView(ListCreateAPIView):
         lt_size = self.request.query_params.get('lt_size')
         gt_size = self.request.query_params.get('gt_size')
         if lt_size and gt_size:
-            queryset = queryset.filter(weight__lte=lt_size).filter(weight__gte=gt_size)
-
+            queryset = queryset.filter(
+                weight__lte=lt_size).filter(weight__gte=gt_size)
 
         pet_type = self.request.query_params.get(
             'type')  # Look into case sensitivity
