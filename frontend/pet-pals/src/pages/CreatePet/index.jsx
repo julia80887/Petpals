@@ -33,8 +33,9 @@ function CreatePet() {
 
   //   const weight = ["kg", "lbs"];
 
-  const sex = ["Other", "Female", "Male"];
+  const sex = ["", "Other", "Female", "Male"];
   const petTypes = [
+    "",
     "Dog",
     "Cat",
     "Fish",
@@ -99,6 +100,7 @@ function CreatePet() {
 
     let d1 = true;
     let d2 = true;
+    let d3 = true;
 
     const dateRegex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
     if (!dateRegex.test(date_of_birth)) {
@@ -115,6 +117,15 @@ function CreatePet() {
         application_deadline: "Must be in the format dd/mm/yyyy.",
       }));
       d2 = false;
+      console.log(errorJson);
+    }
+
+    if (province.length != 2) {
+      setErrorJson((prevValues) => ({
+        ...prevValues,
+        province: "Must only be 2 letters.",
+      }));
+      d3 = false;
       console.log(errorJson);
     }
 
@@ -139,6 +150,7 @@ function CreatePet() {
       notEmpty(province) &&
       aNumber(weight) &&
       d1 &&
+      d3 &&
       d2
     ) {
       return true;
