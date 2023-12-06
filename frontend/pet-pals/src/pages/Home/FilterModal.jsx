@@ -90,7 +90,6 @@ function FilterModal({
 
   function setSize(gt, lt) {
     setParams({
-      page: query.page,
       type: query.type,
       shelter: query.shelter,
       gender: query.gender,
@@ -110,7 +109,6 @@ function FilterModal({
     if (Object.keys(filterDict).length === 0) {
       // If filterDict is empty, setParams with the original query values
       setParams({
-        page: query.page,
         type: query.type,
         shelter: query.shelter,
         gender: query.gender,
@@ -123,7 +121,6 @@ function FilterModal({
     } else {
       // If filterDict is not empty, update the params with filterDict values
       setParams({
-        page: filterDict.page || query.page,
         type: filterDict.type || query.type,
         shelter: filterDict.shelter || query.shelter,
         gender: filterDict.gender || query.gender,
@@ -190,16 +187,32 @@ function FilterModal({
               <h6 className="modalSubHeading">Size</h6>
               <div className="sizeButtonContainer">
                 {/* FIX THIS  */}
-                  <div className="sizeButton" id="small" onClick={() => setSize(0, 25)}>
-                    Small <span>(0-25 lbs)</span>
-                  </div>
-                <div className="sizeButton" id="medium" onClick={() => setSize(26, 60)}>
+                <div
+                  className="sizeButton"
+                  id="small"
+                  onClick={() => setSize(0, 25)}
+                >
+                  Small <span>(0-25 lbs)</span>
+                </div>
+                <div
+                  className="sizeButton"
+                  id="medium"
+                  onClick={() => setSize(26, 60)}
+                >
                   Medium <span>(26-60 lbs)</span>
                 </div>
-                <div className="sizeButton" id="large" onClick={() => setSize(61, 100)}>
+                <div
+                  className="sizeButton"
+                  id="large"
+                  onClick={() => setSize(61, 100)}
+                >
                   Large <span>(61-100 lbs)</span>
                 </div>
-                <div className="sizeButton" id="xlarge" onClick={() => setSize(101, 1000)}>
+                <div
+                  className="sizeButton"
+                  id="xlarge"
+                  onClick={() => setSize(101, 1000)}
+                >
                   Extra Large <span>(101 lbs or more)</span>
                 </div>
               </div>
