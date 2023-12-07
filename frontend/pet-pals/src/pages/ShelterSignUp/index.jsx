@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useState, useContext,useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import { ajax } from "../../ajax";
 import "./style.css";
 import { Link } from "react-router-dom";
@@ -15,9 +15,9 @@ function ShelterSignUp() {
   const navigate = useNavigate();
   const { currentUser, setCurrentUser } = useContext(LoginContext);
 
-  useEffect (()=> {
-    console.log(errorJson)
-  }, [errorJson])
+  useEffect(() => {
+    console.log(errorJson);
+  }, [errorJson]);
 
   function validateForm() {
     // Your validation logic here
@@ -134,7 +134,6 @@ function ShelterSignUp() {
     login(data);
   }
 
-
   function login(data) {
     ajax("/shelter/account/", {
       method: "POST",
@@ -170,131 +169,153 @@ function ShelterSignUp() {
   return (
     <div className="mainContainer" style={{ marginTop: "50px" }}>
       <main>
-      <div className="topnav" style={{ width: "80vw", borderTopRightRadius: "10px", borderTopLeftRadius: "10px"}}>
-        <Link to="/seeker/signup/">Pet Seekers</Link>
-        <Link to="/shelter/signup/" className="active">
-          Pet Shelters
-        </Link>
-      </div>
+        <div
+          className="topnav"
+          style={{
+            width: "80vw",
+            borderTopRightRadius: "10px",
+            borderTopLeftRadius: "10px",
+          }}
+        >
+          <Link to="/seeker/signup/">Pet Seekers</Link>
+          <Link to="/shelter/signup/" className="active">
+            Pet Shelters
+          </Link>
+        </div>
 
-      <div className="outerContainer">
-      <div className="containerNEW" style={{paddingBottom: "30px", borderTopRightRadius: "0px", 
-      borderTopLeftRadius: "0px",}}>
-          <div className="titles">
-            <p className="subTitle">Join the family today!</p>
-            <h1 className="mainTitle">Sign Up</h1>
-          </div>
-          <form id="signup" onSubmit={handle_submit}>
-            <h2 style={{ marginTop: "0px" }}>
-              Please create your account below
-            </h2>
-
-            <div className="inputNEW">
-              <label htmlFor="shelter_name">Shelter Name: </label>
-              <input
-                type="text"
-                id="shelter_name"
-                name="shelter_name"
-                className="descriptionInput"
-                required
-              />
-              <p className="error">{errorJson?.shelter_name || ""}</p>
+        <div className="outerContainer">
+          <div
+            className="containerNEW"
+            style={{
+              paddingBottom: "30px",
+              borderTopRightRadius: "0px",
+              borderTopLeftRadius: "0px",
+            }}
+          >
+            <div className="titles">
+              <p className="subTitle">Join the family today!</p>
+              <h1 className="mainTitle">Sign Up</h1>
             </div>
-            <div className="inputNEW">
-              <label htmlFor="email">Email: </label>
-              <input
-                className="descriptionInput"
-                type="email"
-                id="email"
-                name="email"
-                required
-              />
-              <p className="error">{errorJson?.email || ""}</p>
-            </div>
+            <form id="signup" onSubmit={handle_submit}>
+              <h2 style={{ marginTop: "0px" }}>
+                Please create your account below
+              </h2>
 
-            <div className="inputNEW">
-              <label htmlFor="username">Username: </label>
-              <input
-                className="descriptionInput"
-                type="text"
-                id="username"
-                name="username"
-                required
-              />
-              <p className="error">{errorJson?.username || ""}</p>
-            </div>
+              <div className="inputNEW">
+                <label htmlFor="shelter_name">Shelter Name: </label>
+                <div className="errorAlignment">
+                  <input
+                    type="text"
+                    id="shelter_name"
+                    name="shelter_name"
+                    className="descriptionInput"
+                    required
+                  />
+                  <p className="error">{errorJson?.shelter_name || ""}</p>
+                </div>
+              </div>
+              <div className="inputNEW">
+                <label htmlFor="email">Email: </label>
+                <div className="errorAlignment">
+                  <input
+                    className="descriptionInput"
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                  />
+                  <p className="error">{errorJson?.email || ""}</p>
+                </div>
+              </div>
 
-            <div className="inputNEW">
-              <label htmlFor="password">Password: </label>
-              <input
-                className="descriptionInput"
-                type="password"
-                id="password"
-                name="password"
-                required
-              />
-              <p className="error">{errorJson?.password || ""}</p>
-            </div>
+              <div className="inputNEW">
+                <label htmlFor="username">Username: </label>
+                <div className="errorAlignment">
+                  <input
+                    className="descriptionInput"
+                    type="text"
+                    id="username"
+                    name="username"
+                    required
+                  />
+                  <p className="error">{errorJson?.username || ""}</p>
+                </div>
+              </div>
 
-            <div className="inputNEW">
-              <label htmlFor="password1">Confirm Password: </label>
-              <input
-                className="descriptionInput"
-                type="password"
-                id="password1"
-                name="password1"
-                required
-              />
-              <p className="error">{errorJson?.password1 || ""}</p>
-            </div>
+              <div className="inputNEW">
+                <label htmlFor="password">Password: </label>
+                <div className="errorAlignment">
+                  <input
+                    className="descriptionInput"
+                    type="password"
+                    id="password"
+                    name="password"
+                    required
+                  />
+                  <p className="error">{errorJson?.password || ""}</p>
+                </div>
+              </div>
 
-            <div
-              className="buttons"
-              style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                margin: "20px",
+              <div className="inputNEW">
+                <label htmlFor="password1">Confirm Password: </label>
+                <div className="errorAlignment">
+                  <input
+                    className="descriptionInput"
+                    type="password"
+                    id="password1"
+                    name="password1"
+                    required
+                  />
+                  <p className="error">{errorJson?.password1 || ""}</p>
+                </div>
+              </div>
+
+              <div
+                className="buttons"
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  margin: "20px",
+                }}
+              >
+                <button className="btn" type="submit">
+                  Sign Up
+                </button>
+                <button className="btn" onClick={handleButtonClick}>
+                  Cancel
+                </button>
+              </div>
+              <p className="error">{error}</p>
+            </form>
+            <GoogleLogin
+              onSuccess={(credentialResponse) => {
+                const credentialResponseDecoded = jwtDecode(
+                  credentialResponse.credential
+                );
+                setGoogle(true);
+                setGoogleCred(credentialResponseDecoded);
+                handle_google(credentialResponseDecoded);
+                console.log(credentialResponseDecoded);
               }}
-            >
-              <button className="btn" type="submit">
-                Sign Up
-              </button>
-              <button className="btn" onClick={handleButtonClick}>
-                Cancel
-              </button>
+              onError={() => {
+                console.log("Login Failed");
+              }}
+              isSignedIn={true}
+            />
+            <div className="switchLink">
+              <p className="text">Already have an account?</p>
+              <a
+                style={{ color: "#0854a0", cursor: "pointer" }}
+                className="linkSignUp"
+                onClick={() => navigate("/shelter/login/")}
+              >
+                Log In!
+              </a>
             </div>
-            <p className="error">{error}</p>
-          </form>
-          <GoogleLogin
-            onSuccess={(credentialResponse) => {
-              const credentialResponseDecoded = jwtDecode(
-                credentialResponse.credential
-              );
-              setGoogle(true);
-              setGoogleCred(credentialResponseDecoded);
-              handle_google(credentialResponseDecoded);
-              console.log(credentialResponseDecoded);
-            }}
-            onError={() => {
-              console.log("Login Failed");
-            }}
-            isSignedIn={true}
-          />
-          <div className="switchLink">
-            <p className="text">Already have an account?</p>
-            <a
-              style={{ color: "#0854a0", cursor: "pointer" }}
-              className="linkSignUp"
-              onClick={() => navigate("/shelter/login/")}
-            >
-              Log In!
-            </a>
           </div>
         </div>
-      </div>
       </main>
     </div>
-
   );
 }
 

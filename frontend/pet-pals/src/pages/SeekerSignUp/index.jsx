@@ -204,74 +204,86 @@ function SeekerSignUp() {
 
               <div className="inputNEW">
                 <label htmlFor="firstname">First Name: </label>
-                <input
-                  className="descriptionInput"
-                  type="text"
-                  id="firstname"
-                  name="firstname"
-                  required
-                />
-                <p className="error">{errorJson.firstname || ""}</p>
+                <div className="errorAlignment">
+                  <input
+                    className="descriptionInput"
+                    type="text"
+                    id="firstname"
+                    name="firstname"
+                    required
+                  />
+                  <p className="error">{errorJson.firstname || ""}</p>
+                </div>
               </div>
 
               <div className="inputNEW">
                 <label htmlFor="lastname">Last Name: </label>
-                <input
-                  className="descriptionInput"
-                  type="text"
-                  id="lastname"
-                  name="lastname"
-                  required
-                />
-                <p className="error">{errorJson.lastname || ""}</p>
+                <div className="errorAlignment">
+                  <input
+                    className="descriptionInput"
+                    type="text"
+                    id="lastname"
+                    name="lastname"
+                    required
+                  />
+                  <p className="error">{errorJson.lastname || ""}</p>
+                </div>
               </div>
 
               <div className="inputNEW">
                 <label htmlFor="email">Email: </label>
-                <input
-                  className="descriptionInput"
-                  type="email"
-                  id="email"
-                  name="email"
-                  required
-                />
-                <p className="error">{errorJson.email || ""}</p>
+                <div className="errorAlignment">
+                  <input
+                    className="descriptionInput"
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                  />
+                  <p className="error">{errorJson.email || ""}</p>
+                </div>
               </div>
 
               <div className="inputNEW">
                 <label htmlFor="username">Username: </label>
-                <input
-                  className="descriptionInput"
-                  type="text"
-                  id="username"
-                  name="username"
-                  required
-                />
-                <p className="error">{errorJson.username || ""}</p>
+                <div className="errorAlignment">
+                  <input
+                    className="descriptionInput"
+                    type="text"
+                    id="username"
+                    name="username"
+                    required
+                  />
+                  <p className="error">{errorJson.username || ""}</p>
+                </div>
               </div>
 
               <div className="inputNEW">
                 <label htmlFor="password">Password: </label>
-                <input
-                  className="descriptionInput"
-                  type="password"
-                  id="password"
-                  name="password"
-                  required
-                />
-                <p className="error">{errorJson.password || ""}</p>
+                <div className="errorAlignment">
+                  <input
+                    className="descriptionInput"
+                    type="password"
+                    id="password"
+                    name="password"
+                    required
+                  />
+                  <p className="error">{errorJson.password || ""}</p>
+                </div>
               </div>
 
               <div className="inputNEW">
                 <label htmlFor="password1">Confirm Password: </label>
-                <input
-                  className="descriptionInput"
-                  type="password"
-                  id="password1"
-                  name="password1"
-                  required
-                />
-                <p className="error">{errorJson.password1}</p>
+                <div className="errorAlignment">
+                  <input
+                    className="descriptionInput"
+                    type="password"
+                    id="password1"
+                    name="password1"
+                    required
+                  />
+                  <p className="error">{errorJson.password1}</p>
+                </div>
               </div>
 
               <div

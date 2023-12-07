@@ -612,7 +612,7 @@ function ViewEditApplication() {
                             <button
                               type="button"
                               onClick={(event) => handleEdit(event, "Rejected")}
-                              className="btn btn-primary nextButton"
+                              className="btn btn-primary rejectButton"
                             >
                               Reject
                             </button>
@@ -643,7 +643,7 @@ function ViewEditApplication() {
                               onClick={(event) =>
                                 handleEdit(event, "Withdrawn")
                               }
-                              className="btn btn-primary nextButton"
+                              className="btn btn-primary rejectButton"
                             >
                               Withdraw
                             </button>

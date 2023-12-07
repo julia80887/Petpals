@@ -148,7 +148,11 @@ function ShelterDetails() {
   };
 
   const navigateMorePets = () => {
-    navigate(`/search/?shelter=${encodeURIComponent(shelter.shelter_name)}`);
+    navigate(
+      `/?page=1&shelter=${encodeURIComponent(
+        shelter.shelter_name
+      )}&gender=&color=&lt_size=&gt_size=&type=&status=&order_by=name`
+    );
   };
 
   if (loadingShelter || loadingPets) {

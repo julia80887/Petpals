@@ -1,8 +1,8 @@
-.chatContainer {
+.replyContainer {
   display: flex;
   flex-direction: column;
   width: 60vw;
-  height: 65vh;
+  height: 45vh;
   background-color: white;
   border-radius: 30px;
   padding: 30px;
