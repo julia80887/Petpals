@@ -3,6 +3,7 @@ import Modal from "@mui/material/Modal";
 import "./style.css";
 import { useState } from "react";
 import CloseIcon from "../../../assets/svgs/CloseIcon.svg";
+import { height } from "@mui/system";
 
 function ChatModal({ open, onClose, review, shelterID, setClicked }) {
   const [chatMessages, setChatMessages] = useState();
@@ -73,37 +74,22 @@ function ChatModal({ open, onClose, review, shelterID, setClicked }) {
         >
           <div className="chatContainer">
             <div className="chatHeader">
+              <h5>Leave a Reply!</h5>
               <div className="closeIcon" onClick={onClose}>
                 <img src={CloseIcon} />
               </div>
             </div>
-            {/* <div className="chatContent" onScroll={handleScroll}>
-              {chatMessages?.map((message, index) => (
-                <div key={index}>
-                  {message.sender_type === "shelter" ? (
-                    <div className="right">
-                      <div className="shelterText">
-                        <p>{message.content}</p>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="userText">
-                      <p>{message.content}</p>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div> */}
             <div className="bottomBar inputText">
-              <input
+              <textarea
                 className="chatInput inputMessage"
                 value={inputValue}
                 onChange={handleInputChange}
+                style={{ borderRadius: "15px", width: "45vw", height: "25vh" }}
               />
-              <button onClick={handleSendButtonClick} className="sendButton">
-                Send
-              </button>
             </div>
+            <button onClick={handleSendButtonClick} className="sendButton">
+              Send
+            </button>
           </div>
         </Modal>
       }

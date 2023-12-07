@@ -3,6 +3,7 @@ import Modal from "@mui/material/Modal";
 import "./style.css";
 import { useState } from "react";
 import CloseIcon from "../../../assets/svgs/CloseIcon.svg";
+import { width } from "@mui/system";
 
 function ReviewModal({ open, onClose, shelterID, setClicked }) {
   const [chatMessages, setChatMessages] = useState();
@@ -86,46 +87,30 @@ function ReviewModal({ open, onClose, shelterID, setClicked }) {
         >
           <div className="chatContainer">
             <div className="chatHeader">
+              <h5>Leave a Review!</h5>
               <div className="closeIcon" onClick={onClose}>
                 <img src={CloseIcon} />
               </div>
             </div>
-            <div className="chatContent">
-              <p>{errorMessage}</p>
-            </div>
-            {/* <div className="chatContent" onScroll={handleScroll}>
-              {chatMessages?.map((message, index) => (
-                <div key={index}>
-                  {message.sender_type === "shelter" ? (
-                    <div className="right">
-                      <div className="shelterText">
-                        <p>{message.content}</p>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="userText">
-                      <p>{message.content}</p>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div> */}
-            <div className="bottomBar inputText">
+            <div className="reviewContent">
               <input
                 className="chatInput inputMessage"
                 type="number"
                 value={inputRating}
                 onChange={handleRatingChange}
+                style={{ width: "45vw" }}
               />
-              <input
+              <textarea
                 className="chatInput inputMessage"
                 value={inputValue}
                 onChange={handleInputChange}
+                style={{ borderRadius: "15px", width: "45vw", height: "60vh" }}
               />
-              <button onClick={handleSendButtonClick} className="sendButton">
-                Send
-              </button>
+              <p>{errorMessage}</p>
             </div>
+            <button onClick={handleSendButtonClick} className="sendButton">
+              Send
+            </button>
           </div>
         </Modal>
       }
