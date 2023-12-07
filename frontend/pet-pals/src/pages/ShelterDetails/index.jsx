@@ -118,7 +118,11 @@ function ShelterDetails() {
           );
           let reviewDetail = await response.json();
           // if (!reviewDetail) {
-            return <><p>no.</p></>
+          return (
+            <>
+              <p>no.</p>
+            </>
+          );
           // }
 
           setReviewDetails((prevDetails) => ({
@@ -139,8 +143,8 @@ function ShelterDetails() {
     }
   }, [reviews]);
 
-  const navigatePetDetail = () => {
-    navigate("/");
+  const navigatePetDetail = (petID) => {
+    navigate(`/pet/${petID}`);
   };
 
   const navigateMorePets = () => {
@@ -153,14 +157,14 @@ function ShelterDetails() {
 
   return (
     <div className="allContent">
-      <div className="pageContent" style={{alignItems: "center"}}>
-        <div className="mainInfo" style={{width: "90vw",  minWidth: "330px"}}>
+      <div className="pageContent" style={{ alignItems: "center" }}>
+        <div className="mainInfo" style={{ width: "90vw", minWidth: "330px" }}>
           <h1 className="mainInfoHeading">{shelter.shelter_name}</h1>
           <img
             src={shelter.user && shelter.user.profile_photo}
             alt=""
             id="oliver"
-            style={{maxWidth: "700px", minWidth: "370px"}}
+            style={{ maxWidth: "700px", minWidth: "370px" }}
           />
           <div className="specs">
             <p>
@@ -209,7 +213,10 @@ function ShelterDetails() {
                                 )
                             ))}
                         </div> */}
-          <div className="petListingGridShelter" style={{flexDirection: "row"}}>
+          <div
+            className="petListingGridShelter"
+            style={{ flexDirection: "row" }}
+          >
             {pets?.length > 0 &&
               pets.map(
                 (pet, index) =>
@@ -232,8 +239,11 @@ function ShelterDetails() {
                         <p className="cardTextSubHeading">{pet.distance}</p>
                       </div>
 
-                      <button className="btn nextButton" onClick={navigatePetDetail}
-                      style={{width: "fit-content"}}>
+                      <button
+                        className="btn nextButton"
+                        onClick={() => navigatePetDetail(pet.id)}
+                        style={{ width: "fit-content" }}
+                      >
                         View Full Profile
                       </button>
                     </div>
@@ -260,8 +270,10 @@ function ShelterDetails() {
         </div>
       </div>
       {seeker_user != "" || shelter_user != "" ? (
-      <Reviews shelter={shelter} shelterID={id} />
-      ) : (<h3>Please log in to see reviews.</h3>)}
+        <Reviews shelter={shelter} shelterID={id} />
+      ) : (
+        <h3>Please log in to see reviews.</h3>
+      )}
     </div>
   );
 }
