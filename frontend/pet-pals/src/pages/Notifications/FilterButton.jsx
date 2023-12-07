@@ -28,7 +28,7 @@ const FilterButton = ({ setParams, query }) => {
     //   }));
     setParams({
       ...query,
-      page: query.page,
+      page: 1,
       read: filterByValue,
     });
     toggleDropdown();
