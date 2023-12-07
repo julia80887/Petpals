@@ -100,13 +100,13 @@ function ReviewModal({ open, onClose, shelterID, setClicked }) {
                 onChange={handleRatingChange}
                 style={{ width: "45vw" }}
               />
+              <p className="error">{errorMessage}</p>
               <textarea
                 className="chatInput inputMessage"
                 value={inputValue}
                 onChange={handleInputChange}
                 style={{ borderRadius: "15px", width: "45vw", height: "60vh" }}
               />
-              <p>{errorMessage}</p>
             </div>
             <button onClick={handleSendButtonClick} className="sendButton">
               Send
