@@ -597,17 +597,17 @@ function CreatePet() {
 
               <div className="twoButtonPositions">
                 <div className="form-group row">
-                  <div className="col-sm-6" id="buttonCenter">
-                    {/* <button className="btn btn-primary backButton"> */}
-                    <Link
+                  {/* <div className="col-sm-6" id="buttonCenter"> */}
+                  {/* <button className="btn btn-primary backButton"> */}
+                  {/* <Link
                       className="btn btn-primary backButton"
                       to={`/pets/`}
                       style={{ textDecoration: "none" }}
                     >
                       Back
-                    </Link>
-                    {/* </button> */}
-                  </div>
+                    </Link> */}
+                  {/* </button> */}
+                  {/* </div> */}
                   <div className="col-sm-6" id="buttonCenter">
                     <button
                       type="submit"
