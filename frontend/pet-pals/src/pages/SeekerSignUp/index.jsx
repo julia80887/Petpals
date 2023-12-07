@@ -15,11 +15,9 @@ function SeekerSignUp() {
   const [isGoogle, setGoogle] = useState(false);
   const [googleCred, setGoogleCred] = useState({});
 
-  useEffect(()=>{
-    console.log("ACCESS: ", localStorage.getItem("access"))
-
-  }, [localStorage.getItem("access")])
-
+  useEffect(() => {
+    console.log("ACCESS: ", localStorage.getItem("access"));
+  }, [localStorage.getItem("access")]);
 
   function validateForm() {
     // Your validation logic here
@@ -54,13 +52,12 @@ function SeekerSignUp() {
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email) ) {
+    if (!emailRegex.test(email)) {
       setErrorJson({ email: "Enter a valid email address." });
       return false;
+    } else {
+      setErrorJson({ ...errorJson, email: "" }); // Clear the email error
     }
-   else {
-    setErrorJson({ ...errorJson, email: "" }); // Clear the email error
-  }
 
     if (password.length < 8) {
       setErrorJson({
@@ -91,36 +88,35 @@ function SeekerSignUp() {
     navigate("/");
   };
 
-
   useEffect(() => {
+    if (googleCred.email) {
+      let data = new FormData();
+      data.append("firstname", googleCred.given_name);
+      data.append("lastname", googleCred.family_name);
+      data.append("username", googleCred.email);
+      data.append("email", googleCred.email);
+      data.append("password", googleCred.email);
+      data.append("password1", googleCred.email);
 
-    console.log("Google Cred Email: ", googleCred.email)
-  
-    let data = new FormData();
-    data.append("firstname", googleCred.given_name);
-    data.append("lastname", googleCred.family_name);
-    data.append("username", googleCred.email);
-    data.append("email", googleCred.email);
-    data.append("password", googleCred.email);
-    data.append("password1", googleCred.email);
+      // Convert the profile photo URL to a file and append it to the form data
+      fetch(googleCred.picture)
+        .then((response) => response.blob())
+        .then((blob) => {
+          const file = new File([blob], "profile_photo.jpg", {
+            type: "image/jpeg",
+          });
+          data.append("profile_photo", file);
 
-    // Convert the profile photo URL to a file and append it to the form data
-    fetch(googleCred.picture)
-      .then((response) => response.blob())
-      .then((blob) => {
-        const file = new File([blob], "profile_photo.jpg", {
-          type: "image/jpeg",
-        });
-        data.append("profile_photo", file);
-        
-        console.log("Photo after appending to data: ", data.get("profile_photo"))
-        login(data);
-      })
-      .catch((error) => console.error("Error fetching image:", error));
-
+          console.log(
+            "Photo after appending to data: ",
+            data.get("profile_photo")
+          );
+          login(data);
+        })
+        .catch((error) => console.error("Error fetching image:", error));
+    }
     // Continue with the login or other logic
-  
-}, [googleCred]);
+  }, [googleCred]);
 
   function handle_submit(event) {
     event.preventDefault();
@@ -171,108 +167,157 @@ function SeekerSignUp() {
       });
   }
 
-
   return (
     <div className="mainContainer" style={{ marginTop: "50px" }}>
       <main>
-      <div className="topnav" style={{ width: "80vw", borderTopRightRadius: "10px", borderTopLeftRadius: "10px"}}>
-        <Link to="/seeker/signup/" className="active">
-          Pet Seekers
-        </Link>
-        <Link to="/shelter/signup/">Pet Shelters</Link>
-      </div>
+        <div
+          className="topnav"
+          style={{
+            width: "80vw",
+            borderTopRightRadius: "10px",
+            borderTopLeftRadius: "10px",
+          }}
+        >
+          <Link to="/seeker/signup/" className="active">
+            Pet Seekers
+          </Link>
+          <Link to="/shelter/signup/">Pet Shelters</Link>
+        </div>
 
-      <div className="outerContainer">
-      <div className="containerNEW" style={{paddingBottom: "30px", borderTopRightRadius: "0px", 
-      borderTopLeftRadius: "0px",}}>
-          <div className="titles">
-            <p className="subTitle">Join the family today!</p>
-            <h1 className="mainTitle">Sign Up</h1>
-          </div>
-          <form id="signup" onSubmit={handle_submit}>
-          <h2 style={{ marginTop: "0px" }}>
-              Please create your account below</h2>
-
-            <div className="inputNEW">
-              <label htmlFor="firstname">First Name: </label>
-              <input className="descriptionInput" type="text" id="firstname" name="firstname" required />
-              <p className="error">{errorJson.firstname || ""}</p>
+        <div className="outerContainer">
+          <div
+            className="containerNEW"
+            style={{
+              paddingBottom: "30px",
+              borderTopRightRadius: "0px",
+              borderTopLeftRadius: "0px",
+            }}
+          >
+            <div className="titles">
+              <p className="subTitle">Join the family today!</p>
+              <h1 className="mainTitle">Sign Up</h1>
             </div>
+            <form id="signup" onSubmit={handle_submit}>
+              <h2 style={{ marginTop: "0px" }}>
+                Please create your account below
+              </h2>
 
-            <div className="inputNEW">
-              <label htmlFor="lastname">Last Name: </label>
-              <input className="descriptionInput" type="text" id="lastname" name="lastname" required />
-              <p className="error">{errorJson.lastname || ""}</p>
-            </div>
+              <div className="inputNEW">
+                <label htmlFor="firstname">First Name: </label>
+                <input
+                  className="descriptionInput"
+                  type="text"
+                  id="firstname"
+                  name="firstname"
+                  required
+                />
+                <p className="error">{errorJson.firstname || ""}</p>
+              </div>
 
-            <div className="inputNEW">
-              <label htmlFor="email">Email: </label>
-              <input className="descriptionInput" type="email" id="email" name="email" required />
-              <p className="error">{errorJson.email || ""}</p>
-            </div>
+              <div className="inputNEW">
+                <label htmlFor="lastname">Last Name: </label>
+                <input
+                  className="descriptionInput"
+                  type="text"
+                  id="lastname"
+                  name="lastname"
+                  required
+                />
+                <p className="error">{errorJson.lastname || ""}</p>
+              </div>
 
-            <div className="inputNEW">
-              <label htmlFor="username">Username: </label>
-              <input className="descriptionInput" type="text" id="username" name="username" required />
-              <p className="error">{errorJson.username || ""}</p>
-            </div>
+              <div className="inputNEW">
+                <label htmlFor="email">Email: </label>
+                <input
+                  className="descriptionInput"
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                />
+                <p className="error">{errorJson.email || ""}</p>
+              </div>
 
-            <div className="inputNEW">
-              <label htmlFor="password">Password: </label>
-              <input className="descriptionInput" type="password" id="password" name="password" required />
-              <p className="error">{errorJson.password || ""}</p>
-            </div>
+              <div className="inputNEW">
+                <label htmlFor="username">Username: </label>
+                <input
+                  className="descriptionInput"
+                  type="text"
+                  id="username"
+                  name="username"
+                  required
+                />
+                <p className="error">{errorJson.username || ""}</p>
+              </div>
 
-            <div className="inputNEW">
-              <label htmlFor="password1">Confirm Password: </label>
-              <input className="descriptionInput" type="password" id="password1" name="password1" required />
-              <p className="error">{errorJson.password1}</p>
-            </div>
+              <div className="inputNEW">
+                <label htmlFor="password">Password: </label>
+                <input
+                  className="descriptionInput"
+                  type="password"
+                  id="password"
+                  name="password"
+                  required
+                />
+                <p className="error">{errorJson.password || ""}</p>
+              </div>
 
-            <div
-              className="buttons"
-              style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                margin: "20px",
+              <div className="inputNEW">
+                <label htmlFor="password1">Confirm Password: </label>
+                <input
+                  className="descriptionInput"
+                  type="password"
+                  id="password1"
+                  name="password1"
+                  required
+                />
+                <p className="error">{errorJson.password1}</p>
+              </div>
+
+              <div
+                className="buttons"
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  margin: "20px",
+                }}
+              >
+                <button className="btn" type="submit">
+                  Sign Up
+                </button>
+                <button className="btn" onClick={handleButtonClick}>
+                  Cancel
+                </button>
+              </div>
+              <p className="error">{error}</p>
+            </form>
+            <GoogleLogin
+              onSuccess={(credentialResponse) => {
+                const credentialResponseDecoded = jwtDecode(
+                  credentialResponse.credential
+                );
+
+                setGoogleCred(credentialResponseDecoded);
+                //handle_google(credentialResponseDecoded);
+                console.log(credentialResponseDecoded);
               }}
-            >
-              <button className="btn" type="submit">
-                Sign Up
-              </button>
-              <button className="btn" onClick={handleButtonClick}>
-                Cancel
-              </button>
+              onError={() => {
+                console.log("Login Failed");
+              }}
+              isSignedIn={true}
+            />
+            <div className="switchLink">
+              <p className="text">Already have an account?</p>
+              <a
+                style={{ color: "#0854a0", cursor: "pointer" }}
+                className="linkSignUp"
+                onClick={() => navigate("/seeker/login/")}
+              >
+                Log In!
+              </a>
             </div>
-            <p className="error">{error}</p>
-          </form>
-          <GoogleLogin
-            onSuccess={(credentialResponse) => {
-              const credentialResponseDecoded = jwtDecode(
-                credentialResponse.credential
-              );
-              
-              setGoogleCred(credentialResponseDecoded);
-              //handle_google(credentialResponseDecoded);
-              console.log(credentialResponseDecoded);
-            }}
-            onError={() => {
-              console.log("Login Failed");
-            }}
-            isSignedIn={true}
-          />
-          <div className="switchLink">
-            <p className="text">Already have an account?</p>
-            <a
-              style={{ color: "#0854a0", cursor: "pointer" }}
-              className="linkSignUp"
-              onClick={() => navigate("/seeker/login/")}
-            >
-              Log In!
-            </a>
           </div>
         </div>
-      </div>
       </main>
     </div>
   );

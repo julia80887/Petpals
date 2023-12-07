@@ -24,14 +24,22 @@ function SeekerProfile() {
   // used to store form values
   const [details, setDetails] = useState("");
 
+  // useStates to for check marks:
+  const [radioCheckmarks, setRadioCheckmarks] = useState({
+    catPreference: "",
+    dogPreference: "",
+    otherPreference: "",
+  });
+
   const [clicked, setClicked] = useState(false);
 
-  const [profilePic, setProfilePic] = useState("http://localhost:8000/media/default.jpg");
+  const [profilePic, setProfilePic] = useState(
+    "http://localhost:8000/media/default.jpg"
+  );
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log(profilePic);
-
-  }, [profilePic])
+  }, [profilePic]);
 
   const [formValues, setFormValues] = useState({
     user: {
@@ -43,9 +51,9 @@ function SeekerProfile() {
     firstName: "",
     lastName: "",
     id: "",
-    cat_notification: "",
-    dog_notification: "",
-    other_notification: ""
+    cat_notification: false,
+    dog_notification: false,
+    other_notification: false,
   });
   // used to store provinces for select dropdown
   const provinces = [
@@ -174,7 +182,7 @@ function SeekerProfile() {
 
         // set all form values to the values from backend
         setProfilePic(result.user.profile_photo);
-        
+
         setFormValues({
           user: {
             fileInput: "",
@@ -200,12 +208,13 @@ function SeekerProfile() {
           },
           cat_notification: result.cat_notification,
           dog_notification: result.dog_notification,
+          other_notification: result.other_notification,
           lastName: result.lastname,
           firstName: result.firstname,
           id: result.id,
         });
 
-        if (clicked){
+        if (clicked) {
           setClicked(false);
         }
 
@@ -250,7 +259,6 @@ function SeekerProfile() {
     }
   };
 
-
   // event listener for when select in the form is edited
   const handleSelectChange = (selectedOption) => {
     if (validateForm) {
@@ -266,10 +274,11 @@ function SeekerProfile() {
 
   const handleCheckBoxChange = (e) => {
     // Toggle the value of dog_notification
-    let checkbox = e.target.id
+    console.log(`Name: ${e.target.id}, Value: ${e.target.checked}`);
+    let checkbox = e.target.id;
     setFormValues((prevValues) => ({
       ...prevValues,
-      [checkbox]:  e.target.checked, // Replace "someValue" with the desired value when checked
+      [checkbox]: e.target.checked, // Replace "someValue" with the desired value when checked
     }));
   };
 
@@ -305,7 +314,10 @@ function SeekerProfile() {
     formData.append("lastname", event.target.lastName.value);
     formData.append("cat_notification", event.target.cat_notification.checked);
     formData.append("dog_notification", event.target.dog_notification.checked);
-    formData.append("other_notification", event.target.other_notification.checked);
+    formData.append(
+      "other_notification",
+      event.target.other_notification.checked
+    );
 
     // Append user data
     if (event.target.fileInput.files[0]) {
@@ -440,416 +452,411 @@ function SeekerProfile() {
   } else {
     console.log(formValues.firstName);
     console.log(details.detail);
+    // if (
+    //   (formValues.firstName === "" &&
+    //     details.detail ===
+    //       "You do not have permission to perform this action.") ||
+    //   formValues.firstName !== ""
+    // ) {
     if (
-      (formValues.firstName == "" &&
-        details.detail ==
-          "You do not have permission to perform this action.") ||
-      formValues.firstName != ""
+      (seeker_user !== "" && user_id == formValues.id) ||
+      (shelter_user !== "" &&
+        seeker_user === "" &&
+        details.detail != "You do not have permission to perform this action.")
     ) {
-      if (
-        (seeker_user != "" && user_id == formValues.id) ||
-        (shelter_user != "" &&
-          seeker_user == "" &&
-          details.detail !=
-            "You do not have permission to perform this action.")
-      ) {
-        return (
-          <>
-            <div className="mainContainer">
-              <h1>{formValues.firstName}'s Profile</h1>
-              <div className="containerSeeker">
-                <form
-                  className="createPetForm"
-                  style={{ backgroundColor: "white" }}
-                  onSubmit={handle_submit}
-                >
-                  <div className="imgPlacement">
-                    <div className="frame form-group">
-                      <img className="profilePicSeeker"
-                        src={
-                          profilePic
-                            ? profilePic
-                            : "http://localhost:8000/media/default.jpg"
-                        }
-                        alt="Shelter"
-                      />
-                    </div>
+      return (
+        <>
+          <div className="mainContainer">
+            <h1>{formValues.firstName}'s Profile</h1>
+            <div className="containerSeeker">
+              <form
+                className="createPetForm"
+                style={{ backgroundColor: "white" }}
+                onSubmit={handle_submit}
+              >
+                <div className="imgPlacement">
+                  <div className="frame form-group">
+                    <img
+                      className="profilePicSeeker"
+                      src={
+                        profilePic
+                          ? profilePic
+                          : "http://localhost:8000/media/default.jpg"
+                      }
+                      alt="Shelter"
+                    />
+                  </div>
+                </div>
+
+                <div className="form-group row">
+                  <label
+                    htmlFor="fileInput"
+                    className="col-sm-4 col-form-label labelLeft"
+                  >
+                    Photo
+                  </label>
+                  <div className="col-sm-8">
+                    <input
+                      type="file"
+                      className="form-control"
+                      id="fileInput"
+                      disabled={!isEditMode}
+                      onChange={handleInputChange}
+                      // defaultValue={formValues.user.fileInput}
+                    />
+                  </div>
+                </div>
+
+                <div className="form-group row">
+                  <label
+                    htmlFor="firstName"
+                    className="col-sm-4 col-form-label labelLeft"
+                  >
+                    First Name
+                  </label>
+                  <div className="col-sm-8">
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="firstName"
+                      defaultValue={formValues.firstName} // Replace with the actual value
+                      disabled={!isEditMode}
+                      onChange={handleNameChange}
+                    />
+                    <p className="error">{errorJson.firstName || " "}</p>
+                  </div>
+                </div>
+                <div className="form-group row">
+                  <label
+                    htmlFor="lastName"
+                    className="col-sm-4 col-form-label labelLeft"
+                  >
+                    Last Name
+                  </label>
+                  <div className="col-sm-8">
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="lastName"
+                      defaultValue={formValues.lastName} // Replace with the actual value
+                      disabled={!isEditMode}
+                      onChange={handleNameChange}
+                    />
+                    <p className="error">{errorJson.lastName || " "}</p>
+                  </div>
+                </div>
+
+                <div className="form-group row">
+                  <label
+                    htmlFor="email"
+                    className="col-sm-4 col-form-label labelLeft"
+                  >
+                    Email
+                  </label>
+                  <div className="col-sm-8">
+                    <input
+                      type="email"
+                      className="form-control"
+                      id="email"
+                      defaultValue={formValues.user.email}
+                      disabled={!isEditMode}
+                      onChange={handleInputChange}
+                    />
+                    <p className="error">{errorJson.email || " "}</p>
+                  </div>
+                </div>
+
+                <div className="form-group row">
+                  <label
+                    htmlFor="password"
+                    className="col-sm-4 col-form-label labelLeft"
+                  >
+                    Password
+                  </label>
+                  <div className="col-sm-8">
+                    <input
+                      type="password"
+                      className="form-control"
+                      id="password"
+                      defaultValue={formValues.user.password}
+                      disabled
+                      onChange={handleInputChange}
+                      style={isEditMode ? { cursor: "not-allowed" } : {}}
+                    />
+                  </div>
+                </div>
+
+                <div className="form-group row">
+                  <label
+                    htmlFor="inputAddress"
+                    className="col-sm-4 col-form-label labelLeft"
+                  >
+                    Address
+                  </label>
+                  <div className="col-sm-8">
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="inputAddress"
+                      defaultValue={formValues.user.inputAddress}
+                      disabled={!isEditMode}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                </div>
+
+                <div className="form-group row">
+                  <label
+                    htmlFor="inputAddress2"
+                    className="col-sm-4 col-form-label labelLeft emptyLabel"
+                  ></label>
+                  <div className="col-sm-8">
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="inputAddress2"
+                      defaultValue={formValues.user.inputAddress2}
+                      disabled={!isEditMode}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                </div>
+
+                <div className="form-group row">
+                  <label
+                    htmlFor="inputCity"
+                    className="col-sm-4 col-form-label labelLeft emptyLabel"
+                  ></label>
+                  <div className="col-sm-8">
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="inputCity"
+                      defaultValue={formValues.user.inputCity}
+                      disabled={!isEditMode}
+                      onChange={handleInputChange}
+                    />
                   </div>
 
-                  <div className="form-group row">
-                    <label
-                      htmlFor="fileInput"
-                      className="col-sm-4 col-form-label labelLeft"
-                    >
-                      Photo
-                    </label>
-                    <div className="col-sm-8">
-                      <input
-                        type="file"
-                        className="form-control"
-                        id="fileInput"
-                        disabled={!isEditMode}
-                        onChange={handleInputChange}
-                        // defaultValue={formValues.user.fileInput}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="form-group row">
-                    <label
-                      htmlFor="firstName"
-                      className="col-sm-4 col-form-label labelLeft"
-                    >
-                      First Name
-                    </label>
-                    <div className="col-sm-8">
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="firstName"
-                        defaultValue={formValues.firstName} // Replace with the actual value
-                        disabled={!isEditMode}
-                        onChange={handleNameChange}
-                      />
-                      <p className="error">{errorJson.firstName || " "}</p>
-                    </div>
-                  </div>
-                  <div className="form-group row">
-                    <label
-                      htmlFor="lastName"
-                      className="col-sm-4 col-form-label labelLeft"
-                    >
-                      Last Name
-                    </label>
-                    <div className="col-sm-8">
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="lastName"
-                        defaultValue={formValues.lastName} // Replace with the actual value
-                        disabled={!isEditMode}
-                        onChange={handleNameChange}
-                      />
-                      <p className="error">{errorJson.lastName || " "}</p>
-                    </div>
-                  </div>
-
-                  <div className="form-group row">
-                    <label
-                      htmlFor="email"
-                      className="col-sm-4 col-form-label labelLeft"
-                    >
-                      Email
-                    </label>
-                    <div className="col-sm-8">
-                      <input
-                        type="email"
-                        className="form-control"
-                        id="email"
-                        defaultValue={formValues.user.email}
-                        disabled={!isEditMode}
-                        onChange={handleInputChange}
-                      />
-                      <p className="error">{errorJson.email || " "}</p>
-                    </div>
-                  </div>
-
-                  <div className="form-group row">
-                    <label
-                      htmlFor="password"
-                      className="col-sm-4 col-form-label labelLeft"
-                    >
-                      Password
-                    </label>
-                    <div className="col-sm-8">
-                      <input
-                        type="password"
-                        className="form-control"
-                        id="password"
-                        defaultValue={formValues.user.password}
-                        disabled
-                        onChange={handleInputChange}
-                        style={isEditMode ? { cursor: "not-allowed" } : {}}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="form-group row">
-                    <label
-                      htmlFor="inputAddress"
-                      className="col-sm-4 col-form-label labelLeft"
-                    >
-                      Address
-                    </label>
-                    <div className="col-sm-8">
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="inputAddress"
-                        defaultValue={formValues.user.inputAddress}
-                        disabled={!isEditMode}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="form-group row">
-                    <label
-                      htmlFor="inputAddress2"
-                      className="col-sm-4 col-form-label labelLeft emptyLabel"
-                    ></label>
-                    <div className="col-sm-8">
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="inputAddress2"
-                        defaultValue={formValues.user.inputAddress2}
-                        disabled={!isEditMode}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="form-group row">
-                    <label
-                      htmlFor="inputCity"
-                      className="col-sm-4 col-form-label labelLeft emptyLabel"
-                    ></label>
-                    <div className="col-sm-8">
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="inputCity"
-                        defaultValue={formValues.user.inputCity}
-                        disabled={!isEditMode}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-
-                    <label
-                      htmlFor="inputState"
-                      className="col-sm-4 col-form-label labelLeft"
-                    >
-                      Province
-                    </label>
-                    {/* <div className="" style={{display: "flex", alignItems: "center"}}> */}
-                    {/* <select
+                  <label
+                    htmlFor="inputState"
+                    className="col-sm-4 col-form-label labelLeft"
+                  >
+                    Province
+                  </label>
+                  {/* <div className="" style={{display: "flex", alignItems: "center"}}> */}
+                  {/* <select
                 id="inputState"
                 className="form-control"
                 value={profileInfo.address ? profileInfo.address.split(', ')[3] : ""}
                 disabled
               > */}
-                    <div className="col-sm-4">
-                      <select
-                        id="inputState"
-                        onChange={handleSelectChange}
-                        defaultValue={formValues.user.inputState}
-                        disabled={!isEditMode}
-                        style={{
-                          backgroundColor: !isEditMode ? "#E9ECEF" : "#FAFAFA",
-                          borderRadius: "100px",
-                          padding: "12px",
-                          display: "flex",
-                          textAlign: "left",
-                          alignItems: "flex-start",
-                          whiteSpace: "nowrap",
-                          width: "100%",
-                          opacity: "1",
-                          border: "1px solid #dee2e6",
-                          fontSize: "14px",
-                          color: "#ffffff",
-                          height: "46.33px",
+                  <div className="col-sm-4">
+                    <select
+                      id="inputState"
+                      onChange={handleSelectChange}
+                      defaultValue={formValues.user.inputState}
+                      disabled={!isEditMode}
+                      style={{
+                        backgroundColor: !isEditMode ? "#E9ECEF" : "#FAFAFA",
+                        borderRadius: "100px",
+                        padding: "12px",
+                        display: "flex",
+                        textAlign: "left",
+                        alignItems: "flex-start",
+                        whiteSpace: "nowrap",
+                        width: "100%",
+                        opacity: "1",
+                        border: "1px solid #dee2e6",
+                        fontSize: "14px",
+                        color: "#ffffff",
+                        height: "46.33px",
 
-                          marginBottom: "10px",
-                          marginTop: "10px",
-                          fontFamily: "Open Sans",
-                          color: "#000000",
-                          //   }),
-                        }}
-                      >
-                        {[...provinces].map((p) =>
-                          formValues.user.inputValue == { p } ? (
-                            <option key={p} value={p} selectedOption>
-                              {p}
-                            </option>
-                          ) : (
-                            <option key={p} value={p}>
-                              {p}
-                            </option>
-                          )
-                        )}
-                      </select>
-                    </div>
-                    <div className="col-sm-4">
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="postalCode"
-                        defaultValue={formValues.user.postalCode}
-                        disabled={!isEditMode}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                    <div className="errorBox">
-                      <p className="error">{errorJson.postalCode || ""}</p>
-                    </div>
-                  </div>
-
-                  <div className="form-group row">
-                    <label
-                      htmlFor="phoneNumber"
-                      className="col-sm-4 col-form-label labelLeft"
+                        marginBottom: "10px",
+                        marginTop: "10px",
+                        fontFamily: "Open Sans",
+                        color: "#000000",
+                        //   }),
+                      }}
                     >
-                      Phone Number
-                    </label>
-                    <div className="col-sm-8">
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="phoneNumber"
-                        defaultValue={formValues.user.phoneNumber}
-                        disabled={!isEditMode}
-                        onChange={handleInputChange}
-                      />
-                      <p className="error">{errorJson.phoneNumber || ""}</p>
-                    </div>
+                      {[...provinces].map((p) =>
+                        formValues.user.inputValue == { p } ? (
+                          <option key={p} value={p} selectedOption>
+                            {p}
+                          </option>
+                        ) : (
+                          <option key={p} value={p}>
+                            {p}
+                          </option>
+                        )
+                      )}
+                    </select>
                   </div>
-
-                  <div className="form-group row">
-                    <label
-                      htmlFor="flexCheckChecked"
-                      className="col-sm-4 col-form-label labelLeft"
-                    >
-                      Preferences
-                    </label>
-
+                  <div className="col-sm-4">
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="postalCode"
+                      defaultValue={formValues.user.postalCode}
+                      disabled={!isEditMode}
+                      onChange={handleInputChange}
+                    />
                   </div>
-
-                  <div id="subRadios">
-                    <div className="form-group row">
-                      <label className="col-sm-4 col-form-label labelLeft emptyLabel"></label>
-                      <div className="col-sm-8 left">
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          name="flexRadioDefault"
-                          id="cat_notification"
-                          onChange={handleCheckBoxChange}
-                          // checked={formValues.cat_notification != ""}
-                          // value={formValues.cat_notification != ""}
-                          disabled={!isEditMode}
-                          checked={formValues.cat_notification != ""}
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="cat_notification"
-                        >
-                          Cats
-                        </label>
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label className="col-sm-4 col-form-label labelLeft emptyLabel"></label>
-                      <div className="col-sm-8 left">
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          name="flexRadioDefault"
-                          id="dog_notification"
-                          onChange={handleCheckBoxChange}
-                          // value={formValues.dog_notification != ""}
-                          disabled={!isEditMode}
-                          checked={formValues.dog_notification != ""}
-                          // checked={formValues.dog_notification != ""}
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="dog_notification"
-                        >
-                          Dogs
-                        </label>
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label className="col-sm-4 col-form-label labelLeft emptyLabel"></label>
-                      <div className="col-sm-8 left">
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          name="flexRadioDefault"
-                          id="other_notification"
-                          onChange={handleCheckBoxChange}
-                          checked={formValues.other_notification != ""}
-                          // value={formValues.other_notification != ""}
-                          disabled={!isEditMode}
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="other_notification"
-                        >
-                          Other
-                        </label>
-                      </div>
-                    </div>
+                  <div className="errorBox">
+                    <p className="error">{errorJson.postalCode || ""}</p>
                   </div>
+                </div>
 
-                  <div
-                    className="twoButtonPositions"
-                    style={{ display: "flex", flexDirection: "row" }}
+                <div className="form-group row">
+                  <label
+                    htmlFor="phoneNumber"
+                    className="col-sm-4 col-form-label labelLeft"
                   >
-                    <div className="editButtons">
-                      {shelter_user == "" ? (
-                        <div className="col-sm-6 buttonCenter">
-                          <button
-                            type={!isEditMode ? "submit" : "button"}
-                            className="backButton form-control"
-                            onClick={() => setIsEditMode(!isEditMode)}
-                          >
-                            {isEditMode ? "Save" : "Edit"}
-                          </button>
-                        </div>
-                      ) : null}
+                    Phone Number
+                  </label>
+                  <div className="col-sm-8">
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="phoneNumber"
+                      defaultValue={formValues.user.phoneNumber}
+                      disabled={!isEditMode}
+                      onChange={handleInputChange}
+                    />
+                    <p className="error">{errorJson.phoneNumber || ""}</p>
+                  </div>
+                </div>
 
-                      {shelter_user == "" ? (
-                        <div className="col-sm-6 buttonCenter">
-                          <button
-                            type="button"
-                            className="backButton form-control"
-                            onClick={handleDeleteAccount}
-                            style={{
-                              whiteSpace: "nowrap",
-                              width: "fit-content",
-                            }}
-                          >
-                            Delete Account
-                          </button>
-                        </div>
-                      ) : null}
+                <div className="form-group row">
+                  <label
+                    htmlFor="flexCheckChecked"
+                    className="col-sm-4 col-form-label labelLeft"
+                  >
+                    Preferences
+                  </label>
+                </div>
 
-                      <div className="col-sm-6 buttonCenter">
-                        <Link
-                          className="nextButton form-control"
-                          to={`/`}
-                          style={{ textDecoration: "none" }}
-                        >
-                          Home
-                        </Link>
-                      </div>
+                <div id="subRadios">
+                  <div className="form-group row">
+                    <label className="col-sm-4 col-form-label labelLeft emptyLabel"></label>
+                    <div className="col-sm-8 left">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        name="flexRadioDefault"
+                        id="cat_notification"
+                        onChange={handleCheckBoxChange}
+                        disabled={!isEditMode}
+                        checked={formValues.cat_notification}
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="cat_notification"
+                      >
+                        Cats
+                      </label>
                     </div>
                   </div>
-                </form>
-              </div>
+
+                  <div className="form-group row">
+                    <label className="col-sm-4 col-form-label labelLeft emptyLabel"></label>
+                    <div className="col-sm-8 left">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        name="flexRadioDefault"
+                        id="dog_notification"
+                        onChange={handleCheckBoxChange}
+                        disabled={!isEditMode}
+                        checked={formValues.dog_notification}
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="dog_notification"
+                      >
+                        Dogs
+                      </label>
+                    </div>
+                  </div>
+
+                  <div className="form-group row">
+                    <label className="col-sm-4 col-form-label labelLeft emptyLabel"></label>
+                    <div className="col-sm-8 left">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        name="flexRadioDefault"
+                        id="other_notification"
+                        onChange={handleCheckBoxChange}
+                        checked={formValues.other_notification}
+                        disabled={!isEditMode}
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="other_notification"
+                      >
+                        Other
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  className="twoButtonPositions"
+                  style={{ display: "flex", flexDirection: "row" }}
+                >
+                  <div className="editButtons">
+                    {shelter_user == "" ? (
+                      <div className="col-sm-6 buttonCenter">
+                        <button
+                          type={!isEditMode ? "submit" : "button"}
+                          className="backButton form-control"
+                          onClick={() => setIsEditMode(!isEditMode)}
+                        >
+                          {isEditMode ? "Save" : "Edit"}
+                        </button>
+                      </div>
+                    ) : null}
+
+                    {shelter_user == "" ? (
+                      <div className="col-sm-6 buttonCenter">
+                        <button
+                          type="button"
+                          className="backButton form-control"
+                          onClick={handleDeleteAccount}
+                          style={{
+                            whiteSpace: "nowrap",
+                            width: "fit-content",
+                          }}
+                        >
+                          Delete Account
+                        </button>
+                      </div>
+                    ) : null}
+
+                    <div className="col-sm-6 buttonCenter">
+                      <Link
+                        className="nextButton form-control"
+                        to={`/`}
+                        style={{ textDecoration: "none" }}
+                      >
+                        Home
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </form>
             </div>
-          </>
-        );
-      } else {
-        return <h1>You cannot perform this action.</h1>;
-      }
+          </div>
+        </>
+      );
     } else {
-      return <h1>You cannot perform this action.</h1>;
+      // return <h1>You cannot perform this action.</h1>;
+      return <h1>You do not have access to this page.</h1>;
     }
+    // } else {
+    //   return <h1>You cannot perform this action.</h1>;
+    // }
   }
 }
 

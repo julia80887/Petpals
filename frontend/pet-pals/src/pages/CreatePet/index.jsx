@@ -29,6 +29,8 @@ function CreatePet() {
     city: "",
     province: "",
     publication_date: "",
+    ///
+    fileInput: "",
   });
 
   //   const weight = ["kg", "lbs"];
@@ -54,14 +56,14 @@ function CreatePet() {
     }));
   };
 
-  function notEmpty(field) {
+  function notEmpty(label, field) {
     const nameRegex = /.+/;
     if (!nameRegex.test(field)) {
+      console.log("Field: ", field);
       setErrorJson((prevValues) => ({
         ...prevValues,
-        field: "Cannot be blank.",
+        [label]: "Cannot be blank.",
       }));
-      console.log(errorJson);
       return false;
     }
     return true;
@@ -81,6 +83,7 @@ function CreatePet() {
   }
 
   function validateForm() {
+    setErrorJson({});
     const name = document.getElementById("name").value;
     const pet_type = document.getElementById("pet_type").value;
     const breed = document.getElementById("breed").value;
@@ -97,6 +100,7 @@ function CreatePet() {
     ).value;
     const city = document.getElementById("city").value;
     const province = document.getElementById("province").value;
+    const fileInput = document.getElementById("fileInput").value;
 
     let d1 = true;
     let d2 = true;
@@ -131,28 +135,24 @@ function CreatePet() {
 
     console.log(d1);
     console.log(d2);
-
+    let isEmpty = notEmpty("name", name);
+    isEmpty = notEmpty("pet_type", pet_type) && isEmpty;
+    isEmpty = notEmpty("breed", breed) && isEmpty;
+    isEmpty = notEmpty("gender", gender) && isEmpty;
+    isEmpty = notEmpty("color", color) && isEmpty;
+    isEmpty = notEmpty("date_of_birth", date_of_birth) && isEmpty;
+    isEmpty = notEmpty("medical_history", medical_history) && isEmpty;
+    isEmpty = notEmpty("behavior", behavior) && isEmpty;
+    isEmpty = notEmpty("weight", weight) && isEmpty;
+    isEmpty = notEmpty("requirements", requirements) && isEmpty;
+    isEmpty = notEmpty("about", about) && isEmpty;
+    isEmpty = notEmpty("application_deadline", application_deadline) && isEmpty;
+    isEmpty = notEmpty("city", city) && isEmpty;
+    isEmpty = notEmpty("province", province) && isEmpty;
+    isEmpty = notEmpty("fileInput", fileInput) && isEmpty;
+    isEmpty = aNumber(weight) && isEmpty;
     // validation for shelter name -> checking not empty
-    if (
-      notEmpty(name) &&
-      notEmpty(pet_type) &&
-      notEmpty(breed) &&
-      notEmpty(gender) &&
-      notEmpty(color) &&
-      notEmpty(date_of_birth) &&
-      notEmpty(medical_history) &&
-      notEmpty(behavior) &&
-      notEmpty(weight) &&
-      notEmpty(requirements) &&
-      notEmpty(about) &&
-      notEmpty(application_deadline) &&
-      notEmpty(city) &&
-      notEmpty(province) &&
-      aNumber(weight) &&
-      d1 &&
-      d3 &&
-      d2
-    ) {
+    if (isEmpty && d1 && d3 && d2) {
       return true;
     }
     return false;
@@ -316,6 +316,7 @@ function CreatePet() {
                       )
                     )}
                   </select>
+                  <p className="error">{errorJson.gender || ""}</p>
                 </div>
               </div>
 
@@ -347,6 +348,7 @@ function CreatePet() {
                       )
                     )}
                   </select>
+                  <p className="error">{errorJson.pet_type || ""}</p>
                 </div>
               </div>
 
@@ -597,9 +599,13 @@ function CreatePet() {
                 <div className="form-group row">
                   <div className="col-sm-6" id="buttonCenter">
                     {/* <button className="btn btn-primary backButton"> */}
-                      <Link className="btn btn-primary backButton" to={`/pets/`} style={{textDecoration: "none"}}>
-                        Back
-                      </Link>
+                    <Link
+                      className="btn btn-primary backButton"
+                      to={`/pets/`}
+                      style={{ textDecoration: "none" }}
+                    >
+                      Back
+                    </Link>
                     {/* </button> */}
                   </div>
                   <div className="col-sm-6" id="buttonCenter">
