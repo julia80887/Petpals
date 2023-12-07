@@ -13,9 +13,11 @@ class PetShelterSerializer(serializers.Serializer):
 class PetShelterSignUpSerializer(serializers.ModelSerializer):
     shelter_name = serializers.CharField(write_only=True, max_length=30, required=True)
     password1 = serializers.CharField(write_only=True, max_length=30, required=True)
+    profile_photo = serializers.ImageField(write_only=True, required=False)
+
     class Meta:
         model = CustomUser
-        fields = ['username', 'password', 'email', 'shelter_name', 'password1']
+        fields = ['username', 'password', 'email', 'shelter_name', 'password1', 'profile_photo']
 
     def validate_password(self, value):
         try:

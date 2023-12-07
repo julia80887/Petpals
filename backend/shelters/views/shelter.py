@@ -127,6 +127,15 @@ class PetShelterSignUpView(generics.CreateAPIView):
             password = serializer.validated_data.pop('password')
             email = serializer.validated_data.pop('email')
             password1 = serializer.validated_data.pop('password1')
+            #profile_photo = serializer.validated_data.pop('profile_photo')
+            
+            if CustomUser.objects.filter(username=username).exists():
+                response_data = {
+                    'message': 'Invalid Request.',
+                    'errors': {'username': 'This username is already taken.'}
+                }
+                return Response(response_data, status=status.HTTP_400_BAD_REQUEST)
+
 
             if password1 != password:
                 response_data = {
@@ -135,8 +144,14 @@ class PetShelterSignUpView(generics.CreateAPIView):
                 }
 
                 return Response(response_data, status=status.HTTP_400_BAD_REQUEST)
+            
+            profile_photo = serializer.validated_data.get('profile_photo', None)
 
-            new_user = CustomUser.objects.create_user(username=username, password=password, email=email)
+            if profile_photo:
+                new_user = CustomUser.objects.create_user(profile_photo=profile_photo, username=username, password=password, email=email)
+            else:
+                new_user = CustomUser.objects.create_user(username=username, password=password, email=email)
+            
             new_shelter = PetShelter.objects.create(user=new_user, shelter_name=shelter_name)
             new_shelter.save()
             # token_obtain_pair_view = TokenObtainPairView.as_view()
@@ -251,9 +266,8 @@ class ShelterRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
         if self.request.user != instance.user:
             return Response({"message": "You do not have permission to delete this seeker."},
                             status=status.HTTP_401_UNAUTHORIZED)
-        # user = CustomUser.objects.get(id=instance.user.id)
-        # user.delete()
-        instance.user.delete()
+        user = CustomUser.objects.get(id=instance.user.id)
+        user.delete()
 
 
         return Response({'message':'Successfully deleted.'},status=status.HTTP_204_NO_CONTENT)

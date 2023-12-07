@@ -46,6 +46,10 @@
   transition: transform 0.3s;
 }
 
+.closeIcon {
+  color: #0854a0;
+}
+
 .notification:hover {
   transform: scale(1.02);
   filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.25));

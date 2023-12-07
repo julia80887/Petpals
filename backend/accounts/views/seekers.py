@@ -100,8 +100,14 @@ class PetSeekerSignUpView(generics.CreateAPIView):
                 return Response(response_data, status=status.HTTP_400_BAD_REQUEST)
 
             email = serializer.validated_data.pop('email')
+            profile_photo = serializer.validated_data.get('profile_photo', None)
 
-            new_user = CustomUser.objects.create_user(username=username, password=password, email=email)
+            if profile_photo:
+                new_user = CustomUser.objects.create_user(profile_photo=profile_photo, username=username, password=password, email=email)
+            else:
+                new_user = CustomUser.objects.create_user(username=username, password=password, email=email)
+            
+            #new_user = CustomUser.objects.create_user(username=username, password=password, email=email)
 
             new_seeker = PetSeeker.objects.create(user=new_user, firstname=firstname, lastname=lastname)
             new_seeker.save()

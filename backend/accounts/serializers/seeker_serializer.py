@@ -25,7 +25,7 @@ class PetSeekerSignUpSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = CustomUser
-        fields = ['username', 'password', 'email', 'firstname', 'lastname', 'password1']
+        fields = ['username', 'password', 'email', 'firstname', 'lastname', 'password1', 'profile_photo']
 
     def validate_password(self, value):
         try:

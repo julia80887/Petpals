@@ -17,7 +17,7 @@ import FeedIcon from "@mui/icons-material/Feed";
 
 import { LoginContext } from "../../contexts/LoginContext";
 
-export default function ShelterAccountMenu() {
+export default function ShelterAccountMenu({prevPicture}) {
   const [anchorEl, setAnchorEl] = useState(null);
   const navigate = useNavigate();
   const open = Boolean(anchorEl);
@@ -70,7 +70,7 @@ export default function ShelterAccountMenu() {
         >
           <Avatar
             sx={{ width: 32, height: 32 }}
-            src={currentUser.profile_photo}
+            src={prevPicture}
           />
         </IconButton>
       </Box>
@@ -110,8 +110,8 @@ export default function ShelterAccountMenu() {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <MenuItem onClick={handleProfile}>
-          <Avatar fontSize="small" src={currentUser.profile_photo} />
-          Edit Profile
+          <Avatar fontSize="small" src={prevPicture} />
+            Edit Profile
         </MenuItem>
         <Divider />
         <MenuItem onClick={handleApplication}>

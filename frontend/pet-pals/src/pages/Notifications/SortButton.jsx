@@ -26,7 +26,8 @@ const Dropdown = ({ setParams, query }) => {
     //   page: query.page,
     //   order_by: sortByValue,
     // }));
-    setParams({ ...query, page: query.page, order_by: sortByValue, })
+    
+    setParams({ ...query, page: 1, order_by: sortByValue, })
     toggleDropdown();
     // Add any other logic you want to perform when an option is selected
   };

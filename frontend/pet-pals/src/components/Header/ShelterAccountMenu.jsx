@@ -17,7 +17,7 @@ import FeedIcon from "@mui/icons-material/Feed";
 
 import { LoginContext } from "../../contexts/LoginContext";
 
-export default function ShelterAccountMenu() {
+export default function ShelterAccountMenu({prevPicture}) {
   const [anchorEl, setAnchorEl] = useState(null);
   const navigate = useNavigate();
   const open = Boolean(anchorEl);
@@ -66,7 +66,7 @@ export default function ShelterAccountMenu() {
           aria-haspopup="true"
           aria-expanded={open ? "true" : undefined}
         >
-          <Avatar sx={{ width: 32, height: 32 }} src={profile_photo} />
+          <Avatar sx={{ width: 32, height: 32 }} src={prevPicture} />
         </IconButton>
       </Box>
       <Menu
@@ -105,7 +105,7 @@ export default function ShelterAccountMenu() {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <MenuItem onClick={handleProfile}>
-          <Avatar src={profile_photo} /> Edit Profile
+          <Avatar src={prevPicture} /> Edit Profile
         </MenuItem>
         <Divider />
         <MenuItem onClick={handleApplication}>

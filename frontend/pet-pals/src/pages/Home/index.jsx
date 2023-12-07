@@ -67,6 +67,13 @@ function Home() {
     console.log("Logged in user: ", localStorage.getItem("shelter_name"));
     console.log("Logged in user: ", localStorage.getItem("id"));
 
+    console.log('access', localStorage.getItem('access'));
+    console.log('firstname', localStorage.getItem('firstname'));
+    console.log('lastname', localStorage.getItem('lastname'));
+    console.log('profile_photo', localStorage.getItem('profile_photo'));
+    console.log('email', localStorage.getItem('email'));
+    console.log('current_user', localStorage.getItem('current_user'));
+
     const fetchData = async () => {
       try {
         const requestOptions = {

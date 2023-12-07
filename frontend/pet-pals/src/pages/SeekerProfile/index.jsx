@@ -12,7 +12,7 @@ function SeekerProfile() {
   const user_id = localStorage.getItem("id") || "";
   // boolean variable to represent that an error was found when validating fields
   let errorFound = false;
-  const [profilePic, setProfilePic] = useState("");
+  //const [profilePic, setProfilePic] = useState("");
   // loading use state
   const [loading, setLoading] = useState(true);
   // used to put any errors from validation into a dict
@@ -23,6 +23,16 @@ function SeekerProfile() {
   const { seeker_id } = useParams();
   // used to store form values
   const [details, setDetails] = useState("");
+
+  const [clicked, setClicked] = useState(false);
+
+  const [profilePic, setProfilePic] = useState("http://localhost:8000/media/default.jpg");
+
+  useEffect(()=>{
+    console.log(profilePic);
+
+  }, [profilePic])
+
   const [formValues, setFormValues] = useState({
     user: {
       phoneNumber: "",
@@ -164,6 +174,7 @@ function SeekerProfile() {
 
         // set all form values to the values from backend
         setProfilePic(result.user.profile_photo);
+        
         setFormValues({
           user: {
             fileInput: "",
@@ -194,6 +205,10 @@ function SeekerProfile() {
           id: result.id,
         });
 
+        if (clicked){
+          setClicked(false);
+        }
+
         setLoading(false);
       } catch (error) {
         setLoading(false);
@@ -202,7 +217,7 @@ function SeekerProfile() {
     };
 
     fetchData();
-  }, [seeker_id]);
+  }, [seeker_id, clicked]);
 
   // just for console printing purposes
   // useEffect(() => {
@@ -300,6 +315,8 @@ function SeekerProfile() {
           ? event.target.fileInput?.files[0]
           : "http://localhost:8000/media/default.jpg"
       );
+
+      //setProfilePic(event.target.fileInput.files[0]);
     }
 
     formData.append("user.address", full_address);
@@ -345,7 +362,8 @@ function SeekerProfile() {
           console.log(data);
         })
         .then((data) => {
-          setProfilePic(data?.data?.user?.profile_photo);
+          setProfilePic(data?.user?.profile_photo);
+          setClicked(true);
           console.log("RESPONSE: ", data);
         })
         .finally(() => setLoading(false));
@@ -447,7 +465,7 @@ function SeekerProfile() {
                 >
                   <div className="imgPlacement">
                     <div className="frame form-group">
-                      <img style={{width: "auto%", height: "auto"}}
+                      <img className="profilePicSeeker"
                         src={
                           profilePic
                             ? profilePic
