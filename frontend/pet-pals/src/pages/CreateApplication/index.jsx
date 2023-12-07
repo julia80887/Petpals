@@ -607,8 +607,8 @@ function CreateApplication() {
   if (loading) {
     return <p>Loading...</p>;
   } else {
-    if (appsForUser[0].detail != "Given token not valid for any token type") {
-      appsForUser[0].map((item) => (
+    if (appsForUser[0]?.detail != "Given token not valid for any token type") {
+      appsForUser[0]?.map((item) => (
         <div key={item.id}>
           {item.pet == petDetails.id ? (exists = true) : null}
         </div>

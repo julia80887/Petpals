@@ -82,7 +82,7 @@ function PetDetails() {
         // if (petDetails["detail"] == "Not found.") {
         //   navigate(`/`);
         // }
-        console.log(result["detail"]);
+        // console.log(result["detail"]);
         setPetDetails(result);
         setLoadingPets(false);
       } catch (error) {
@@ -134,7 +134,7 @@ function PetDetails() {
   };
 
   if (loadingShelter || loadingPets) {
-    if (petDetails["detail"] == "Not found.") {
+    if (petDetails && petDetails["detail"] == "Not found.") {
       return <h1>This Pet does not exist.</h1>;
     } else {
       console.log(petDetails);
@@ -146,7 +146,7 @@ function PetDetails() {
   console.log(appsForUser);
   console.log(exists);
 
-  if (appsForUser[0].detail != "Given token not valid for any token type") {
+  if (appsForUser[0]?.detail != "Given token not valid for any token type") {
     appsForUser[0].map((item) => (
       <div key={item.id}>
         {item.pet == petDetails.id ? (exists = true) : null}

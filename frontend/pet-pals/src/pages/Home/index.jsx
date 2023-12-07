@@ -225,13 +225,15 @@ function Home() {
       {/* MOVE TO ITS OWN COMPONENT */}
       {/* THE FILTER BAR AT THE TOP OF THE PAGE */}
       <InfiniteScroll
-        dataLength={petListings.length}
+        dataLength={petListings?.length}
         next={fetchMore}
         hasMore={currentPage < totalPages} // Replace with a condition based on your data source
         loader={<p>Loading...</p>}
-        endMessage={<h1>That's all of the pets!</h1>}
+        endMessage={
+          petListings.length > 0 ? <h1>That's all of the pets!</h1> : null
+        }
       >
-        <div className="mainContainer" style={{marginTop: "0px"}}>
+        <div className="mainContainer" style={{ marginTop: "0px" }}>
           <FilterBar
             setParams={_setSearchParams}
             retrieveShelter={() => setRetrievalType("Shelters")}
@@ -250,7 +252,7 @@ function Home() {
             </div>
 
             <div className="profileGrid">
-              {retrievalType === "Pets" && petListings.length > 0 ? (
+              {retrievalType === "Pets" && petListings?.length > 0 ? (
                 petListings.map((pet) => (
                   <div
                     key={pet.id}

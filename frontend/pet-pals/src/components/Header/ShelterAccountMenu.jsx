@@ -13,6 +13,7 @@ import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import PetsIcon from "@mui/icons-material/Pets";
 import { useNavigate } from "react-router-dom";
+import FeedIcon from "@mui/icons-material/Feed";
 
 import { LoginContext } from "../../contexts/LoginContext";
 
@@ -39,13 +40,18 @@ export default function ShelterAccountMenu({prevPicture}) {
     localStorage.removeItem("id");
     localStorage.removeItem("profile_photo");
     setCurrentUser({});
-    navigate("/");
+    navigate(
+      "/?type=&shelter=&gender=&color=&lt_size=&gt_size=&status=&order_by=name"
+    );
   }
   function handleProfile() {
     navigate(`/profile/shelter/${localStorage.getItem("id")}`);
   }
   function handlePets() {
     navigate("/pets/");
+  }
+  function handleApplication() {
+    navigate(`/pet/applications/`);
   }
   function handleNotifications() {}
 
@@ -100,6 +106,13 @@ export default function ShelterAccountMenu({prevPicture}) {
       >
         <MenuItem onClick={handleProfile}>
           <Avatar src={prevPicture} /> Edit Profile
+        </MenuItem>
+        <Divider />
+        <MenuItem onClick={handleApplication}>
+          <ListItemIcon>
+            <FeedIcon fontSize="medium" color="brown"></FeedIcon>
+          </ListItemIcon>
+          My Applications
         </MenuItem>
         <Divider />
         <MenuItem onClick={handlePets}>

@@ -33,8 +33,9 @@ function CreatePet() {
 
   //   const weight = ["kg", "lbs"];
 
-  const sex = ["Other", "Female", "Male"];
+  const sex = ["", "Other", "Female", "Male"];
   const petTypes = [
+    "",
     "Dog",
     "Cat",
     "Fish",
@@ -99,6 +100,7 @@ function CreatePet() {
 
     let d1 = true;
     let d2 = true;
+    let d3 = true;
 
     const dateRegex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
     if (!dateRegex.test(date_of_birth)) {
@@ -115,6 +117,15 @@ function CreatePet() {
         application_deadline: "Must be in the format dd/mm/yyyy.",
       }));
       d2 = false;
+      console.log(errorJson);
+    }
+
+    if (province.length != 2) {
+      setErrorJson((prevValues) => ({
+        ...prevValues,
+        province: "Must only be 2 letters.",
+      }));
+      d3 = false;
       console.log(errorJson);
     }
 
@@ -139,6 +150,7 @@ function CreatePet() {
       notEmpty(province) &&
       aNumber(weight) &&
       d1 &&
+      d3 &&
       d2
     ) {
       return true;
@@ -272,8 +284,7 @@ function CreatePet() {
                 </div>
                 <div className="col-sm-3">
                   <select className="form-control" id="weightInput1" required>
-                    <option>kg</option>
-                    <option>lb</option>
+                    <option defaultValue>lbs</option>
                   </select>
                 </div>
               </div>
@@ -295,7 +306,7 @@ function CreatePet() {
                   >
                     {[...sex].map((p) =>
                       formValues.gender == { p } ? (
-                        <option key={p} value={p} selectedOption>
+                        <option key={p} value={p} defaultValue>
                           {p}
                         </option>
                       ) : (
@@ -319,13 +330,14 @@ function CreatePet() {
                   <select
                     className="form-control"
                     value={formValues.pet_type}
+                    // defaultValue="Dog"
                     onChange={handleInputChange}
                     id="pet_type"
                     required
                   >
                     {[...petTypes].map((p) =>
                       formValues.pet_type == { p } ? (
-                        <option key={p} value={p} selectedOption>
+                        <option key={p} value={p} defaultValue>
                           {p}
                         </option>
                       ) : (

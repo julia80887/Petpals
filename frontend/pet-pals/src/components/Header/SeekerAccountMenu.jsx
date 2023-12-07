@@ -39,7 +39,9 @@ export default function ShelterAccountMenu({prevPicture}) {
     localStorage.removeItem("id");
     localStorage.removeItem("profile_photo");
     setCurrentUser({});
-    navigate("/");
+    navigate(
+      "/?type=&shelter=&gender=&color=&lt_size=&gt_size=&status=&order_by=name"
+    );
   }
   function handleApplication() {
     navigate(`/pet/applications/`);
