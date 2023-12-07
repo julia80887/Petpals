@@ -484,6 +484,10 @@ function SeekerProfile() {
                           : "http://localhost:8000/media/default.jpg"
                       }
                       alt="Shelter"
+                      style={{
+                        height: "100%",
+                        width: "100%",
+                      }}
                     />
                   </div>
                 </div>
