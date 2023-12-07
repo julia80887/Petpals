@@ -29,6 +29,7 @@
   display: grid;
   width: 60vw;
   gap: 10px;
+  margin: 20px;
 }
 
 .notification {
@@ -108,7 +109,7 @@
   align-items: center;
 }
 
-@media(max-width: 450px) {
+@media (max-width: 800px) {
   .notification {
     display: flex;
     flex-direction: column;
