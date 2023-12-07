@@ -108,6 +108,7 @@ function ShelterLogin() {
               <label htmlFor="password">Password: </label>
               <input className="descriptionInput" type="password" id="password" name="password" required />
             </div>
+            <p className="error">{error}</p>
 
             <div className="buttons" style={{flexDirection: "row", justifyContent: "center", margin: "20px"}}>
               <button className="btn" type="submit">
@@ -117,7 +118,7 @@ function ShelterLogin() {
                 Cancel
               </button>
             </div>
-            <p className="error">{error}</p>
+            
           </form>
           <GoogleLogin
             buttonText="Log in with Google"
