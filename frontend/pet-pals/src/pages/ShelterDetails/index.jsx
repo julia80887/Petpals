@@ -164,7 +164,6 @@ function ShelterDetails() {
             src={shelter.user && shelter.user.profile_photo}
             alt=""
             id="oliver"
-            style={{ maxWidth: "700px", minWidth: "370px" }}
           />
           <div className="specs">
             <p>
