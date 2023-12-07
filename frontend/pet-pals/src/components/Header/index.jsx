@@ -31,15 +31,13 @@ const Layout = () => {
   };
 
   useEffect(() => {
+    console.log('prev picture: ', prevPicture)
+    
+  }, [prevPicture]);
+
+  useEffect(() => {
     const checkForProfileAndNotification = async () => {
       try {
-
-        console.log('access', localStorage.getItem('access'));
-        console.log('firstname', localStorage.getItem('firstname'));
-        console.log('lastname', localStorage.getItem('lastname'));
-        console.log('profile_photo', localStorage.getItem('profile_photo'));
-        console.log('email', localStorage.getItem('email'));
-        console.log('current_user', localStorage.getItem('current_user'));
         
         if (localStorage.getItem('access')){
           const requestOptions = {
@@ -69,6 +67,12 @@ const Layout = () => {
             requestOptions
           );
           const result = await response.json();
+          console.log('access', localStorage.getItem('access'));
+        console.log('firstname', localStorage.getItem('firstname'));
+        console.log('lastname', localStorage.getItem('lastname'));
+        console.log('profile_photo', localStorage.getItem('profile_photo'));
+        console.log('email', localStorage.getItem('email'));
+        console.log('current_user', localStorage.getItem('current_user'));
           
           if (result?.user?.profile_photo !== prevPicture){
             setPrevPicture(result?.user?.profile_photo)

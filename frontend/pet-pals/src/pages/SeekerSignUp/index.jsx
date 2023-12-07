@@ -77,7 +77,7 @@ function SeekerSignUp() {
     }
 
     if (password !== password1) {
-      setErrorJson({ password: "Passwords do not match." });
+      setErrorJson({ password1: "Passwords do not match." });
       return false;
     }
 
