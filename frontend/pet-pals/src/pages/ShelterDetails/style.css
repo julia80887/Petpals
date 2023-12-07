@@ -134,7 +134,7 @@ main {
   /* display: grid;
   grid-template-columns: repeat(2, 1fr); */
   display: flex;
-  
+
   height: 100%;
   /* width: 35vw; */
   overflow-y: hidden;
@@ -281,7 +281,6 @@ p.noMoreText {
   margin-top: 50px;
 }
 
-
 .rating {
   display: flex;
   flex-direction: row;
@@ -290,7 +289,7 @@ p.noMoreText {
 .replyContainer {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
   background: white;
   padding: 20px;
   border-radius: 10px;
@@ -303,8 +302,6 @@ p.noMoreText {
   margin-top: 50px;
 
   /* height: 400px; */
-
-
 }
 
 .reviewerName {
