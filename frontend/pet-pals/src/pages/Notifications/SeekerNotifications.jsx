@@ -35,7 +35,6 @@ const SeekerNotifications = () => {
     return { page, read };
   }, [searchParams]);
 
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -222,16 +221,23 @@ const SeekerNotifications = () => {
       ) : (
         <div className="notificationContent">
           <div className="notificationsContainer">
-          <div className="applicationHeader" style={{display: "flex", gap: "20px", alignItems: "center"}}>
-            <h1 className="pageHeadingApp">Notifications</h1>
-            <FilterButton
-            setParams={setSearchParams}
-            query={query}
-          />
-          </div>
+            <div
+              className="applicationHeader"
+              style={{
+                display: "flex",
+                gap: "20px",
+                alignItems: "center",
+                flexDirection: "column",
+              }}
+            >
+              <h1 className="pageHeadingApp">Notifications</h1>
+              <FilterButton setParams={setSearchParams} query={query} />
+            </div>
 
             {notifications?.length === 0 ? (
-              <p>No notifications available.</p>
+              <p className="noMoreText" style={{ margin: "20px" }}>
+                No notifications available.
+              </p>
             ) : (
               <div className="notificationGrid">
                 {notifications?.map((notification) => (
@@ -246,7 +252,6 @@ const SeekerNotifications = () => {
                       }
                     >
                       <div className="notificationPic">
-                      
                         {notification.notification_type === "new_message" ? (
                           <img
                             id="imgProfile"
@@ -293,20 +298,33 @@ const SeekerNotifications = () => {
                         )}
                       </div>
                     </div>
-                    <div className="btn" style={{width: "50px", height: "auto", borderTopRightRadius: "10px",
-                  borderTopLeftRadius: "0px", borderBottomRightRadius: "10px", borderBottomLeftRadius: "0px",}}>
                     <div
-                      className="closeIcon"
-                      onClick={() => handleDeleteNotification(notification.id)}
+                      className="btn"
+                      style={{
+                        width: "50px",
+                        height: "auto",
+                        borderTopRightRadius: "10px",
+                        borderTopLeftRadius: "0px",
+                        borderBottomRightRadius: "10px",
+                        borderBottomLeftRadius: "0px",
+                      }}
                     >
-                      <img src={CloseIcon} />
-                    </div>
+                      <div
+                        className="closeIcon"
+                        onClick={() =>
+                          handleDeleteNotification(notification.id)
+                        }
+                      >
+                        <img src={CloseIcon} />
+                      </div>
                     </div>
                   </div>
                 ))}
                 <div className="pagination">
                   <div className="paginationButtonContainer">
-                    {query.page > 1 && query.page <= totalPages && notifications ? (
+                    {query.page > 1 &&
+                    query.page <= totalPages &&
+                    notifications ? (
                       <button
                         className="paginationButton"
                         onClick={() => {
@@ -339,9 +357,9 @@ const SeekerNotifications = () => {
                     <p className="totalPages">
                       Page {query.page} out of {totalPages}.
                     </p>
-                  ) : 
-                  <p className="totalPages">Page does not exist.</p>
-                  }
+                  ) : (
+                    <p className="totalPages">Page does not exist.</p>
+                  )}
                 </div>
               </div>
             )}
