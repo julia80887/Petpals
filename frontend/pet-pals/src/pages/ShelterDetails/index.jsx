@@ -269,7 +269,7 @@ function ShelterDetails() {
           </div>
         </div>
       </div>
-      {seeker_user != "" || shelter_user != "" ? (
+      {seeker_user !== "" || shelter_user !== "" ? (
         <Reviews shelter={shelter} shelterID={id} />
       ) : (
         <h3>Please log in to see reviews.</h3>
