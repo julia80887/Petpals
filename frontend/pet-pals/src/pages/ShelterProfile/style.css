@@ -193,14 +193,14 @@ h1 {
   margin-top: 30px;
 }
 
-.frame {
+/* .frame {
   border-radius: 100px;
   width: 200px;
   height: 200px;
   overflow: hidden;
   display: flex;
   justify-content: center;
-}
+} */
 
 .imgPlacement {
   display: flex;
