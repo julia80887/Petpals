@@ -12,7 +12,9 @@ function ShelterProfile() {
   const user_id = localStorage.getItem("id") || "";
   // boolean variable to represent that an error was found when validating fields
   let errorFound = false;
-  const [profilePic, setProfilePic] = useState("http://localhost:8000/media/default.jpg");
+  const [profilePic, setProfilePic] = useState(
+    "http://localhost:8000/media/default.jpg"
+  );
   // loading use state
   const [loading, setLoading] = useState(true);
   // used to put any errors from validation into a dict
@@ -83,7 +85,7 @@ function ShelterProfile() {
     }
 
     const phoneRegex = /^\d{10,15}$/;
-    if (!phoneRegex.test(phoneNumber) && phoneNumber != "") {
+    if (!phoneRegex.test(phoneNumber) && phoneNumber !== "") {
       setErrorJson((prevValues) => ({
         ...prevValues,
         phoneNumber:
@@ -155,9 +157,7 @@ function ShelterProfile() {
         const result = await response.json();
         // set all form values to the values from backend
         // if (result["detail"] == "Not found.") {
-          setProfilePic(result.user.profile_photo);
-
-        
+        setProfilePic(result.user.profile_photo);
 
         setFormValues({
           user: {
@@ -185,7 +185,7 @@ function ShelterProfile() {
           missionStatement: result.mission_statement,
           shelterName: result.shelter_name,
         });
-        if (clicked){
+        if (clicked) {
           setClicked(false);
         }
         setLoading(false);
@@ -326,9 +326,9 @@ function ShelterProfile() {
           setProfilePic(data?.data?.user?.profile_photo);
           setClicked(true);
           console.log("RESPONSE: ", data);
-        //   if (data['message'] == 'Successfully updated.') {
-        //     navigate(`/pet/${pet_id}/`);
-        // }
+          //   if (data['message'] == 'Successfully updated.') {
+          //     navigate(`/pet/${pet_id}/`);
+          // }
         })
         .finally(() => setLoading(false));
     } catch (error) {
@@ -372,13 +372,13 @@ function ShelterProfile() {
         if (response.ok) {
           // Account deleted successfully
           console.log("Account deleted successfully!");
-          localStorage.removeItem('access');
-          localStorage.removeItem('custom_user');
-          localStorage.removeItem('shelter_name');
-          localStorage.removeItem('id');
-          localStorage.removeItem('profile_photo');
-          localStorage.removeItem('length');
-          localStorage.removeItem('username');
+          localStorage.removeItem("access");
+          localStorage.removeItem("custom_user");
+          localStorage.removeItem("shelter_name");
+          localStorage.removeItem("id");
+          localStorage.removeItem("profile_photo");
+          localStorage.removeItem("length");
+          localStorage.removeItem("username");
           navigate(`/shelter/login/`);
         } else {
           // Handle errors during deletion
@@ -400,14 +400,13 @@ function ShelterProfile() {
   // }
 
   if (loading) {
-    return <p>Loading.....</p>
+    return <p>Loading.....</p>;
   } else {
-  if ((seeker_user != "" || shelter_user != "")) {
-    if (formValues.shelterName != "") {
-    if (seeker_user == "" && shelter_user != "" && user_id == shelter_id) {
-      return (
-        <>
-
+    if (seeker_user !== "" || shelter_user !== "") {
+      // if (formValues.shelterName != "") {
+      if (seeker_user === "" && shelter_user !== "" && user_id === shelter_id) {
+        return (
+          <>
             <div className="mainContainer">
               <h1>Your Shelter Profile</h1>
               <div className="containerNEW">
@@ -592,7 +591,6 @@ function ShelterProfile() {
                           opacity: "1",
                           border: "1px solid #dee2e6",
                           fontSize: "14px",
-                          color: "#ffffff",
                           height: "46.33px",
 
                           marginBottom: "10px",
@@ -603,7 +601,7 @@ function ShelterProfile() {
                         }}
                       >
                         {[...provinces].map((p) =>
-                          formValues.user.inputValue == { p } ? (
+                          formValues.user.inputValue === { p } ? (
                             <option key={p} value={p} selectedOption>
                               {p}
                             </option>
@@ -696,7 +694,10 @@ function ShelterProfile() {
                           type="button"
                           className="backButton form-control"
                           onClick={handleDeleteAccount}
-                          style={{ whiteSpace: "nowrap", width: "fit-content" }}
+                          style={{
+                            whiteSpace: "nowrap",
+                            width: "fit-content",
+                          }}
                         >
                           Delete Account
                         </button>
@@ -716,19 +717,22 @@ function ShelterProfile() {
                 </form>
               </div>
             </div>
-          
-        </>
-      );
+          </>
+        );
+      } else {
+        return (
+          // <h1>You do not have permission to edit this shelter profile.</h1>
+          <h1>You do not have access to this page.</h1>
+        );
+      }
+      // } else {
+      //   return <h1>This shelter does not exist.</h1>;
+      // }
     } else {
-      return <h1>You do not have permission to edit this shelter profile.</h1>;
+      // return <h1>You do not have permission to edit this shelter profile.</h1>;
+      return <h1>You do not have access to this page.</h1>;
     }
-  } else {
-    return <h1>This shelter does not exist.</h1>;
   }
-} else {
-  return <h1>You do not have permission to edit this shelter profile.</h1>;
-}
-}
 }
 
 export default ShelterProfile;
