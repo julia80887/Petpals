@@ -202,7 +202,10 @@ function ChatModal({ open, onClose, chatDetail, currentUser }) {
             alignItems: "center",
           }}
         >
-          <div className="chatContainer">
+          <div
+            className="chatContainer"
+            style={{ height: "65vh", width: "60vw" }}
+          >
             <div className="chatHeader">
               <div className="chatUserInfo">
                 <img
@@ -216,24 +219,24 @@ function ChatModal({ open, onClose, chatDetail, currentUser }) {
                 <img src={CloseIcon} />
               </div>
             </div>
-            <div style={{overflow: "scroll"}}>
-            <div className="chatContent" onScroll={handleScroll}>
-              {chatMessages?.map((message, index) => (
-                <div key={index}>
-                  {message.sender_type === currentUser ? (
-                    <div className="right">
-                      <div className="userText">
+            <div style={{ overflow: "scroll" }}>
+              <div className="chatContent" onScroll={handleScroll}>
+                {chatMessages?.map((message, index) => (
+                  <div key={index}>
+                    {message.sender_type === currentUser ? (
+                      <div className="right">
+                        <div className="userText">
+                          <p>{message.content}</p>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="receiverText">
                         <p>{message.content}</p>
                       </div>
-                    </div>
-                  ) : (
-                    <div className="receiverText">
-                      <p>{message.content}</p>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
             <div className="bottomBar inputText">
               <input

@@ -214,20 +214,23 @@ function Reviews({ shelter, shelterID }) {
         next={fetchMoreReviews}
         hasMore={reviewCurrentPage < totalPages} // Replace with a condition based on your data source
         loader={<p>Loading...</p>}
-        endMessage={<h1>No more reviews</h1>}
+        endMessage={<h1></h1>}
+        // endMessage={
+        //   reviews?.length > 0 ? <h1>No more reviews</h1> : <h1>No reviews</h1>
+        // }
       >
         {loadingReviews ? (
           <p>Loading...</p>
-        ) : reviews?.length === 0 ? (
-          <p>No reviews available.</p>
         ) : (
-          <div className="reviewContainer" style={{alignItems: "flex-start"}}>
+          <div className="reviewContainer" style={{ alignItems: "flex-start" }}>
             <div className="reviewHeading">
               <div className="reviewTitleAndStar">
                 {/* <h2 className="reviewHeader">
                   {calculateAverageRating()} - {reviews.length} Reviews
                 </h2> */}
-                <h2 className="reviewHeader" style={{ marginRight: "30px"}}>Reviews</h2>
+                <h2 className="reviewHeader" style={{ marginRight: "30px" }}>
+                  Reviews
+                </h2>
                 <button
                   className="btn nextButton"
                   style={{ width: "fit-content" }}
@@ -269,32 +272,45 @@ function Reviews({ shelter, shelterID }) {
                     <div className="rating">
                       <img
                         src={StarSVG}
-                        style={{ width: "30px", marginRight: "10px"}}
+                        style={{ width: "30px", marginRight: "10px" }}
                         alt="Star"
                       />
-                      <h4 style={{textAlign: "center", display: "flex", alignItems: "center"}}>{review.rating}</h4>
+                      <h4
+                        style={{
+                          textAlign: "center",
+                          display: "flex",
+                          alignItems: "center",
+                        }}
+                      >
+                        {review.rating}
+                      </h4>
                     </div>
-                    <div className="reviewMessageContent" style={{wordWrap: "break-word"}}>
-                    <h4 style={{wordWrap: "break-word", maxWidth: "70vw"}}>{review.content}</h4>
+                    <div
+                      className="reviewMessageContent"
+                      style={{ wordWrap: "break-word" }}
+                    >
+                      <h4 style={{ wordWrap: "break-word", maxWidth: "70vw" }}>
+                        {review.content}
+                      </h4>
                     </div>
                     <div className="reviewBTNS">
-                    <button
-                      className="btn"
-                      role="button"
-                      style={{ height: "fit-content", width: "100px" }}
-                      id={`openModalButton${index + 1}`}
-                      onClick={() => openModal(review.id)}
-                    >
-                      Reply
-                    </button>
-                    <button
-                      className="btn"
-                      role="button"
-                      style={{ height: "fit-content", width: "170px" }}
-                      onClick={() => toggleReplies(review)}
-                    >
-                      {showReply[review.id] ? "Hide Replies" : "View Replies"}
-                    </button>
+                      <button
+                        className="btn"
+                        role="button"
+                        style={{ height: "fit-content", width: "100px" }}
+                        id={`openModalButton${index + 1}`}
+                        onClick={() => openModal(review.id)}
+                      >
+                        Reply
+                      </button>
+                      <button
+                        className="btn"
+                        role="button"
+                        style={{ height: "fit-content", width: "170px" }}
+                        onClick={() => toggleReplies(review)}
+                      >
+                        {showReply[review.id] ? "Hide Replies" : "View Replies"}
+                      </button>
                     </div>
                     {showReply[review.id] ? (
                       <Replies

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./style.css";
 
 const FilterButton = ({ setParams, query }) => {
-  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedOption, setSelectedOption] = useState("Unread");
   const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
@@ -14,7 +14,7 @@ const FilterButton = ({ setParams, query }) => {
         setSelectedOption("Unread");
         break;
       default:
-        setSelectedOption("");
+        setSelectedOption("Unread");
     }
   }, [query]);
   const updateSelectedOption = (option) => {

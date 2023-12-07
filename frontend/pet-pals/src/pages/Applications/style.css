@@ -41,11 +41,15 @@ p {
   font-family: "Nunito Sans";
   color: #0854a0;
   font-size: 40px;
-  font-weight: 600;
+  font-weight: 650;
   margin-top: 40px;
-  /* margin-bottom: 40px;  */
   margin-bottom: 20px;
   text-align: center;
+}
+
+.applicationHeader {
+  display: flex;
+  flex-direction: column;
 }
 
 .notificationGrid {
@@ -202,6 +206,13 @@ p {
   }
   .pageHeadingApp {
     margin-bottom: 0px;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 650px) {
+  .newApp {
     display: flex;
     flex-direction: column;
   }

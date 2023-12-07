@@ -118,7 +118,7 @@ const ShelterManagement = () => {
             ...prevDetails,
             [pet.id]: result.results,
           }));
-          console.log(applicationDetails)
+          console.log(applicationDetails);
           setTotalPages(
             Math.ceil(
               Number(result.pagination_details["count"]) /
@@ -257,7 +257,7 @@ const ShelterManagement = () => {
     }
   };
 
-  console.log(applicationDetails)
+  console.log(applicationDetails);
 
   return (
     <>
@@ -285,12 +285,11 @@ const ShelterManagement = () => {
             >
               + Add a new pet
             </a> */}
-              <div className="addingPet"
-              >
+              <div className="addingPet">
                 <MainButton
                   style={{
                     display: "flex",
-                    justifySelf: "flex-start"
+                    justifySelf: "flex-start",
                   }}
                   text={"+ Add a new pet"}
                   handleClick={() => navigate(`/pet/`)}
@@ -306,6 +305,8 @@ const ShelterManagement = () => {
                             src={pet.profile_photo}
                             style={{
                               borderRadius: "10px",
+                              // height: "100%",
+                              // width: "fit-content",
                             }}
                           />
                         </div>
@@ -365,7 +366,9 @@ const ShelterManagement = () => {
                             )
                           )
                         ) : (
-                          <p>No applications for {pet.name}</p>
+                          <p className="noPetApps">
+                            No applications for {pet.name}
+                          </p>
                         )}
                       </div>
                     </div>
