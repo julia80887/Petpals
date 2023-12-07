@@ -216,15 +216,13 @@ body {
 
 .addingPet {
   padding-left: 40px;
-
 }
 
 @media (max-width: 700px) {
   .addingPet {
     padding-left: 0px;
-
+  }
 }
- }
 
 @media (max-width: 1150px) {
   .mainContainer {
@@ -334,11 +332,12 @@ body {
 
 .frame {
   border-radius: 25px;
-  width: 50px;
-  height: 50px;
+  width: 150px;
+  height: 150px;
   overflow: hidden;
   display: flex;
   justify-content: center;
+  border-radius: 100px;
 }
 
 .name {
