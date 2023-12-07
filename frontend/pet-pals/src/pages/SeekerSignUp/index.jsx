@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { ajax } from "../../ajax";
 import "./style.css";
 import { Link } from "react-router-dom";
@@ -14,6 +14,12 @@ function SeekerSignUp() {
   const { currentUser, setCurrentUser } = useContext(LoginContext);
   const [isGoogle, setGoogle] = useState(false);
   const [googleCred, setGoogleCred] = useState({});
+
+  useEffect(()=>{
+    console.log("ACCESS: ", localStorage.getItem("access"))
+
+  }, [localStorage.getItem("access")])
+
 
   function validateForm() {
     // Your validation logic here
@@ -48,10 +54,13 @@ function SeekerSignUp() {
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    if (!emailRegex.test(email) ) {
       setErrorJson({ email: "Enter a valid email address." });
       return false;
     }
+   else {
+    setErrorJson({ ...errorJson, email: "" }); // Clear the email error
+  }
 
     if (password.length < 8) {
       setErrorJson({
@@ -82,7 +91,11 @@ function SeekerSignUp() {
     navigate("/");
   };
 
-  function handle_google(googleCred) {
+
+  useEffect(() => {
+
+    console.log("Google Cred Email: ", googleCred.email)
+  
     let data = new FormData();
     data.append("firstname", googleCred.given_name);
     data.append("lastname", googleCred.family_name);
@@ -99,12 +112,15 @@ function SeekerSignUp() {
           type: "image/jpeg",
         });
         data.append("profile_photo", file);
+        
+        console.log("Photo after appending to data: ", data.get("profile_photo"))
         login(data);
       })
       .catch((error) => console.error("Error fetching image:", error));
 
     // Continue with the login or other logic
-  }
+  
+}, [googleCred]);
 
   function handle_submit(event) {
     event.preventDefault();
@@ -116,7 +132,6 @@ function SeekerSignUp() {
     console.log(event.target);
     let data = new FormData(event.target);
     console.log(data.get("username"));
-    console.log(data.get("shelter_name"));
     console.log(data.get("password"));
     console.log(data.get("password1"));
     console.log(data.get("email"));
@@ -131,7 +146,7 @@ function SeekerSignUp() {
       .then((request) => request.json())
       .then((json) => {
         if ("access_token" in json) {
-          localStorage.setItem("access", json.access);
+          localStorage.setItem("access", json.access_token);
           localStorage.setItem("username", json.seeker.user.username);
           localStorage.setItem("custom_user", json.seeker.user.id.toString());
           localStorage.setItem("firstname", json.seeker.firstname);
@@ -142,6 +157,8 @@ function SeekerSignUp() {
             json.seeker.user.profile_photo.toString()
           );
           setCurrentUser(json.seeker);
+          setErrorJson({});
+          setError("");
           navigate("/");
         } else if ("errors" in json) {
           setErrorJson(json.errors);
@@ -153,6 +170,7 @@ function SeekerSignUp() {
         setError(error);
       });
   }
+
 
   return (
     <div className="mainContainer" style={{ marginTop: "50px" }}>
@@ -233,9 +251,9 @@ function SeekerSignUp() {
               const credentialResponseDecoded = jwtDecode(
                 credentialResponse.credential
               );
-              setGoogle(true);
+              
               setGoogleCred(credentialResponseDecoded);
-              handle_google(credentialResponseDecoded);
+              //handle_google(credentialResponseDecoded);
               console.log(credentialResponseDecoded);
             }}
             onError={() => {

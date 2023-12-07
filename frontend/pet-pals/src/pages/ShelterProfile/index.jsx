@@ -12,7 +12,7 @@ function ShelterProfile() {
   const user_id = localStorage.getItem("id") || "";
   // boolean variable to represent that an error was found when validating fields
   let errorFound = false;
-  const [profilePic, setProfilePic] = useState("");
+  const [profilePic, setProfilePic] = useState("http://localhost:8000/media/default.jpg");
   // loading use state
   const [loading, setLoading] = useState(true);
   // used to put any errors from validation into a dict
@@ -22,6 +22,8 @@ function ShelterProfile() {
   // getting shelter id from the url
   const { shelter_id } = useParams();
   // used to store form values
+  const [clicked, setClicked] = useState(false);
+
   const [formValues, setFormValues] = useState({
     user: {
       fileInput: "",
@@ -183,6 +185,9 @@ function ShelterProfile() {
           missionStatement: result.mission_statement,
           shelterName: result.shelter_name,
         });
+        if (clicked){
+          setClicked(false);
+        }
         setLoading(false);
       } catch (error) {
         setLoading(false);
@@ -191,7 +196,7 @@ function ShelterProfile() {
     };
 
     fetchData();
-  }, [shelter_id]);
+  }, [shelter_id, clicked]);
 
   // just for console printing purposes
   // useEffect(() => {
@@ -319,6 +324,7 @@ function ShelterProfile() {
         })
         .then((data) => {
           setProfilePic(data?.data?.user?.profile_photo);
+          setClicked(true);
           console.log("RESPONSE: ", data);
         //   if (data['message'] == 'Successfully updated.') {
         //     navigate(`/pet/${pet_id}/`);

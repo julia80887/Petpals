@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useState, useContext } from "react";
+import { useState, useContext,useEffect } from "react";
 import { ajax } from "../../ajax";
 import "./style.css";
 import { Link } from "react-router-dom";
@@ -9,15 +9,19 @@ import { jwtDecode } from "jwt-decode";
 
 function ShelterSignUp() {
   const [error, setError] = useState("");
-  const [errorJson, setErrorJson] = useState({});
+  const [errorJson, setErrorJson] = useState(null);
   const [isGoogle, setGoogle] = useState(false);
   const [googleCred, setGoogleCred] = useState({});
   const navigate = useNavigate();
   const { currentUser, setCurrentUser } = useContext(LoginContext);
 
+  useEffect (()=> {
+    console.log(errorJson)
+  }, [errorJson])
+
   function validateForm() {
     // Your validation logic here
-    const shelterName = document.getElementById("shelter_name").value;
+    const shelterName = document?.getElementById("shelter_name")?.value;
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
     const email = document.getElementById("email").value;
@@ -130,38 +134,7 @@ function ShelterSignUp() {
     login(data);
   }
 
-  // function upload_pic(data) {
-  //     event.preventDefault();
 
-  //     const formData = new FormData();
-
-  //     // Append user data
-  //     if (event.target.fileInput.files[0]) {
-  //         formData.append('user.profile_photo', event.target.fileInput?.files[0] ? event.target.fileInput?.files[0] : "http://localhost:8000/media/default.jpg");
-
-  //     }
-
-  //     //console.log(formData.get('user.phone_number'));
-  //     console.log(formData.get('user.profile_photo'));
-
-  //     // if you are here, validation passed, so make PUT request
-  //     try {
-  //         const requestOptions = {
-  //             method: 'PUT',
-  //             headers: {
-  //                 Authorization: `Bearer ${localStorage.getItem('access')}`,
-  //             },
-  //             body: formData, // Use the FormData object directly as the body
-  //         };
-
-  //         fetch(`http://localhost:8000/shelter/${currentUser.id}/`, requestOptions)
-  //             .then((response) => response.json())
-  //             .then((data) => { console.log(data); })
-  //     } catch (error) {
-  //         console.error('Error:', error);
-
-  //     }
-  // }
   function login(data) {
     ajax("/shelter/account/", {
       method: "POST",
@@ -171,7 +144,7 @@ function ShelterSignUp() {
       .then((json) => {
         console.log(json);
         if ("access_token" in json) {
-          localStorage.setItem("access", json.access);
+          localStorage.setItem("access", json.access_token);
           localStorage.setItem("username", json.shelter.user.username);
           localStorage.setItem("custom_user", json.shelter.user.id.toString());
           localStorage.setItem("shelter_name", json.shelter.shelter_name);
@@ -225,7 +198,7 @@ function ShelterSignUp() {
                 className="descriptionInput"
                 required
               />
-              <p className="error">{errorJson.shelter_name || ""}</p>
+              <p className="error">{errorJson?.shelter_name || ""}</p>
             </div>
             <div className="inputNEW">
               <label htmlFor="email">Email: </label>
@@ -236,7 +209,7 @@ function ShelterSignUp() {
                 name="email"
                 required
               />
-              <p className="error">{errorJson.email || ""}</p>
+              <p className="error">{errorJson?.email || ""}</p>
             </div>
 
             <div className="inputNEW">
@@ -248,7 +221,7 @@ function ShelterSignUp() {
                 name="username"
                 required
               />
-              <p className="error">{errorJson.username || ""}</p>
+              <p className="error">{errorJson?.username || ""}</p>
             </div>
 
             <div className="inputNEW">
@@ -260,7 +233,7 @@ function ShelterSignUp() {
                 name="password"
                 required
               />
-              <p className="error">{errorJson.password || ""}</p>
+              <p className="error">{errorJson?.password || ""}</p>
             </div>
 
             <div className="inputNEW">
@@ -272,7 +245,7 @@ function ShelterSignUp() {
                 name="password1"
                 required
               />
-              <p className="error">{errorJson.password1 || ""}</p>
+              <p className="error">{errorJson?.password1 || ""}</p>
             </div>
 
             <div
