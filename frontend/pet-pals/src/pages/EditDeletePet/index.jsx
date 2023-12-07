@@ -61,14 +61,14 @@ function EditDeletePet() {
     }));
   };
 
-  function notEmpty(field) {
+  function notEmpty(label, field) {
     const nameRegex = /.+/;
     if (!nameRegex.test(field)) {
+      console.log("Field: ", field);
       setErrorJson((prevValues) => ({
         ...prevValues,
-        field: "Cannot be blank.",
+        [label]: "Cannot be blank.",
       }));
-      console.log(errorJson);
       return false;
     }
     return true;
@@ -129,26 +129,24 @@ function EditDeletePet() {
     console.log(d1);
     console.log(d2);
 
+    let isEmpty = notEmpty("name", name);
+    isEmpty = notEmpty("pet_type", pet_type) && isEmpty;
+    isEmpty = notEmpty("breed", breed) && isEmpty;
+    isEmpty = notEmpty("gender", gender) && isEmpty;
+    isEmpty = notEmpty("color", color) && isEmpty;
+    isEmpty = notEmpty("date_of_birth", date_of_birth) && isEmpty;
+    isEmpty = notEmpty("medical_history", medical_history) && isEmpty;
+    isEmpty = notEmpty("behavior", behavior) && isEmpty;
+    isEmpty = notEmpty("weight", weight) && isEmpty;
+    isEmpty = notEmpty("requirements", requirements) && isEmpty;
+    isEmpty = notEmpty("about", about) && isEmpty;
+    isEmpty = notEmpty("application_deadline", application_deadline) && isEmpty;
+    isEmpty = notEmpty("city", city) && isEmpty;
+    isEmpty = notEmpty("province", province) && isEmpty;
+    isEmpty = aNumber(weight) && isEmpty;
+
     // validation for shelter name -> checking not empty
-    if (
-      notEmpty(name) &&
-      notEmpty(pet_type) &&
-      notEmpty(breed) &&
-      notEmpty(gender) &&
-      notEmpty(color) &&
-      notEmpty(date_of_birth) &&
-      notEmpty(medical_history) &&
-      notEmpty(behavior) &&
-      notEmpty(weight) &&
-      notEmpty(requirements) &&
-      notEmpty(about) &&
-      notEmpty(application_deadline) &&
-      notEmpty(city) &&
-      notEmpty(province) &&
-      aNumber(weight) &&
-      d1 &&
-      d2
-    ) {
+    if (isEmpty && d1 && d2) {
       return true;
     }
     return false;
@@ -227,16 +225,16 @@ function EditDeletePet() {
   }, [pet_id]);
 
   function handleSubmit(event) {
-    if (formValues) {
-      if (!validateForm()) {
-        return;
-      }
+    event.preventDefault();
 
+    if (validateForm()) {
       event.preventDefault();
       // get rid of all previous errors
       setErrorJson(() => ({}));
       // get rid of all previous errors
       const formData = new FormData();
+
+      // DOUBLE CHECK IT DOESN'T OVERRIDE PREV PP
 
       if (event.target.fileInput.files[0]) {
         formData.append(
@@ -265,7 +263,7 @@ function EditDeletePet() {
       formData.append("pet_type", formValues.pet_type);
       formData.append("gender", formValues.gender);
       formData.append("breed", formValues.breed);
-      formData.append("color", (formValues.color).toLowerCase());
+      formData.append("color", formValues.color.toLowerCase());
       formData.append("date_of_birth", final_birthdate);
       formData.append("medical_history", formValues.medical_history);
       formData.append("behavior", formValues.behavior);
@@ -292,8 +290,8 @@ function EditDeletePet() {
           .then((response) => response.json())
           .then((data) => {
             console.log(data);
-            if (data['message'] == 'Pet successfully updated.') {
-                navigate(`/pet/${pet_id}/`);
+            if (data["message"] == "Pet successfully updated.") {
+              navigate(`/pet/${pet_id}/`);
             }
           })
           .finally(() => setLoading(false));
@@ -340,8 +338,8 @@ function EditDeletePet() {
             // Pet deleted successfully
             console.log("Pet deleted successfully!");
             // console.log(data);
-            navigate(`/pet/${pet_id}/`);
-
+            // navigate(`/pet/${pet_id}/`);
+            navigate(`/pets/`);
           } else {
             // Handle errors during deletion
             console.error("Error:", response.statusText);
@@ -365,7 +363,11 @@ function EditDeletePet() {
 
   console.log(resultDetails);
   if (resultDetails["detail"] != "Not found.") {
-    if (seeker_user == "" && shelter_user != "" && user_id == formValues.shelter_id) {
+    if (
+      seeker_user == "" &&
+      shelter_user != "" &&
+      user_id == formValues.shelter_id
+    ) {
       return (
         <>
           <div className="mainContainer">
@@ -403,7 +405,7 @@ function EditDeletePet() {
                       id="fileInput"
                       //   value={formValues.fileInput}
                       onChange={handleInputChange}
-                      required
+                      // required
                     />
                     <p className="error">{errorJson.fileInput || ""}</p>
                   </div>
@@ -422,7 +424,7 @@ function EditDeletePet() {
                       id="name"
                       value={formValues.name}
                       onChange={handleInputChange}
-                      required
+                      // required
                     />
                     <p className="error">{errorJson.name || ""}</p>
                   </div>
@@ -441,7 +443,7 @@ function EditDeletePet() {
                       id="weight"
                       value={formValues.weight}
                       onChange={handleInputChange}
-                      required
+                      // required
                     />
                     <p className="error">{errorJson.weight || ""}</p>
                   </div>
@@ -465,7 +467,7 @@ function EditDeletePet() {
                       value={formValues.gender}
                       onChange={handleInputChange}
                       id="gender"
-                      required
+                      // required
                     >
                       {[...sex].map((p) =>
                         formValues.gender == { p } ? (
@@ -495,7 +497,7 @@ function EditDeletePet() {
                       value={formValues.pet_type}
                       onChange={handleInputChange}
                       id="pet_type"
-                      required
+                      // required
                     >
                       {[...petTypes].map((p) =>
                         formValues.pet_type == { p } ? (
@@ -525,7 +527,7 @@ function EditDeletePet() {
                       id="breed"
                       value={formValues.breed}
                       onChange={handleInputChange}
-                      required
+                      // required
                     />
                     <p className="error">{errorJson.breed || ""}</p>
                   </div>
@@ -545,7 +547,7 @@ function EditDeletePet() {
                       placeholder="Tell everyone about your pet"
                       value={formValues.about}
                       onChange={handleInputChange}
-                      required
+                      // required
                       style={{
                         height: "100px",
                         borderRadius: "70px",
@@ -571,7 +573,7 @@ function EditDeletePet() {
                       placeholder="dd/mm/yyyy"
                       value={formValues.date_of_birth}
                       onChange={handleInputChange}
-                      required
+                      // required
                     />
                     <p className="error">{errorJson.date_of_birth || ""}</p>
                   </div>
@@ -591,7 +593,7 @@ function EditDeletePet() {
                       placeholder="dd/mm/yyyy"
                       value={formValues.application_deadline}
                       onChange={handleInputChange}
-                      required
+                      // required
                     />
                     <p className="error">
                       {errorJson.application_deadline || ""}
@@ -612,7 +614,7 @@ function EditDeletePet() {
                       id="status"
                       value={formValues.status}
                       onChange={handleInputChange}
-                      required
+                      // required
                     >
                       {[...statuses].map((p) =>
                         formValues.status == { p } ? (
@@ -643,7 +645,7 @@ function EditDeletePet() {
                       id="city"
                       value={formValues.city}
                       onChange={handleInputChange}
-                      required
+                      // required
                     />
                     <p className="error">{errorJson.city || ""}</p>
                   </div>
@@ -663,7 +665,7 @@ function EditDeletePet() {
                       value={formValues.province}
                       onChange={handleInputChange}
                       placeholder="Please limit input to 2 letters."
-                      required
+                      // required
                     />
                     <p className="error">{errorJson.province || ""}</p>
                   </div>
@@ -682,7 +684,7 @@ function EditDeletePet() {
                       id="color"
                       value={formValues.color}
                       onChange={handleInputChange}
-                      required
+                      // required
                     />
                     <p className="error">{errorJson.color || ""}</p>
                   </div>
@@ -702,7 +704,7 @@ function EditDeletePet() {
                       placeholder="Describe the pet's medical history."
                       value={formValues.medical_history}
                       onChange={handleInputChange}
-                      required
+                      // required
                       style={{
                         height: "100px",
                         borderRadius: "70px",
@@ -728,7 +730,7 @@ function EditDeletePet() {
                       placeholder="Describe the pet's behaviour."
                       value={formValues.behavior}
                       onChange={handleInputChange}
-                      required
+                      // required
                       style={{
                         height: "100px",
                         borderRadius: "70px",
@@ -754,7 +756,7 @@ function EditDeletePet() {
                       placeholder="Describe the pet's special needs and requirements."
                       value={formValues.requirements}
                       onChange={handleInputChange}
-                      required
+                      //required
                       style={{
                         height: "100px",
                         borderRadius: "70px",
@@ -768,14 +770,14 @@ function EditDeletePet() {
 
                 <div className="twoButtonPositions">
                   <div className="form-group row">
-                    <div className="col-sm-6" id="buttonCenter">
+                    {/* <div className="col-sm-6" id="buttonCenter">
                       <a
                         href="ShelterManage.html" // replace with shelter management endpoint
                         className="backButton form-control"
                       >
                         Back
                       </a>
-                    </div>
+                    </div> */}
                     <div className="col-sm-6" id="buttonCenter">
                       <button
                         type="submit"
@@ -802,7 +804,7 @@ function EditDeletePet() {
         </>
       );
     } else {
-        return <h1>You cannot edit this pet.</h1>;
+      return <h1>You cannot edit this pet.</h1>;
     }
   } else {
     return <h1>This pet does not exist.</h1>;

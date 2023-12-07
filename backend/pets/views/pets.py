@@ -61,10 +61,10 @@ class PetListCreateView(ListCreateAPIView):
 
         status = self.request.query_params.get(
             'status')  # Default status is 'available'
-        if status == "Adopted" or status == "Pending":
+        if status == "Adopted" or status == "Pending" or status == "Available":
             queryset = queryset.filter(status=status)
-        else:
-            queryset = queryset.filter(status="Available")
+        # else:
+        #     queryset = queryset.filter(status="Available")
 
         # # # Additional filters
         gender = self.request.query_params.get('gender')

@@ -77,7 +77,7 @@ function ViewEditApplication() {
         const requestOptions = {
           method: "GET",
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('access')}`,
+            Authorization: `Bearer ${localStorage.getItem("access")}`,
           },
         };
 
@@ -151,7 +151,7 @@ function ViewEditApplication() {
         const requestOptions = {
           method: "PUT",
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('access')}`,
+            Authorization: `Bearer ${localStorage.getItem("access")}`,
           },
           body: formData, // Use the FormData object directly as the body
         };
@@ -163,12 +163,14 @@ function ViewEditApplication() {
           .then((response) => response.json())
           .then((data) => {
             console.log(data);
-            if (data['message'] == 'Application status was successfully updated.') {
-                if (shelter_user != "") {
-                    navigate(`/pets/`);
-                } else {
-                    navigate(`/pet/applications/`);
-                }
+            if (
+              data["message"] == "Application status was successfully updated."
+            ) {
+              if (shelter_user != "") {
+                navigate(`/pets/`);
+              } else {
+                navigate(`/pet/applications/`);
+              }
             }
           })
           .finally(() => setLoading(false));
@@ -186,474 +188,481 @@ function ViewEditApplication() {
     console.log(seeker_user);
     console.log(formValues.app_seeker);
     // add formValues back in????
-  if ((shelter_user != "" && petDetails.shelter && user_id == petDetails.shelter.id && formValues) ||
-   (seeker_user != ""  && formValues && formValues.app_seeker == user_id )) { 
-  if (formValues.name != undefined) {
-    return (
-      <>
-        <div className="mainContainer">
-          <h1 className="question">Pet Application for {petDetails.name}</h1>
-          <div className="container">
-            <form
-              className="createPetForm"
-              style={{ backgroundColor: "white" }}
-            >
-              <div className="form-group row">
-                <label
-                  htmlFor="name"
-                  className="col-sm-4 col-form-label labelLeft"
+    if (
+      (shelter_user != "" &&
+        petDetails.shelter &&
+        user_id == petDetails.shelter.id &&
+        formValues) ||
+      (seeker_user != "" && formValues && formValues.app_seeker == user_id)
+    ) {
+      if (formValues.name != undefined) {
+        return (
+          <>
+            <div className="mainContainer">
+              <h1 className="question">
+                Pet Application for {petDetails.name}
+              </h1>
+              <div className="container">
+                <form
+                  className="createPetForm"
+                  style={{ backgroundColor: "white" }}
                 >
-                  Name
-                </label>
-                <div className="col-sm-8">
-                  <input
-                    className="form-control"
-                    id="name"
-                    value={formValues.name}
-                    disabled
-                  />
-                </div>
-              </div>
-
-              {/* Add the rest of your form fields here */}
-
-              <div className="form-group row">
-                <label
-                  htmlFor="phoneNumber"
-                  className="col-sm-4 col-form-label labelLeft"
-                >
-                  Phone #
-                </label>
-                <div className="col-sm-8">
-                  <input
-                    className="form-control"
-                    id="phoneNumber"
-                    value={formValues.phoneNumber}
-                    disabled
-                  />
-                </div>
-              </div>
-
-              <div className="form-group row">
-                <label
-                  htmlFor="email"
-                  className="col-sm-4 col-form-label labelLeft"
-                >
-                  Email
-                </label>
-                <div className="col-sm-8">
-                  <input
-                    type="email"
-                    className="form-control"
-                    id="email"
-                    value={formValues.email}
-                    disabled
-                  />
-                </div>
-              </div>
-
-              <div className="form-group row">
-                <label
-                  htmlFor="inputAddress"
-                  className="col-sm-4 col-form-label labelLeft"
-                >
-                  Address
-                </label>
-                <div className="col-sm-8">
-                  <input
-                    className="form-control"
-                    id="inputAddress"
-                    value={formValues.inputAddress}
-                    disabled
-                  />
-                </div>
-              </div>
-
-              <div className="form-group row">
-                <label
-                  htmlFor="inputAddress2"
-                  className="col-sm-4 col-form-label labelLeft emptyLabel"
-                >
-                  Address 2
-                </label>
-                <div className="col-sm-8">
-                  <input
-                    className="form-control"
-                    id="inputAddress2"
-                    value={formValues.inputAddress2}
-                    disabled
-                  />
-                </div>
-              </div>
-
-              <div className="form-group row">
-                <label
-                  htmlFor="inputCity"
-                  className="col-sm-4 col-form-label labelLeft emptyLabel"
-                ></label>
-                <div className="col-sm-8">
-                  <input
-                    className="form-control"
-                    id="inputCity"
-                    value={formValues.inputCity}
-                    disabled
-                  />
-                </div>
-              </div>
-
-              <div className="form-group row">
-                <label
-                  htmlFor="inputState"
-                  className="col-sm-4 col-form-label labelLeft emptyLabel"
-                ></label>
-                <div className="col-sm-4">
-                  <select
-                    id="inputState"
-                    value={formValues.inputState}
-                    style={{
-                      backgroundColor: "#E9ECEF",
-                      borderRadius: "100px",
-                      padding: "12px",
-                      display: "flex",
-                      textAlign: "left",
-                      alignItems: "flex-start",
-                      whiteSpace: "nowrap",
-                      width: "100%",
-                      opacity: "1",
-                      border: "1px solid #dee2e6",
-                      fontSize: "14px",
-                      color: "#ffffff",
-                      height: "46.33px",
-
-                      marginBottom: "10px",
-                      marginTop: "10px",
-                      fontFamily: "Open Sans",
-                      color: "#000000",
-                      //   }),
-                    }}
-                    disabled
-                  >
-                    {[...provinces].map((p) =>
-                      formValues.inputState == { p } ? (
-                        <option key={p} value={p}>
-                          {p}
-                        </option>
-                      ) : (
-                        <option key={p} value={p}>
-                          {p}
-                        </option>
-                      )
-                    )}
-                  </select>
-                </div>
-                <div className="col-sm-4">
-                  <input
-                    className="form-control"
-                    id="postalCode"
-                    value={formValues.postalCode}
-                    disabled
-                  />
-                </div>
-              </div>
-
-              <div className="form-group row">
-                <label
-                  htmlFor="numberOfAdultsInput"
-                  className="col-sm-4 col-form-label labelLeft"
-                >
-                  Number of Adults
-                </label>
-                <div className="col-sm-8">
-                  <input
-                    className="form-control"
-                    id="numberOfAdultsInput"
-                    value={formValues.numAdults}
-                    disabled
-                  />
-                </div>
-              </div>
-
-              <div className="form-group row">
-                <label
-                  htmlFor="numberOfChildrenInput"
-                  className="col-sm-4 col-form-label labelLeft"
-                >
-                  Number of Children
-                </label>
-                <div className="col-sm-8">
-                  <input
-                    className="form-control"
-                    id="numberOfChildrenInput"
-                    value={formValues.numChildren}
-                    disabled
-                  />
-                </div>
-              </div>
-
-              <div className="form-group row">
-                <label
-                  htmlFor="residenceTypeInput"
-                  className="col-sm-4 col-form-label labelLeft"
-                >
-                  Type of Residence
-                </label>
-                <div className="col-sm-4">
-                  <select
-                    id="residenceTypeInput"
-                    className="form-control"
-                    value={formValues.houseType}
-                    disabled
-                  >
-                    <option>House</option>
-                    <option>Apartment</option>
-                    <option>Condo</option>
-                    <option>Townhouse</option>
-                    <option>Mobile Home</option>
-                  </select>
-                </div>
-
-                <div className="col-sm-4">
-                  <select
-                    id="ownershipInput"
-                    className="form-control"
-                    value={formValues.ownershipType}
-                    disabled
-                  >
-                    <option>Own</option>
-                    <option>Rent</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="form-group row">
-                <label
-                  htmlFor="petAlone"
-                  className="col-sm-4 col-form-label labelLeft"
-                >
-                  How often will pet be alone?
-                </label>
-                <div className="col-sm-8">
-                  <input
-                    className="form-control"
-                    id="petAlone"
-                    value={formValues.petAloneTime}
-                    disabled
-                  />
-                </div>
-              </div>
-
-              <div className="form-group row">
-                <label
-                  htmlFor="currentPets"
-                  className="col-sm-4 col-form-label labelLeft"
-                >
-                  Any current pets?
-                </label>
-                <div className="col-sm-8">
-                  <input
-                    className="form-control"
-                    id="currentPets"
-                    value={formValues.currentPets}
-                    disabled
-                  />
-                </div>
-              </div>
-
-              <div className="form-group row">
-                <label
-                  htmlFor="dailyRoutine"
-                  className="col-sm-4 col-form-label labelLeft"
-                >
-                  Daily Routine
-                </label>
-                <div className="col-sm-8">
-                  <input
-                    className="form-control"
-                    id="dailyRoutine"
-                    value={formValues.dailyRoutine}
-                    disabled
-                  />
-                </div>
-              </div>
-
-              <div className="form-group row">
-                <label
-                  htmlFor="expenses"
-                  className="col-sm-4 col-form-label labelLeft"
-                >
-                  Expenses
-                </label>
-                <div className="col-sm-8">
-                  <input
-                    className="form-control"
-                    id="expenses"
-                    value={formValues.expenses}
-                    disabled
-                  />
-                </div>
-              </div>
-
-              <div className="form-group row">
-                <label
-                  htmlFor="prevPets"
-                  className="col-sm-4 col-form-label labelLeft"
-                >
-                  Previous Pets
-                </label>
-                <div className="col-sm-8">
-                  <input
-                    className="form-control"
-                    id="prevPets"
-                    value={formValues.prevPets}
-                    disabled
-                  />
-                </div>
-              </div>
-
-              <div className="form-group row">
-                <label
-                  htmlFor="reason"
-                  className="col-sm-4 col-form-label labelLeft"
-                >
-                  Reason
-                </label>
-                <div className="col-sm-8">
-                  <input
-                    className="form-control"
-                    id="reason"
-                    value={formValues.reason}
-                    disabled
-                  />
-                </div>
-              </div>
-
-              <div className="form-group row">
-                <label
-                  htmlFor="name1"
-                  className="col-sm-4 col-form-label labelLeft"
-                >
-                  Reference #1
-                </label>
-                <div className="col-sm-8">
-                  <input
-                    className="form-control"
-                    id="name1"
-                    value={formValues.name1}
-                    disabled
-                  />
-                </div>
-              </div>
-              <div className="form-group row">
-                <label
-                  htmlFor="phoneNumber1"
-                  className="col-sm-4 col-form-label labelLeft emptyLabel"
-                ></label>
-                <div className="col-sm-8">
-                  <input
-                    className="form-control"
-                    id="phoneNumber1"
-                    value={formValues.phoneNumber1}
-                    disabled
-                  />
-                </div>
-              </div>
-              <div className="form-group row">
-                <label
-                  htmlFor="email1"
-                  className="col-sm-4 col-form-label labelLeft emptyLabel"
-                ></label>
-                <div className="col-sm-8">
-                  <input
-                    type="email"
-                    value={formValues.email1}
-                    className="form-control"
-                    id="email1"
-                    disabled
-                  />
-                </div>
-              </div>
-
-              {/* user is a shelter */}
-              {shelter_user != "" ? (
-                <div className="twoButtonPositions">
                   <div className="form-group row">
-                    <div className="col-sm-6" id="buttonCenter">
-                      <Link
-                        className="backButton form-control"
-                        to={`/`}
-                        style={{ textDecoration: "none" }}
+                    <label
+                      htmlFor="name"
+                      className="col-sm-4 col-form-label labelLeft"
+                    >
+                      Name
+                    </label>
+                    <div className="col-sm-8">
+                      <input
+                        className="form-control"
+                        id="name"
+                        value={formValues.name}
+                        disabled
+                      />
+                    </div>
+                  </div>
+
+                  {/* Add the rest of your form fields here */}
+
+                  <div className="form-group row">
+                    <label
+                      htmlFor="phoneNumber"
+                      className="col-sm-4 col-form-label labelLeft"
+                    >
+                      Phone #
+                    </label>
+                    <div className="col-sm-8">
+                      <input
+                        className="form-control"
+                        id="phoneNumber"
+                        value={formValues.phoneNumber}
+                        disabled
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group row">
+                    <label
+                      htmlFor="email"
+                      className="col-sm-4 col-form-label labelLeft"
+                    >
+                      Email
+                    </label>
+                    <div className="col-sm-8">
+                      <input
+                        type="email"
+                        className="form-control"
+                        id="email"
+                        value={formValues.email}
+                        disabled
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group row">
+                    <label
+                      htmlFor="inputAddress"
+                      className="col-sm-4 col-form-label labelLeft"
+                    >
+                      Address
+                    </label>
+                    <div className="col-sm-8">
+                      <input
+                        className="form-control"
+                        id="inputAddress"
+                        value={formValues.inputAddress}
+                        disabled
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group row">
+                    <label
+                      htmlFor="inputAddress2"
+                      className="col-sm-4 col-form-label labelLeft emptyLabel"
+                    >
+                      Address 2
+                    </label>
+                    <div className="col-sm-8">
+                      <input
+                        className="form-control"
+                        id="inputAddress2"
+                        value={formValues.inputAddress2}
+                        disabled
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group row">
+                    <label
+                      htmlFor="inputCity"
+                      className="col-sm-4 col-form-label labelLeft emptyLabel"
+                    ></label>
+                    <div className="col-sm-8">
+                      <input
+                        className="form-control"
+                        id="inputCity"
+                        value={formValues.inputCity}
+                        disabled
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group row">
+                    <label
+                      htmlFor="inputState"
+                      className="col-sm-4 col-form-label labelLeft emptyLabel"
+                    ></label>
+                    <div className="col-sm-4">
+                      <select
+                        id="inputState"
+                        value={formValues.inputState}
+                        style={{
+                          backgroundColor: "#E9ECEF",
+                          borderRadius: "100px",
+                          padding: "12px",
+                          display: "flex",
+                          textAlign: "left",
+                          alignItems: "flex-start",
+                          whiteSpace: "nowrap",
+                          width: "100%",
+                          opacity: "1",
+                          border: "1px solid #dee2e6",
+                          fontSize: "14px",
+                          color: "#ffffff",
+                          height: "46.33px",
+
+                          marginBottom: "10px",
+                          marginTop: "10px",
+                          fontFamily: "Open Sans",
+                          color: "#000000",
+                          //   }),
+                        }}
+                        disabled
                       >
-                        Back
-                      </Link>
+                        {[...provinces].map((p) =>
+                          formValues.inputState == { p } ? (
+                            <option key={p} value={p}>
+                              {p}
+                            </option>
+                          ) : (
+                            <option key={p} value={p}>
+                              {p}
+                            </option>
+                          )
+                        )}
+                      </select>
+                    </div>
+                    <div className="col-sm-4">
+                      <input
+                        className="form-control"
+                        id="postalCode"
+                        value={formValues.postalCode}
+                        disabled
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group row">
+                    <label
+                      htmlFor="numberOfAdultsInput"
+                      className="col-sm-4 col-form-label labelLeft"
+                    >
+                      Number of Adults
+                    </label>
+                    <div className="col-sm-8">
+                      <input
+                        className="form-control"
+                        id="numberOfAdultsInput"
+                        value={formValues.numAdults}
+                        disabled
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group row">
+                    <label
+                      htmlFor="numberOfChildrenInput"
+                      className="col-sm-4 col-form-label labelLeft"
+                    >
+                      Number of Children
+                    </label>
+                    <div className="col-sm-8">
+                      <input
+                        className="form-control"
+                        id="numberOfChildrenInput"
+                        value={formValues.numChildren}
+                        disabled
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group row">
+                    <label
+                      htmlFor="residenceTypeInput"
+                      className="col-sm-4 col-form-label labelLeft"
+                    >
+                      Type of Residence
+                    </label>
+                    <div className="col-sm-4">
+                      <select
+                        id="residenceTypeInput"
+                        className="form-control"
+                        value={formValues.houseType}
+                        disabled
+                      >
+                        <option>House</option>
+                        <option>Apartment</option>
+                        <option>Condo</option>
+                        <option>Townhouse</option>
+                        <option>Mobile Home</option>
+                      </select>
                     </div>
 
-                    {formValues.application_status === "Pending" ? (
-                      <div className="col-sm-6" id="buttonCenter">
-                        <button
-                          type="button"
-                          onClick={(event) => handleEdit(event, "Approved" )}
-                          className="btn btn-primary nextButton"
-                        >
-                          Approve
-                        </button>
-                      </div>
-                    ) : null}
-                    {formValues.application_status === "Pending" ? (
-                      <div className="col-sm-6" id="buttonCenter">
-                        <button
-                          type="button"
-                          onClick={(event) => handleEdit(event, "Rejected" )}
-                          className="btn btn-primary nextButton"
-                        >
-                          Reject
-                        </button>
-                      </div>
-                    ) : null}
-                  </div>
-                </div>
-              ) : null}
-                            
-
-            {seeker_user != "" ? (
-              <div className="twoButtonPositions">
-                <div className="form-group row">
-                  <div className="col-sm-6" id="buttonCenter">
-                    <Link
-                      className="backButton form-control"
-                      to={`/pet/applications/`}
-                      style={{ textDecoration: "none" }}
-                    >
-                      Back
-                    </Link>
+                    <div className="col-sm-4">
+                      <select
+                        id="ownershipInput"
+                        className="form-control"
+                        value={formValues.ownershipType}
+                        disabled
+                      >
+                        <option>Own</option>
+                        <option>Rent</option>
+                      </select>
+                    </div>
                   </div>
 
-                  {formValues.application_status === "Pending" || formValues.application_status === "Accepted" ? (
-                  <div className="col-sm-6" id="buttonCenter">
-                    <button
-                      type="button"
-                      onClick={(event) => handleEdit(event, "Withdrawn" )}
-                      className="btn btn-primary nextButton"
+                  <div className="form-group row">
+                    <label
+                      htmlFor="petAlone"
+                      className="col-sm-4 col-form-label labelLeft"
                     >
-                      Withdraw
-                    </button>
+                      How often will pet be alone?
+                    </label>
+                    <div className="col-sm-8">
+                      <input
+                        className="form-control"
+                        id="petAlone"
+                        value={formValues.petAloneTime}
+                        disabled
+                      />
+                    </div>
                   </div>
+
+                  <div className="form-group row">
+                    <label
+                      htmlFor="currentPets"
+                      className="col-sm-4 col-form-label labelLeft"
+                    >
+                      Any current pets?
+                    </label>
+                    <div className="col-sm-8">
+                      <input
+                        className="form-control"
+                        id="currentPets"
+                        value={formValues.currentPets}
+                        disabled
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group row">
+                    <label
+                      htmlFor="dailyRoutine"
+                      className="col-sm-4 col-form-label labelLeft"
+                    >
+                      Daily Routine
+                    </label>
+                    <div className="col-sm-8">
+                      <input
+                        className="form-control"
+                        id="dailyRoutine"
+                        value={formValues.dailyRoutine}
+                        disabled
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group row">
+                    <label
+                      htmlFor="expenses"
+                      className="col-sm-4 col-form-label labelLeft"
+                    >
+                      Expenses
+                    </label>
+                    <div className="col-sm-8">
+                      <input
+                        className="form-control"
+                        id="expenses"
+                        value={formValues.expenses}
+                        disabled
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group row">
+                    <label
+                      htmlFor="prevPets"
+                      className="col-sm-4 col-form-label labelLeft"
+                    >
+                      Previous Pets
+                    </label>
+                    <div className="col-sm-8">
+                      <input
+                        className="form-control"
+                        id="prevPets"
+                        value={formValues.prevPets}
+                        disabled
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group row">
+                    <label
+                      htmlFor="reason"
+                      className="col-sm-4 col-form-label labelLeft"
+                    >
+                      Reason
+                    </label>
+                    <div className="col-sm-8">
+                      <input
+                        className="form-control"
+                        id="reason"
+                        value={formValues.reason}
+                        disabled
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group row">
+                    <label
+                      htmlFor="name1"
+                      className="col-sm-4 col-form-label labelLeft"
+                    >
+                      Reference #1
+                    </label>
+                    <div className="col-sm-8">
+                      <input
+                        className="form-control"
+                        id="name1"
+                        value={formValues.name1}
+                        disabled
+                      />
+                    </div>
+                  </div>
+                  <div className="form-group row">
+                    <label
+                      htmlFor="phoneNumber1"
+                      className="col-sm-4 col-form-label labelLeft emptyLabel"
+                    ></label>
+                    <div className="col-sm-8">
+                      <input
+                        className="form-control"
+                        id="phoneNumber1"
+                        value={formValues.phoneNumber1}
+                        disabled
+                      />
+                    </div>
+                  </div>
+                  <div className="form-group row">
+                    <label
+                      htmlFor="email1"
+                      className="col-sm-4 col-form-label labelLeft emptyLabel"
+                    ></label>
+                    <div className="col-sm-8">
+                      <input
+                        type="email"
+                        value={formValues.email1}
+                        className="form-control"
+                        id="email1"
+                        disabled
+                      />
+                    </div>
+                  </div>
+
+                  {/* user is a shelter */}
+                  {shelter_user != "" ? (
+                    <div className="twoButtonPositions">
+                      <div className="form-group row">
+                        {/* <div className="col-sm-6" id="buttonCenter">
+                          <Link
+                            className="backButton form-control"
+                            to={`/`}
+                            style={{ textDecoration: "none" }}
+                          >
+                            Back
+                          </Link>
+                        </div> */}
+
+                        {formValues.application_status === "Pending" ? (
+                          <div className="col-sm-6" id="buttonCenter">
+                            <button
+                              type="button"
+                              onClick={(event) => handleEdit(event, "Approved")}
+                              className="btn btn-primary nextButton"
+                            >
+                              Approve
+                            </button>
+                          </div>
+                        ) : null}
+                        {formValues.application_status === "Pending" ? (
+                          <div className="col-sm-6" id="buttonCenter">
+                            <button
+                              type="button"
+                              onClick={(event) => handleEdit(event, "Rejected")}
+                              className="btn btn-primary nextButton"
+                            >
+                              Reject
+                            </button>
+                          </div>
+                        ) : null}
+                      </div>
+                    </div>
                   ) : null}
 
-                </div>
-              </div>
-            ) : null}
+                  {seeker_user != "" ? (
+                    <div className="twoButtonPositions">
+                      <div className="form-group row">
+                        {/* <div className="col-sm-6" id="buttonCenter">
+                          <Link
+                            className="backButton form-control"
+                            to={`/pet/applications/`}
+                            style={{ textDecoration: "none" }}
+                          >
+                            Back
+                          </Link>
+                        </div> */}
 
-            </form>
-          </div>
-        </div>
-      </>
-    );
-  } else {
-    return <h1>This Application does not exist.</h1>;
-  }
-} else {
-    return <h1>You cannot access this application.</h1>;
-}
+                        {formValues.application_status === "Pending" ||
+                        formValues.application_status === "Accepted" ? (
+                          <div className="col-sm-6" id="buttonCenter">
+                            <button
+                              type="button"
+                              onClick={(event) =>
+                                handleEdit(event, "Withdrawn")
+                              }
+                              className="btn btn-primary nextButton"
+                            >
+                              Withdraw
+                            </button>
+                          </div>
+                        ) : null}
+                      </div>
+                    </div>
+                  ) : null}
+                </form>
+              </div>
+            </div>
+          </>
+        );
+      } else {
+        return <h1>This Application does not exist.</h1>;
+      }
+    } else {
+      return <h1>You cannot access this application.</h1>;
+    }
   }
 }
 
