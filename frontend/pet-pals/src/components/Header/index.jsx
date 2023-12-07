@@ -151,9 +151,9 @@ const Layout = () => {
             ) : null}
 
             {shelter_name ? (
-              <ShelterAccountMenu prevPicture={prevPicture} />
+              <ShelterAccountMenu prevPicture={prevPicture} setPrevPicture={() => setPrevPicture("")}/>
             ) : firstname ? (
-              <SeekerAccountMenu prevPicture={prevPicture} />
+              <SeekerAccountMenu prevPicture={prevPicture} setPrevPicture={() => setPrevPicture("")}/>
             ) : (
               <LoggedOutAccountMenu />
             )}
