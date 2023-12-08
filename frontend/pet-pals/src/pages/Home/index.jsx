@@ -249,6 +249,7 @@ function Home() {
                 query={query}
                 reinitializePage={() => setCurrentPage(1)}
               />
+             
             </div>
 
             <div className="profileGrid">

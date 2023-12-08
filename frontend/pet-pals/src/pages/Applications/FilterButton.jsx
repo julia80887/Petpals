@@ -1,9 +1,13 @@
 import React, { useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import "./style.css";
+import { Link } from 'react-router-dom';
+
 
 const FilterButton = ({ setParams, query }) => {
   const [selectedOption, setSelectedOption] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
+  const navigate = useNavigate();
 
   const updateSelectedOption = (option) => {
     let filterByValue;
@@ -22,6 +26,9 @@ const FilterButton = ({ setParams, query }) => {
       case "Pending":
         filterByValue = "Pending";
         break;
+        case "All":
+          filterByValue = "";
+          break;
       default:
         filterByValue = "";
     }
@@ -82,6 +89,16 @@ const FilterButton = ({ setParams, query }) => {
               onClick={() => updateSelectedOption("Withdrawn")}
             >
               Withdrawn
+            </a>
+          </li>
+          <li>
+
+            <a
+              className="dropdown-item"
+              onClick={() => updateSelectedOption('All')}
+              //to={'pet/applications/'}
+            >
+              All
             </a>
           </li>
         </ul>
