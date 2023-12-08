@@ -94,6 +94,9 @@ function Replies({ shelterID, review, clicked, setClicked }) {
       replies.forEach((reply) => {
         fetchReplyDetails(reply);
       });
+      // for (const reply of replies) {
+      //   await fetchReplyDetails(reply);
+      // }
     }
   }, [replies]);
 
@@ -145,6 +148,14 @@ function Replies({ shelterID, review, clicked, setClicked }) {
     console.log("Total: ", totalPages);
   }, [repliesCurrentPage, totalPages]);
 
+
+  useEffect(()=>{
+    {replies?.map((reply, index) => {
+      console.log("reply ID:", reply.sender);
+      
+    })}
+  }, [replies])
+
   return (
     <>
       <InfiniteScroll
@@ -161,8 +172,9 @@ function Replies({ shelterID, review, clicked, setClicked }) {
         ) : (
           <div className="replyContainer">
             {replies.map((reply, index) => (
+              
               <div
-                key={index}
+                key={reply.id}
                 className="review"
                 style={{ justifyContent: "flex-start" }}
               >

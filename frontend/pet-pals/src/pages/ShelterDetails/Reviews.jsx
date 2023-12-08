@@ -56,6 +56,7 @@ function Reviews({ shelter, shelterID }) {
     console.log(" TOTAL PAGES:", totalPages);
   }, [reviewCurrentPage, totalPages]);
 
+
   useEffect(() => {
     const fetchReviewData = async () => {
       setLoadingReviews(true);
@@ -314,6 +315,7 @@ function Reviews({ shelter, shelterID }) {
                     </div>
                     {showReply[review.id] ? (
                       <Replies
+                        
                         shelterID={shelterID}
                         review={review}
                         reviewID={review.id}

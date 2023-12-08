@@ -27,9 +27,9 @@ from django.utils import timezone
 
 
 class CustomPageNumberPagination(PageNumberPagination):
-    page_size = 10  # Set the default page size
+    page_size = 5  # Set the default page size
     page_size_query_param = 'page_size'
-    max_page_size = 10  # Set the maximum allowed page size
+    max_page_size = 5  # Set the maximum allowed page size
 
     def get_paginated_response(self, data):
         return Response({

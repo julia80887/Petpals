@@ -116,8 +116,9 @@ const ShelterManagement = () => {
 
           setApplicationDetails((prevDetails) => ({
             ...prevDetails,
-            [pet.id]: result.results,
+            [pet.id]: result.results || [],
           }));
+          
           console.log(applicationDetails);
           setTotalPages(
             Math.ceil(
@@ -248,7 +249,12 @@ const ShelterManagement = () => {
       const result = await response.json();
 
       console.log("Paginated Pet call: ", result);
-      setPets((prevPets) => [...prevPets, ...result.results.flat()]);
+     // setPets((prevPets) => [...prevPets, ...result?.results?.flat()]);
+     setPets((prevPets) => [
+      ...prevPets,
+      ...(result?.results?.isArray() ? result.results : []),
+    ]);
+    
       setMainCurrentPage(mainCurrentPage + 1);
       setLoading(false);
     } catch (error) {
