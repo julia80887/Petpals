@@ -35,7 +35,7 @@ body {
   margin: 30px;
 }
 
-.pageHeading {
+/* .pageHeading {
   font-family: "Nunito Sans";
   color: #77a0ca;
   font-size: 40px;
@@ -44,7 +44,7 @@ body {
   margin-top: 5px;
   margin-left: 10px;
   margin-right: 10px;
-}
+} */
 
 .petListingGrid {
   width: 100%;
@@ -84,6 +84,15 @@ body {
   border-radius: 10px;
   overflow-y: scroll;
   overflow-x: hidden;
+}
+
+.applicationCardContents {
+  width: 100%;
+}
+
+.noPetApps {
+  font-size: large;
+  font-weight: 500;
 }
 
 .shelterProfileCard {
@@ -172,7 +181,9 @@ body {
   border-style: solid;
   border-color: #77a0ca;
   border-radius: 10px;
-  width: fit-content;
+  /* width: fit-content; */
+  width: 100%;
+  padding: 20px;
 }
 
 .applicationInfo {
@@ -216,15 +227,13 @@ body {
 
 .addingPet {
   padding-left: 40px;
-
 }
 
 @media (max-width: 700px) {
   .addingPet {
     padding-left: 0px;
-
+  }
 }
- }
 
 @media (max-width: 1150px) {
   .mainContainer {
@@ -260,9 +269,7 @@ body {
     /* justify-content: center; */
     margin: 10px;
   }
-  .application {
-    width: 60vw;
-  }
+
   .applicationInfo {
     align-items: flex-start;
   }
@@ -298,6 +305,7 @@ body {
     justify-content: center;
     margin: 10px;
   }
+
   .shelterProfilePic {
     width: 325px;
     height: 400px;
@@ -310,6 +318,7 @@ body {
     justify-content: center;
     margin: 10px;
   }
+
   .btn {
     white-space: unset;
   }
@@ -334,11 +343,12 @@ body {
 
 .frame {
   border-radius: 25px;
-  width: 50px;
-  height: 50px;
+  width: 150px;
+  height: 150px;
   overflow: hidden;
   display: flex;
   justify-content: center;
+  border-radius: 100px;
 }
 
 .name {

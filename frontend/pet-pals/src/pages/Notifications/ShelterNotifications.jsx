@@ -231,15 +231,22 @@ const ShelterNotifications = () => {
       ) : (
         <div className="notificationContent">
           <div className="notificationsContainer">
-          <div className="applicationHeader" style={{display: "flex", gap: "20px", alignItems: "center"}}>
-            <h1 className="pageHeadingApp">Notifications</h1>
-            <FilterButton
-            setParams={setSearchParams}
-            query={query}
-          />
-          </div>
+            <div
+              className="applicationHeader"
+              style={{
+                display: "flex",
+                gap: "20px",
+                alignItems: "center",
+                flexDirection: "column",
+              }}
+            >
+              <h1 className="pageHeadingApp">Notifications</h1>
+              <FilterButton setParams={setSearchParams} query={query} />
+            </div>
             {notifications?.length === 0 ? (
-              <p>No notifications available.</p>
+              <p className="noMoreText" style={{ margin: "20px" }}>
+                No notifications available.
+              </p>
             ) : (
               <div className="notificationGrid">
                 {notifications?.map((notification, index) => (
@@ -305,14 +312,25 @@ const ShelterNotifications = () => {
                         )}
                       </div>
                     </div>
-                    <div className="btn" style={{width: "50px", height: "auto", borderTopRightRadius: "10px",
-                  borderTopLeftRadius: "0px", borderBottomRightRadius: "10px", borderBottomLeftRadius: "0px",}}>
                     <div
-                      className="closeIcon"
-                      onClick={() => handleDeleteNotification(notification.id)}
+                      className="btn"
+                      style={{
+                        width: "50px",
+                        height: "auto",
+                        borderTopRightRadius: "10px",
+                        borderTopLeftRadius: "0px",
+                        borderBottomRightRadius: "10px",
+                        borderBottomLeftRadius: "0px",
+                      }}
                     >
-                      <img src={CloseIcon} />
-                    </div>
+                      <div
+                        className="closeIcon"
+                        onClick={() =>
+                          handleDeleteNotification(notification.id)
+                        }
+                      >
+                        <img src={CloseIcon} />
+                      </div>
                     </div>
                   </div>
                 ))}

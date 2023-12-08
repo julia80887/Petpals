@@ -191,15 +191,15 @@ function Applications() {
     <>
       <div className="main">
         <div className="notificationsContainer">
-        <div className="applicationHeader" style={{display: "flex", gap: "20px", alignItems: "center"}}>
-          <h1 className="pageHeadingApp">My Applications</h1>
-          <div className="filteringButtons">
-            <SortButton setParams={setSearchParams} query={query} />
-            <FilterButton
-            setParams={setSearchParams}
-            query={query}
-          />
-          </div>
+          <div
+            className="applicationHeader"
+            style={{ display: "flex", gap: "20px", alignItems: "center" }}
+          >
+            <h1 className="pageHeadingApp">My Applications</h1>
+            <div className="filteringButtons">
+              <SortButton setParams={setSearchParams} query={query} />
+              <FilterButton setParams={setSearchParams} query={query} />
+            </div>
           </div>
           <div className="notificationGrid">
             {applications.map((application) => {
@@ -289,7 +289,9 @@ function Applications() {
         open={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         chatDetail={modalChatDetail}
-        currentUser={"seeker"}
+        currentUser={
+          localStorage.getItem("shelter_name") ? "shelter" : "seeker"
+        }
       />
     </>
   );

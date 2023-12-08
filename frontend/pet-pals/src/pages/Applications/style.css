@@ -1,224 +1,233 @@
 .main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100vw;
-    height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
 }
 
 p {
-    margin-top: 0px;
+  margin-top: 0px;
 }
 
 /* h1 {
     text-align: center;
   } */
-  .notificationsContainer {
+.notificationsContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 90vh;
+  width: fit-content;
+  /* margin-top: 75px;
+    margin-bottom: 25px; */
+  /* background: white; */
+  border-radius: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+}
+.filteringButtons {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.pageHeadingApp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: "Nunito Sans";
+  color: #0854a0;
+  font-size: 40px;
+  font-weight: 650;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.applicationHeader {
+  display: flex;
+  flex-direction: column;
+}
+
+.notificationGrid {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 60vw;
+  gap: 10px;
+  align-items: center;
+}
+
+.rowBox {
+  display: flex;
+  flex-direction: row;
+}
+
+.buttonPlacement {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.newApp {
+  display: flex;
+  padding: 20px;
+  /* border-bottom: 1px solid #77a0ca; */
+  /* width: 100%; */
+  gap: 20px;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: white;
+  border-radius: 10px;
+  transition: transform 0.3s;
+  width: 40vw;
+}
+
+.newApp:hover {
+  transform: scale(1.02);
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.25));
+}
+
+.newApp h5 {
+  color: #000;
+  font-family: Nunito Sans;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  margin-top: 16px;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.newApp p {
+  color: #000;
+  font-family: Open Sans;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 300;
+}
+
+.notificationText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.notificationPic {
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
+}
+
+.applyButton {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  background-color: white;
+  color: #0854a0;
+  border-radius: 10px;
+  border-width: 0px;
+  padding: 10px;
+  text-decoration: none;
+  width: fit-content;
+  white-space: nowrap;
+  margin-left: 20px;
+  height: 100%;
+  align-items: center;
+  cursor: pointer;
+}
+
+.paginationButton {
+  justify-content: center;
+  background-color: #0854a0;
+  color: white;
+  border-radius: 10px;
+  border-width: 0px;
+  padding: 10px;
+  text-decoration: none;
+  width: fit-content;
+  white-space: nowrap;
+  margin: 5px;
+  align-items: center;
+  cursor: pointer;
+}
+.pagination {
+  margin-top: 20px;
+  display: flex;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.applyButton:hover {
+  background-color: #573f35;
+  color: white;
+  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.25));
+}
+
+.applyButton:active {
+  background-color: #573f35;
+  color: white;
+  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.25));
+}
+
+@media (max-width: 625px) {
+  .rowBox {
     display: flex;
     flex-direction: column;
-    min-height: 90vh;
-    width: fit-content;
-    /* margin-top: 75px;
-    margin-bottom: 25px; */
-    /* background: white; */
-    border-radius: 10px;
     align-items: center;
-    justify-content: flex-start;
-    text-align: center;
+    justify-content: center;
+    gap: 20px;
   }
+  .applyButton {
+    width: 100%;
+    margin-left: 0px;
+  }
+
+  .buttonPlacement {
+    width: 100%;
+  }
+}
+
+@media (max-width: 760px) {
   .filteringButtons {
     display: flex;
     flex-direction: row;
-    gap: 10px;
+    margin: 10px;
+    margin-bottom: 20px;
   }
-  
+  .applicationHeader {
+    display: flex;
+    flex-direction: column;
+  }
   .pageHeadingApp {
+    margin-bottom: 0px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-family: "Nunito Sans";
-    color: #0854a0;
-    font-size: 40px;
-    font-weight: 600;
-     margin-top: 40px; 
-     margin-bottom: 40px; 
-    text-align: center;
   }
-  
-  .notificationGrid {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 60vw;
-    gap: 10px;
-    align-items: center;
-  }
-  
-  .rowBox {
-    display: flex;
-    flex-direction: row;
-  }
-  
-  .buttonPlacement {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
+}
+
+@media (max-width: 650px) {
   .newApp {
     display: flex;
-    padding: 20px;
-    /* border-bottom: 1px solid #77a0ca; */
-    /* width: 100%; */
-    gap: 20px;
-    align-items: center;
-    justify-content: flex-start;
-    background-color: white;
-    border-radius: 10px;
-    transition: transform 0.3s;
-    width: 40vw;
+    flex-direction: column;
   }
-  
-  .newApp:hover {
-    transform: scale(1.02);
-    filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.25));
-  }
-  
-  .newApp h5 {
-    color: #000;
-    font-family: Nunito Sans;
-    font-size: 24px;
-    font-style: normal;
-    font-weight: 600;
-    margin-top: 16px;
-    margin-bottom: 10px;
-    text-align: left;
-  }
-  
-  .newApp p {
-    color: #000;
-    font-family: Open Sans;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 300;
-  }
+}
 
-
-
-  .notificationText {
+@media (max-width: 450px) {
+  .newApp {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
   }
-  
-  .notificationPic {
-    width: 50px;
-    height: 50px;
-    overflow: hidden;
+  .notificationText {
+    align-items: center;
   }
-  
-  .applyButton {
+  .notificationText h5 {
     display: flex;
-    width: 100%;
-    justify-content: center;
-    background-color: white;
-    color: #0854a0;
-    border-radius: 10px;
-    border-width: 0px;
-    padding: 10px;
-    text-decoration: none;
-    width: fit-content;
-    white-space: nowrap;
-    margin-left: 20px;
-    height: 100%;
-    align-items: center;
-    cursor: pointer;
+    text-align: center;
   }
-
-  .paginationButton {
-    justify-content: center;
-    background-color: #0854a0;
-    color: white;
-    border-radius: 10px;
-    border-width: 0px;
-    padding: 10px;
-    text-decoration: none;
-    width: fit-content;
-    white-space: nowrap;
-    margin: 5px;
-    align-items: center;
-    cursor: pointer;
-  }
-  .pagination {
-    margin-top: 20px;
-    display: flex;
-    padding: 10px;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .applyButton:hover {
-    background-color: #573f35;
-    color: white;
-    filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.25));
-  }
-  
-  .applyButton:active {
-    background-color: #573f35;
-    color: white;
-    filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.25));
-  }
-  
-  @media (max-width: 625px) {
-    .rowBox {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-    }
-    .applyButton {
-      width: 100%;
-      margin-left: 0px;
-    }
-  
-    .buttonPlacement {
-      width: 100%;
-    }
-  }
-
-  @media(max-width: 760px) {
-    .filteringButtons {
-      display: flex;
-      flex-direction: row;
-      margin: 10px;
-      margin-bottom: 20px;
-    }
-    .applicationHeader {
-      display: flex;
-      flex-direction: column;
-    }
-    .pageHeadingApp {
-      margin-bottom: 0px;
-      display: flex;
-      flex-direction: column;
-    }
-  }
-
-  @media(max-width: 450px) {
-    .newApp {
-      display: flex;
-      flex-direction: column;
-    }
-    .notificationText {
-      align-items: center;
-    }
-    .notificationText h5 {
-      display: flex;
-      text-align: center;
-    }
-  }
-  
+}

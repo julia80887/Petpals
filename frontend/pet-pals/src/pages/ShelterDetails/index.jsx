@@ -148,7 +148,11 @@ function ShelterDetails() {
   };
 
   const navigateMorePets = () => {
-    navigate(`/search/?shelter=${encodeURIComponent(shelter.shelter_name)}`);
+    navigate(
+      `/?page=1&shelter=${encodeURIComponent(
+        shelter.shelter_name
+      )}&gender=&color=&lt_size=&gt_size=&type=&status=&order_by=name`
+    );
   };
 
   if (loadingShelter || loadingPets) {
@@ -164,7 +168,9 @@ function ShelterDetails() {
             src={shelter.user && shelter.user.profile_photo}
             alt=""
             id="oliver"
+
             style={{ maxWidth: "700px", minWidth: "330px" }}
+
           />
           <div className="specs">
             <p>

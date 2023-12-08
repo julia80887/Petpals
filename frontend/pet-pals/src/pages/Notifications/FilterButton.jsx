@@ -1,19 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./style.css";
 
 const FilterButton = ({ setParams, query }) => {
-  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedOption, setSelectedOption] = useState("Unread");
   const [showDropdown, setShowDropdown] = useState(false);
 
+  useEffect(() => {
+    switch (query.read) {
+      case "true":
+        setSelectedOption("Read");
+        break;
+      case "false":
+        setSelectedOption("Unread");
+        break;
+      default:
+        setSelectedOption("Unread");
+    }
+  }, [query]);
   const updateSelectedOption = (option) => {
     let filterByValue;
 
     // Map the display option to the corresponding value for setParams
     switch (option) {
-      case "read":
+      case "Read":
         filterByValue = "true";
         break;
-      case "unread":
+      case "Unread":
         filterByValue = "false";
         break;
       default:
@@ -53,7 +65,7 @@ const FilterButton = ({ setParams, query }) => {
           <li>
             <a
               className="dropdown-item"
-              onClick={() => updateSelectedOption("read")}
+              onClick={() => updateSelectedOption("Read")}
             >
               Read
             </a>
@@ -61,7 +73,7 @@ const FilterButton = ({ setParams, query }) => {
           <li>
             <a
               className="dropdown-item"
-              onClick={() => updateSelectedOption("unread")}
+              onClick={() => updateSelectedOption("Unread")}
             >
               Unread
             </a>

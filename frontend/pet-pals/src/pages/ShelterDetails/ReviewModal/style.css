@@ -1,8 +1,8 @@
 .chatContainer {
   display: flex;
   flex-direction: column;
-  width: 60vw;
-  height: 65vh;
+  width: fit-content;
+  height: 45vh;
   background-color: white;
   border-radius: 30px;
   padding: 30px;
@@ -26,11 +26,12 @@
   gap: 10px;
 }
 
-.chatContent {
+.reviewContent {
   display: flex;
   overflow: scroll;
   margin: 10px;
-  flex-direction: column-reverse;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .closeIcon {

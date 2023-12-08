@@ -20,15 +20,16 @@
   font-family: "Nunito Sans";
   color: #0854a0;
   font-size: 40px;
-  font-weight: 600;
+  font-weight: 650;
   margin-top: 40px;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 
 .notificationGrid {
   display: grid;
   width: 60vw;
   gap: 10px;
+  margin: 20px;
 }
 
 .notification {
@@ -108,7 +109,7 @@
   align-items: center;
 }
 
-@media(max-width: 450px) {
+@media (max-width: 800px) {
   .notification {
     display: flex;
     flex-direction: column;
