@@ -288,6 +288,7 @@ function CreateApplication() {
   }
 
   function validateFormPage4() {
+    setErrorJson({});
     const name1 = document.getElementById("name1").value;
     const phoneNumber1 = document.getElementById("phoneNumber1").value;
     const email1 = document.getElementById("email1").value;
@@ -345,6 +346,7 @@ function CreateApplication() {
   }
 
   function validateFormPage3() {
+    setErrorJson({});
     const dailyRoutine = document.getElementById("dailyRoutine").value;
     const expenses = document.getElementById("expenses").value;
     const prevPets = document.getElementById("prevPets").value;
@@ -401,6 +403,7 @@ function CreateApplication() {
 
   // function for validating the values in the form
   function validateFormPage2() {
+    setErrorJson({});
     const numAdults = document.getElementById("numAdults").value;
     const numChildren = document.getElementById("numChildren").value;
     const houseType = document.getElementById("houseType").value;
@@ -474,6 +477,7 @@ function CreateApplication() {
 
   // function for validating the values in the form
   function validateFormPage1() {
+    setErrorJson({});
     const firstName = document.getElementById("firstName").value;
     const lastName = document.getElementById("lastName").value;
     const email = document.getElementById("email").value;
@@ -500,7 +504,7 @@ function CreateApplication() {
     if (!nameRegex.test(lastName)) {
       setErrorJson((prevValues) => ({
         ...prevValues,
-        lastName: "First name cannot be blank.",
+        lastName: "Last name cannot be blank.",
       }));
       console.log(errorJson);
       errorFound = true;

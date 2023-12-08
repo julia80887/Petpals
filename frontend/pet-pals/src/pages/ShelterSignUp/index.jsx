@@ -169,19 +169,26 @@ function ShelterSignUp() {
   return (
     <div className="mainContainer" style={{ marginTop: "50px" }}>
       <main>
-        <div
-          className="topnav"
-          style={{
-            width: "80vw",
-            borderTopRightRadius: "10px",
-            borderTopLeftRadius: "10px",
-          }}
-        >
-          <Link to="/seeker/signup/">Pet Seekers</Link>
-          <Link to="/shelter/signup/" className="active">
-            Pet Shelters
-          </Link>
-        </div>
+
+      <div className="topnav" style={{ width: "80vw", borderTopRightRadius: "10px", borderTopLeftRadius: "10px"}}>
+        <Link to="/seeker/signup/">Pet Seekers</Link>
+        <Link to="/shelter/signup/" className="active">
+          Pet Shelters
+        </Link>
+      </div>
+
+      <div className="outerContainer">
+      <div className="containerNEW" style={{paddingBottom: "30px", borderTopRightRadius: "0px", 
+      borderTopLeftRadius: "0px",}}>
+          <div className="titles">
+            <p className="subTitle">Join the family today!</p>
+            <h1 className="mainTitle">Sign Up</h1>
+          </div>
+          <form id="signup" onSubmit={handle_submit}>
+            <h2 className="signupHeader" style={{ marginTop: "0px" }}>
+              Create your account below
+            </h2>
+
 
         <div className="outerContainer">
           <div
