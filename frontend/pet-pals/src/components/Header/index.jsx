@@ -105,7 +105,7 @@ const Layout = () => {
 
       const notificationInterval = setInterval(
         checkForProfileAndNotification,
-        10000
+        3000
       ); // Check every 3s
       setLoading(true);
       return () => clearInterval(notificationInterval);
