@@ -4,3 +4,36 @@
 
 # 1. All the packages you need to install
 # 2. How to configure various servers (e.g., Nginx, Apache, etc)
+
+# PLEASE RUN BACKEND FIRST
+# Git cloning
+git clone https://markus.teach.cs.toronto.edu/git/2023-09/csc309/group_1417
+
+# BACKEND
+# cd into backend folder
+cd group_1417/P3/backend
+
+# run the startup.sh file to download everything
+sudo bash startup.sh
+
+# run the run.sh file to start the backend
+sudo bash run.sh
+
+# FRONTEND
+# cd into the frontend part of P3
+cd group_1417/P3/frontend/pet-pals
+
+# virtualbox needed an update (not sure if i should put this here)
+sudo apt-get update
+
+# installing npm
+sudo apt install npm
+
+# installing node modules
+npm install
+
+# for some reason, the first time we tried running "npm start" it gave a "environment key jest/globals is unknown" 
+# error however any time we tried running it after it worked fine so i'm not sure if that was an issue
+
+# starting the react server
+npm start

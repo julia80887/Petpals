@@ -442,11 +442,18 @@ function ViewEditApplication() {
                       How often will pet be alone?
                     </label>
                     <div className="col-sm-8">
-                      <input
+                      <textarea
                         className="form-control"
                         id="petAlone"
                         value={formValues.petAloneTime}
                         disabled
+                        style={{
+                          height: "200px",
+                          borderRadius: "70px",
+                          paddingBottom: "60px",
+                          whiteSpace: "normal",
+                          padding: "20px"
+                        }}
                       />
                     </div>
                   </div>
@@ -459,11 +466,18 @@ function ViewEditApplication() {
                       Any current pets?
                     </label>
                     <div className="col-sm-8">
-                      <input
+                      <textarea
                         className="form-control"
                         id="currentPets"
                         value={formValues.currentPets}
                         disabled
+                        style={{
+                          height: "200px",
+                          borderRadius: "70px",
+                          paddingBottom: "60px",
+                          whiteSpace: "normal",
+                          padding: "20px"
+                        }}
                       />
                     </div>
                   </div>
@@ -476,11 +490,18 @@ function ViewEditApplication() {
                       Daily Routine
                     </label>
                     <div className="col-sm-8">
-                      <input
+                      <textarea
                         className="form-control"
                         id="dailyRoutine"
                         value={formValues.dailyRoutine}
                         disabled
+                        style={{
+                          height: "200px",
+                          borderRadius: "70px",
+                          paddingBottom: "60px",
+                          whiteSpace: "normal",
+                          padding: "20px"
+                        }}
                       />
                     </div>
                   </div>
@@ -493,11 +514,18 @@ function ViewEditApplication() {
                       Expenses
                     </label>
                     <div className="col-sm-8">
-                      <input
+                      <textarea
                         className="form-control"
                         id="expenses"
                         value={formValues.expenses}
                         disabled
+                        style={{
+                          height: "200px",
+                          borderRadius: "70px",
+                          paddingBottom: "60px",
+                          whiteSpace: "normal",
+                          padding: "20px"
+                        }}
                       />
                     </div>
                   </div>
@@ -510,11 +538,18 @@ function ViewEditApplication() {
                       Previous Pets
                     </label>
                     <div className="col-sm-8">
-                      <input
+                      <textarea
                         className="form-control"
                         id="prevPets"
                         value={formValues.prevPets}
                         disabled
+                        style={{
+                          height: "200px",
+                          borderRadius: "70px",
+                          paddingBottom: "60px",
+                          whiteSpace: "normal",
+                          padding: "20px"
+                        }}
                       />
                     </div>
                   </div>
@@ -527,11 +562,18 @@ function ViewEditApplication() {
                       Reason
                     </label>
                     <div className="col-sm-8">
-                      <input
+                      <textarea
                         className="form-control"
                         id="reason"
                         value={formValues.reason}
                         disabled
+                        style={{
+                          height: "200px",
+                          borderRadius: "70px",
+                          paddingBottom: "60px",
+                          whiteSpace: "normal",
+                          padding: "20px"
+                        }}
                       />
                     </div>
                   </div>

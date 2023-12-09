@@ -877,7 +877,9 @@ function CreateApplication() {
               return (
                 <>
                   <div className="mainContainer2">
-                    <h1 className="question">Are you ready to adopt {petDetails.name}?</h1>
+                    <h1 className="question">
+                      Are you ready to adopt {petDetails.name}?
+                    </h1>
                     <h2>2. Household Information</h2>
                     <div className="container">
                       <form
@@ -1032,16 +1034,17 @@ function CreateApplication() {
                             How often will the pet be alone?
                           </label>
                           <div className="col-sm-8">
-                            <input
+                            <textarea
                               className="form-control"
                               id="petAloneTime"
                               value={secondPageFormValues.petAloneTime}
                               onChange={handleInputChange}
                               style={{
-                                height: "100px",
+                                height: "200px",
                                 borderRadius: "70px",
                                 paddingBottom: "60px",
                                 whiteSpace: "normal",
+                                padding: "20px",
                               }}
                               required
                             />
@@ -1059,16 +1062,17 @@ function CreateApplication() {
                             Any current pets?
                           </label>
                           <div className="col-sm-8">
-                            <input
+                            <textarea
                               className="form-control"
                               id="currentPets"
                               value={secondPageFormValues.currentPets}
                               onChange={handleInputChange}
                               style={{
-                                height: "100px",
+                                height: "200px",
                                 borderRadius: "70px",
                                 paddingBottom: "60px",
                                 whiteSpace: "normal",
+                                padding: "20px",
                               }}
                               required
                             />
@@ -1108,7 +1112,9 @@ function CreateApplication() {
               return (
                 <>
                   <div className="mainContainer3">
-                    <h1 className="question">Are you ready to adopt {petDetails.name}?</h1>
+                    <h1 className="question">
+                      Are you ready to adopt {petDetails.name}?
+                    </h1>
                     <h2>3. Lifestyle, Experience, and Preferences</h2>
                     <div className="container">
                       <form
@@ -1124,7 +1130,7 @@ function CreateApplication() {
                             Daily Routine
                           </label>
                           <div className="col-sm-8">
-                            <input
+                            <textarea
                               className="form-control"
                               id="dailyRoutine"
                               value={thirdPageFormValues.dailyRoutine}
@@ -1132,10 +1138,11 @@ function CreateApplication() {
                               placeholder="How much time can you dedicate to the 
                       pet's care and exercise?"
                               style={{
-                                height: "100px",
+                                height: "200px",
                                 borderRadius: "70px",
                                 paddingBottom: "60px",
-                                whiteSpace: "pre-line",
+                                whiteSpace: "normal",
+                                padding: "20px",
                               }}
                               required
                             />
@@ -1153,17 +1160,18 @@ function CreateApplication() {
                             Expenses
                           </label>
                           <div className="col-sm-8">
-                            <input
+                            <textarea
                               className="form-control"
                               id="expenses"
                               value={thirdPageFormValues.expenses}
                               onChange={handleInputChange}
                               placeholder="Are you prepared for potential pet-related expenses?"
                               style={{
-                                height: "100px",
+                                height: "200px",
                                 borderRadius: "70px",
                                 paddingBottom: "60px",
                                 whiteSpace: "normal",
+                                padding: "20px",
                               }}
                               required
                             />
@@ -1179,17 +1187,18 @@ function CreateApplication() {
                             Previous Pets
                           </label>
                           <div className="col-sm-8">
-                            <input
+                            <textarea
                               className="form-control"
                               id="prevPets"
                               value={thirdPageFormValues.prevPets}
                               onChange={handleInputChange}
                               placeholder="Have you owned pets before? If so, what types and breeds?"
                               style={{
-                                height: "100px",
+                                height: "200px",
                                 borderRadius: "70px",
                                 paddingBottom: "60px",
                                 whiteSpace: "normal",
+                                padding: "20px",
                               }}
                               required
                             />
@@ -1205,17 +1214,18 @@ function CreateApplication() {
                             Preferences
                           </label>
                           <div className="col-sm-8">
-                            <input
+                            <textarea
                               className="form-control"
                               id="preferences"
                               value={thirdPageFormValues.preferences}
                               onChange={handleInputChange}
                               placeholder="Are you looking for a specific breed or type of pet?"
                               style={{
-                                height: "100px",
+                                height: "200px",
                                 borderRadius: "70px",
                                 paddingBottom: "60px",
                                 whiteSpace: "normal",
+                                padding: "20px",
                               }}
                               required
                             />
@@ -1233,17 +1243,18 @@ function CreateApplication() {
                             Reason
                           </label>
                           <div className="col-sm-8">
-                            <input
+                            <textarea
                               className="form-control"
                               id="reason"
                               value={thirdPageFormValues.reason}
                               onChange={handleInputChange}
                               placeholder="Why do you want to adopt this pet?"
                               style={{
-                                height: "100px",
+                                height: "200px",
                                 borderRadius: "70px",
                                 paddingBottom: "60px",
                                 whiteSpace: "normal",
+                                padding: "20px",
                               }}
                               required
                             />
@@ -1281,7 +1292,9 @@ function CreateApplication() {
               return (
                 <>
                   <div className="mainContainer">
-                    <h1 className="question">Are you ready to adopt {petDetails.name}?</h1>
+                    <h1 className="question">
+                      Are you ready to adopt {petDetails.name}?
+                    </h1>
                     <h2>4. Additional Information</h2>
                     <div className="container">
                       <form

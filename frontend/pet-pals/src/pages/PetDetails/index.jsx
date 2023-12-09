@@ -147,7 +147,7 @@ function PetDetails() {
   console.log(exists);
 
   if (appsForUser[0]?.detail != "Given token not valid for any token type") {
-    appsForUser[0].map((item) => (
+    appsForUser[0]?.map((item) => (
       <div key={item.id}>
         {item.pet == petDetails.id ? (exists = true) : null}
       </div>
