@@ -31,11 +31,12 @@
   gap: 10px;
 }
 
-.chatContent {
+#chatContent {
   display: flex;
   overflow: scroll;
   margin: 10px;
   flex-direction: column-reverse;
+  height: 300px;
 }
 
 .closeIcon {
