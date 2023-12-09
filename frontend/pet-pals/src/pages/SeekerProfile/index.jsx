@@ -159,6 +159,46 @@ function SeekerProfile() {
     return true;
   }
 
+
+  const setFormValuesAsync = async (result) => {
+    return new Promise((resolve) => {
+      setFormValues((prevValues) => ({
+        ...prevValues,
+        user: {
+          fileInput: "",
+          email: result.user.email,
+          password: "", // password cannot be changed
+          // split address given by backend into 5 different address fields
+          inputAddress: result.user.address
+            ? result.user.address.split(",")[0]?.trim()
+            : "",
+          inputAddress2: result.user.address
+            ? result.user.address.split(",")[1]?.trim()
+            : "",
+          inputCity: result.user.address
+            ? result.user.address.split(",")[2]?.trim()
+            : "",
+          inputState: result.user.address
+            ? result.user.address.split(",")[3]?.trim()
+            : "",
+          postalCode: result.user.address
+            ? result.user.address.split(",")[4]?.trim()
+            : "",
+          phoneNumber: result.user.phone_number || "",
+        },
+        cat_notification: result.cat_notification,
+        dog_notification: result.dog_notification,
+        other_notification: result.other_notification,
+        lastName: result.lastname,
+        firstName: result.firstname,
+        id: result.id,
+      }));
+  
+      resolve();
+    });
+  };
+
+
   // initial fetch
   useEffect(() => {
     const fetchData = async () => {
@@ -177,42 +217,44 @@ function SeekerProfile() {
           requestOptions
         );
         const result = await response.json();
-        console.log(result);
+        console.log("GET REQUEST: ", result);
         setDetails(result);
 
         // set all form values to the values from backend
         setProfilePic(result.user.profile_photo);
+        await setFormValuesAsync(result);
 
-        setFormValues({
-          user: {
-            fileInput: "",
-            email: result.user.email,
-            password: "", // password cannot be changed
-            // split address given by backend into 5 different address fields
-            inputAddress: result.user.address
-              ? result.user.address.split(",")[0].trim()
-              : "",
-            inputAddress2: result.user.address
-              ? result.user.address.split(",")[1].trim()
-              : "",
-            inputCity: result.user.address
-              ? result.user.address.split(",")[2].trim()
-              : "",
-            inputState: result.user.address
-              ? result.user.address.split(",")[3].trim()
-              : "",
-            postalCode: result.user.address
-              ? result.user.address.split(",")[4].trim()
-              : "",
-            phoneNumber: result.user.phone_number || "",
-          },
-          cat_notification: result.cat_notification,
-          dog_notification: result.dog_notification,
-          other_notification: result.other_notification,
-          lastName: result.lastname,
-          firstName: result.firstname,
-          id: result.id,
-        });
+
+        // setFormValues({
+        //   user: {
+        //     fileInput: "",
+        //     email: result.user.email,
+        //     password: "", // password cannot be changed
+        //     // split address given by backend into 5 different address fields
+        //     inputAddress: result.user.address
+        //       ? result.user.address.split(",")[0].trim()
+        //       : "",
+        //     inputAddress2: result.user.address
+        //       ? result.user.address.split(",")[1].trim()
+        //       : "",
+        //     inputCity: result.user.address
+        //       ? result.user.address.split(",")[2].trim()
+        //       : "",
+        //     inputState: result.user.address
+        //       ? result.user.address.split(",")[3].trim()
+        //       : "",
+        //     postalCode: result.user.address
+        //       ? result.user.address.split(",")[4].trim()
+        //       : "",
+        //     phoneNumber: result.user.phone_number || "",
+        //   },
+        //   cat_notification: result.cat_notification,
+        //   dog_notification: result.dog_notification,
+        //   other_notification: result.other_notification,
+        //   lastName: result.lastname,
+        //   firstName: result.firstname,
+        //   id: result.id,
+        // });
 
         if (clicked) {
           setClicked(false);
@@ -226,6 +268,7 @@ function SeekerProfile() {
     };
 
     fetchData();
+    
   }, [seeker_id, clicked]);
 
   // just for console printing purposes
@@ -447,6 +490,10 @@ function SeekerProfile() {
   //   <p>Loading.....</p>
   // ) : (
 
+  // useEffect(()=>{
+  //   console.log('FORM VALUES: ', formValues)
+  // }, [setFormValues])
+
   if (loading) {
     <p>Loading.....</p>;
   } else {
@@ -458,7 +505,7 @@ function SeekerProfile() {
     //       "You do not have permission to perform this action.") ||
     //   formValues.firstName !== ""
     // ) {
-    if (
+    if ( 
       (seeker_user !== "" && user_id == formValues.id) ||
       (shelter_user !== "" &&
         seeker_user === "" &&

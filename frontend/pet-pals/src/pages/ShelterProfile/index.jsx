@@ -137,6 +137,41 @@ function ShelterProfile() {
     return true;
   }
 
+  const setFormValuesAsync = async (result) => {
+    return new Promise((resolve) => {
+      setFormValues((prevValues) => ({
+        ...prevValues,
+        user: {
+          fileInput: "",
+          email: result.user.email,
+          password: "", // password cannot be changed
+          // split address given by backend into 5 different address fields
+          inputAddress: result.user.address
+            ? result.user.address.split(",")[0]?.trim()
+            : "",
+          inputAddress2: result.user.address
+            ? result.user.address.split(",")[1]?.trim()
+            : "",
+          inputCity: result.user.address
+            ? result.user.address.split(",")[2]?.trim()
+            : "",
+          inputState: result.user.address
+            ? result.user.address.split(",")[3]?.trim()
+            : "",
+          postalCode: result.user.address
+            ? result.user.address.split(",")[4]?.trim()
+            : "",
+          phoneNumber: result.user.phone_number || "",
+        },
+        missionStatement: result.mission_statement,
+        shelterName: result.shelter_name,
+      }));
+  
+      resolve();
+    });
+  };
+  
+
   // initial fetch
   useEffect(() => {
     const fetchData = async () => {
@@ -159,32 +194,9 @@ function ShelterProfile() {
         // if (result["detail"] == "Not found.") {
         setProfilePic(result.user.profile_photo);
 
-        setFormValues({
-          user: {
-            fileInput: "",
-            email: result.user.email,
-            password: "", // password cannot be changed
-            // split address given by backend into 5 different address fields
-            inputAddress: result.user.address
-              ? result.user.address.split(",")[0].trim()
-              : "",
-            inputAddress2: result.user.address
-              ? result.user.address.split(",")[1].trim()
-              : "",
-            inputCity: result.user.address
-              ? result.user.address.split(",")[2].trim()
-              : "",
-            inputState: result.user.address
-              ? result.user.address.split(",")[3].trim()
-              : "",
-            postalCode: result.user.address
-              ? result.user.address.split(",")[4].trim()
-              : "",
-            phoneNumber: result.user.phone_number || "",
-          },
-          missionStatement: result.mission_statement,
-          shelterName: result.shelter_name,
-        });
+        await setFormValuesAsync(result);
+
+
         if (clicked) {
           setClicked(false);
         }

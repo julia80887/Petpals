@@ -877,7 +877,7 @@ function CreateApplication() {
               return (
                 <>
                   <div className="mainContainer2">
-                    <h1 className="question">Are you ready to adopt Rufus?</h1>
+                    <h1 className="question">Are you ready to adopt {petDetails.name}?</h1>
                     <h2>2. Household Information</h2>
                     <div className="container">
                       <form
@@ -1108,7 +1108,7 @@ function CreateApplication() {
               return (
                 <>
                   <div className="mainContainer3">
-                    <h1 className="question">Are you ready to adopt Rufus?</h1>
+                    <h1 className="question">Are you ready to adopt {petDetails.name}?</h1>
                     <h2>3. Lifestyle, Experience, and Preferences</h2>
                     <div className="container">
                       <form
@@ -1281,7 +1281,7 @@ function CreateApplication() {
               return (
                 <>
                   <div className="mainContainer">
-                    <h1 className="question">Are you ready to adopt Rufus?</h1>
+                    <h1 className="question">Are you ready to adopt {petDetails.name}?</h1>
                     <h2>4. Additional Information</h2>
                     <div className="container">
                       <form

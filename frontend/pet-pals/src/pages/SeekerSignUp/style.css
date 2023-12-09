@@ -19,6 +19,12 @@ body {
   width: 100vw;
 }
 
+
+.seekerHeader {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
 main {
   background-color: #ecebea;
   display: flex;

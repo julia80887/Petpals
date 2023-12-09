@@ -17,7 +17,7 @@ import FeedIcon from "@mui/icons-material/Feed";
 
 import { LoginContext } from "../../contexts/LoginContext";
 
-export default function ShelterAccountMenu({prevPicture}) {
+export default function ShelterAccountMenu({prevPicture, setPrevPicture}) {
   const [anchorEl, setAnchorEl] = useState(null);
   const navigate = useNavigate();
   const open = Boolean(anchorEl);
@@ -34,10 +34,12 @@ export default function ShelterAccountMenu({prevPicture}) {
   };
 
   function handleLogout() {
+    setPrevPicture("");
     localStorage.removeItem("access");
     localStorage.removeItem("username");
     localStorage.removeItem("shelter_name");
     localStorage.removeItem("id");
+    localStorage.removeItem("custom_user");
     localStorage.removeItem("profile_photo");
     setCurrentUser({});
     navigate(

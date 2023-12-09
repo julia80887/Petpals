@@ -198,7 +198,7 @@ function SeekerSignUp() {
               <h1 className="mainTitle">Sign Up</h1>
             </div>
             <form id="signup" onSubmit={handle_submit}>
-              <h2 style={{ marginTop: "0px" }}>
+              <h2 className="seekerHeader" style={{ marginTop: "0px" }}>
                 Please create your account below
               </h2>
 

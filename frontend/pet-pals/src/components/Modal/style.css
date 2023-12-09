@@ -20,6 +20,10 @@
   font-size: 24px;
 }
 
+.noPerm {
+  text-align: center;
+}
+
 .chatUserInfo {
   display: flex;
   flex-direction: row;

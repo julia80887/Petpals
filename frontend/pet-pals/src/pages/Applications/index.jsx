@@ -12,6 +12,7 @@ function Applications() {
   const [petDetails, setPetDetails] = useState({});
   const [shelterDetails, setShelterDetails] = useState({});
   const [totalPages, setTotalPages] = useState(1);
+ 
 
   //Modal
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -246,6 +247,7 @@ function Applications() {
                       View Chat
                     </button>
                   </div>
+                  
                 </div>
               );
             })}

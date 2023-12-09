@@ -53,6 +53,11 @@ main {
   color: #0854a0;
 }
 
+.shelterHeader {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
 .subTitle {
   margin: 0px;
   margin-top: 20px;

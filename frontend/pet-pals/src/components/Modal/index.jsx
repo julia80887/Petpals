@@ -13,6 +13,7 @@ function ChatModal({ open, onClose, chatDetail, currentUser }) {
   const [totalPages, setTotalPages] = useState(1);
   const [inputValue, setInputValue] = useState("");
   const [renderPage, setRenderPage] = useState(true);
+  const [nullUser, setNullUser] = useState(false);
 
   //CAREFUL WITH CHAT DETAIL
   useEffect(() => {
@@ -86,7 +87,16 @@ function ChatModal({ open, onClose, chatDetail, currentUser }) {
         );
         const result = await response.json();
         console.log("SENDER: ", result);
-        setSenderUser(result);
+        if (result?.detail){
+          // set null user true
+          setNullUser(true);
+
+        }
+        else {
+          setSenderUser(result);
+          setNullUser(false);
+
+        }
         setLoadingUser(false);
       } catch (error) {
         setLoadingUser(false);
@@ -207,22 +217,26 @@ function ChatModal({ open, onClose, chatDetail, currentUser }) {
             style={{ height: "65vh", width: "60vw" }}
           >
             <div className="chatHeader">
-              <div className="chatUserInfo">
-                <img
-                  id="imgProfile"
-                  src={sender?.user?.profile_photo}
-                  alt="Profile"
-                />
-                <h5>{sender?.shelter_name || sender?.user?.username}</h5>
-              </div>
+
+            {!nullUser ? (
+  <div className="chatUserInfo">
+    <img id="imgProfile" src={sender?.user?.profile_photo} alt="Profile" />
+    <h5>{sender?.shelter_name || sender?.user?.username}</h5>
+  </div>
+) : <div className="chatUserInfo"></div>}
+
               <div className="closeIcon" onClick={onClose}>
                 <img src={CloseIcon} />
               </div>
+
             </div>
             <div style={{ overflow: "scroll" }}>
+
+            {!nullUser ? (
+
               <div className="chatContent" onScroll={handleScroll}>
                 {chatMessages?.map((message, index) => (
-                  <div key={index}>
+                  <div key={message.id}>
                     {message.sender_type === currentUser ? (
                       <div className="right">
                         <div className="userText">
@@ -237,7 +251,10 @@ function ChatModal({ open, onClose, chatDetail, currentUser }) {
                   </div>
                 ))}
               </div>
+               ): <p className="noPerm">You do not have permission to view this chat.</p>}
             </div>
+           
+            {!nullUser ? (
             <div className="bottomBar inputText">
               <input
                 className="chatInput inputMessage"
@@ -248,6 +265,10 @@ function ChatModal({ open, onClose, chatDetail, currentUser }) {
                 Send
               </button>
             </div>
+             ) : <div className="bottomBar inputText"></div>}
+            
+
+
           </div>
         </Modal>
       )}
