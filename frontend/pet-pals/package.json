@@ -45,7 +45,7 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^1.0.7",
+    "@babel/plugin-proposal-private-property-in-object": "7.21.11",
     "react-router-dom": "^6.20.0"
   }
 }
