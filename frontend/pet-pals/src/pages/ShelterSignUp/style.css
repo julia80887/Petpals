@@ -6,6 +6,10 @@ html {
   height: 100vh;
 }
 
+h2 {
+  margin-left: 20px;
+}
+
 body {
   width: 100vw;
   height: 100vh;

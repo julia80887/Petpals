@@ -124,9 +124,10 @@ body {
 .shelterProfileCardContents {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  /* gap: 8px; */
   text-align: left;
   width: 100%;
+  margin-top: 10px;
 }
 
 .shelterSpecLabels {
