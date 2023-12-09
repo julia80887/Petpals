@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import Modal from "@mui/material/Modal";
 import "./style.css";
 import { useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
 import CloseIcon from "../../assets/svgs/CloseIcon.svg";
 
 function ChatModal({ open, onClose, chatDetail, currentUser }) {
@@ -37,7 +38,7 @@ function ChatModal({ open, onClose, chatDetail, currentUser }) {
           requestOptions
         );
         const result = await response.json();
-        console.log("Chat messages", result);
+        console.log("MESSAGES", result);
         setChatMessages(result?.results);
         setTotalPages(
           Math.ceil(
@@ -87,15 +88,12 @@ function ChatModal({ open, onClose, chatDetail, currentUser }) {
         );
         const result = await response.json();
         console.log("SENDER: ", result);
-        if (result?.detail){
+        if (result?.detail) {
           // set null user true
           setNullUser(true);
-
-        }
-        else {
+        } else {
           setSenderUser(result);
           setNullUser(false);
-
         }
         setLoadingUser(false);
       } catch (error) {
@@ -155,6 +153,43 @@ function ChatModal({ open, onClose, chatDetail, currentUser }) {
       }
     }
   };
+
+  const fetchMoreChats = async (event) => {
+    try {
+      const myHeaders = new Headers();
+      myHeaders.append(
+        "Authorization",
+        `Bearer ${localStorage.getItem("access")}`
+      );
+
+      const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+      };
+
+      const response = await fetch(
+        `http://localhost:8000/pet/applications/chat/${chatDetail.id}/?page=${
+          currentPage + 1
+        }`,
+        requestOptions
+      );
+
+      const result = await response.json();
+      console.log("Chat messages", result);
+      setChatMessages((prevChatMessages) => [
+        ...prevChatMessages,
+        ...result?.results,
+      ]);
+      setCurrentPage((prevPage) => prevPage + 1);
+    } catch (error) {
+      setLoading(false);
+      console.error("Error fetching chat messages:", error);
+    }
+  };
+
+  useEffect(() => {
+    console.log("Chat Messages, ", chatMessages);
+  }, [chatMessages]);
 
   const handleSendButtonClick = async () => {
     try {
@@ -217,58 +252,74 @@ function ChatModal({ open, onClose, chatDetail, currentUser }) {
             style={{ height: "65vh", width: "60vw" }}
           >
             <div className="chatHeader">
-
-            {!nullUser ? (
-  <div className="chatUserInfo">
-    <img id="imgProfile" src={sender?.user?.profile_photo} alt="Profile" />
-    <h5>{sender?.shelter_name || sender?.user?.username}</h5>
-  </div>
-) : <div className="chatUserInfo"></div>}
+              {!nullUser ? (
+                <div className="chatUserInfo">
+                  <img
+                    id="imgProfile"
+                    src={sender?.user?.profile_photo}
+                    alt="Profile"
+                  />
+                  <h5>{sender?.shelter_name || sender?.user?.username}</h5>
+                </div>
+              ) : (
+                <div className="chatUserInfo"></div>
+              )}
 
               <div className="closeIcon" onClick={onClose}>
                 <img src={CloseIcon} />
               </div>
-
             </div>
-            <div style={{ overflow: "scroll" }}>
-
-            {!nullUser ? (
-
-              <div className="chatContent" onScroll={handleScroll}>
-                {chatMessages?.map((message, index) => (
-                  <div key={message.id}>
-                    {message.sender_type === currentUser ? (
-                      <div className="right">
-                        <div className="userText">
+            <div
+              id="chatContent"
+              // style={{ overflow: "scroll", height: "350px" }}
+              // onScroll={handleScroll}
+            >
+              {!nullUser ? (
+                <InfiniteScroll
+                  dataLength={chatMessages?.length || 0}
+                  next={fetchMoreChats}
+                  style={{ display: "flex", flexDirection: "column-reverse" }}
+                  hasMore={currentPage < totalPages} // Replace with a condition based on your data source
+                  loader={<p>Loading...</p>}
+                  scrollableTarget="chatContent"
+                >
+                  {chatMessages?.map((message, index) => (
+                    <div key={message.id}>
+                      {message.sender_type === currentUser ? (
+                        <div className="right">
+                          <div className="userText">
+                            <p>{message.content}</p>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="receiverText">
                           <p>{message.content}</p>
                         </div>
-                      </div>
-                    ) : (
-                      <div className="receiverText">
-                        <p>{message.content}</p>
-                      </div>
-                    )}
-                  </div>
-                ))}
+                      )}
+                    </div>
+                  ))}
+                </InfiniteScroll>
+              ) : (
+                <p className="noPerm">
+                  You do not have permission to view this chat.
+                </p>
+              )}
+            </div>
+
+            {!loadingUser && !nullUser ? (
+              <div className="bottomBar inputText">
+                <input
+                  className="chatInput inputMessage"
+                  value={inputValue}
+                  onChange={handleInputChange}
+                />
+                <button onClick={handleSendButtonClick} className="sendButton">
+                  Send
+                </button>
               </div>
-               ): <p className="noPerm">You do not have permission to view this chat.</p>}
-            </div>
-           
-            {!nullUser ? (
-            <div className="bottomBar inputText">
-              <input
-                className="chatInput inputMessage"
-                value={inputValue}
-                onChange={handleInputChange}
-              />
-              <button onClick={handleSendButtonClick} className="sendButton">
-                Send
-              </button>
-            </div>
-             ) : <div className="bottomBar inputText"></div>}
-            
-
-
+            ) : (
+              <div className="bottomBar inputText"></div>
+            )}
           </div>
         </Modal>
       )}
