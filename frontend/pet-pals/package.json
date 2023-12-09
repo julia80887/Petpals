@@ -30,7 +30,10 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "env": {
+    "jest/globals": true
+  }
   },
   "browserslist": {
     "production": [
