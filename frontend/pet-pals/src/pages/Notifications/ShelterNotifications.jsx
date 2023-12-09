@@ -14,6 +14,7 @@ const ShelterNotifications = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [chatSender, setChatSender] = useState();
   const [renderPage, setRenderPage] = useState(true);
+  const user_id = localStorage.getItem("id") || "";
 
   //Modal Hooks
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -145,7 +146,11 @@ const ShelterNotifications = () => {
   }, [notifications]);
 
   const handleNotificationClick = (notification) => {
-    navigate(`${notification.link}`);
+    if (notification.notification_type == "review") {
+      navigate(`/shelter/${user_id}/`)
+    } else {
+      navigate(`${notification.link}`);
+    }
     // if (notification.notification_type === "new_pet") {
     //   navigate(`${notification.link}`);
     // } else if (notification.notification_type === "new_application") {

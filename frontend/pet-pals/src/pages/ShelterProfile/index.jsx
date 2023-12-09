@@ -672,8 +672,7 @@ function ShelterProfile() {
                       Mission Statement
                     </label>
                     <div className="col-sm-8">
-                      <input
-                        type="textarea"
+                      <textarea
                         className="form-control"
                         id="missionStatement"
                         defaultValue={formValues.missionStatement}
@@ -682,8 +681,9 @@ function ShelterProfile() {
                         style={{
                           height: "200px",
                           borderRadius: "70px",
-                          paddingBottom: "100px",
+                          paddingBottom: "60px",
                           whiteSpace: "normal",
+                          padding: "20px",
                         }}
                       />
                       {/* <p className="error">{errorJson.mi || ""}</p> */}
